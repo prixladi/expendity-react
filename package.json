@@ -2,10 +2,41 @@
   "name": "expendity-react",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "gql:codegen": "graphql-codegen --config codegen.yml",
+    "eslint:check": "eslint -c .eslintrc.json src/**/*.{js,jsx,ts,tsx}",
+    "eslint:fix": "eslint -c .eslintrc.json --fix  src/**/*.{js,jsx,ts,tsx}",
+    "format:check": "prettier -l \"**/*.{js,jsx,ts,tsx}\"",
+    "format:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
+    "code:check": "yarn eslint:check && yarn format:check",
+    "code:fix": "yarn eslint:fix && yarn format:fix"
+  },
   "dependencies": {
+    "@apollo/client": "^3.3.9",
     "@chakra-ui/react": "^1.0.0",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
+    "formik": "^2.2.6",
+    "framer-motion": ">=3.0.0",
+    "graphql": "^15.5.0",
+    "http-status-codes": "^2.1.4",
+    "jwt-decode": "^3.1.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-google-login": "^5.2.2",
+    "react-icons": "^3.0.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.2",
+    "web-vitals": "^0.2.2"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.20.1",
+    "@graphql-codegen/typescript": "^1.20.2",
+    "@graphql-codegen/typescript-operations": "^1.17.14",
+    "@graphql-codegen/typescript-react-apollo": "^2.2.1",
     "@testing-library/jest-dom": "^5.9.0",
     "@testing-library/react": "^10.2.1",
     "@testing-library/user-event": "^12.0.2",
@@ -13,22 +44,9 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
-    "framer-motion": ">=3.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-icons": "^3.0.0",
-    "react-scripts": "4.0.2",
-    "typescript": "^3.9.5",
-    "web-vitals": "^0.2.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "@types/react-router-dom": "^5.1.7",
+    "prettier": "^2.2.1",
+    "typescript": "^3.9.5"
   },
   "browserslist": {
     "production": [

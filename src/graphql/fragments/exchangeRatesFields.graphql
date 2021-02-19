@@ -1,0 +1,6 @@
+fragment exchangeRatesFields on ExchangeRatesType  {
+  baseCurrency
+  entries {
+      ...exchangeRateFields
+  }
+}
