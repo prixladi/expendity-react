@@ -1,0 +1,6 @@
+fragment meFields on MeType  {
+  email
+  id
+  subjectId
+  username
+}

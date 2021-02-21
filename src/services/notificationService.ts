@@ -3,7 +3,8 @@ import { createStandaloneToast, UseToastOptions } from '@chakra-ui/react';
 const send = (options: UseToastOptions) => {
   const toast = createStandaloneToast();
   toast({
-    duration: 10 * 1000,
+    duration: 8 * 1000,
+    isClosable: true,
     ...options,
   });
 };
@@ -36,6 +37,14 @@ const projectCreatedNotification = (): void => {
   send({ description: 'New Project has been successfuly created.', status: 'success' });
 };
 
+const projectUpdatedNotification = (): void => {
+  send({ description: 'Project has been successfuly updated.'});
+}
+
+const projectDeletedNotification = (): void => {
+  send({ description: 'Project has been successfuly deleted.', status: 'success' });
+};
+
 const loggedOutNotification = (): void => {
   send({ description: 'Successfuly signed out.', status: 'info' });
 };
@@ -54,6 +63,8 @@ export {
   notFoundNotification,
   loggedInNotification,
   projectCreatedNotification,
+  projectUpdatedNotification,
+  projectDeletedNotification,
   loggedOutNotification,
   loginExpiredNotification,
   loginNeededNotification,

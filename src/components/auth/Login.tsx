@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Box, Grid, Heading, Icon, Text as ChakraText } from '@chakra-ui/react';
+import { Box, Grid, Icon, Text as ChakraText } from '@chakra-ui/react';
 import Text from '../Text';
 import EmailInput from '../EmailInput';
 import PasswordInput from '../PasswordInput';
@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import { defaultCallbacks, onSignIn } from '../../services/authorityService';
 import { StatusCodes } from 'http-status-codes';
 import { useApolloClient } from '@apollo/client';
+import H1 from '../H1';
 
 type Values = {
   email: string;
@@ -55,9 +56,9 @@ const Login: React.FC<Props> = ({ goto }: Props) => {
   return (
     <Box>
       <Box mb="2em">
-        <Heading as="h1" mb="0.5em">
+        <H1>
           Login
-        </Heading>
+        </H1>
         <Text>Sign in to start using the application.</Text>
       </Box>
       <Form initialValues={initialValues} onSubmit={onSubmit}>

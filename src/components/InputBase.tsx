@@ -7,7 +7,7 @@ type Props = InputProps &
     name: string;
     type: string;
     placeholder: string;
-    isRequired: boolean;
+    isRequired?: boolean;
   };
 
 const InputBase: React.FC<Props> = ({ type, placeholder, isRequired, ...props }: Props) => {

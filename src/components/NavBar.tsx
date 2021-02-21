@@ -4,9 +4,9 @@ import TextLogo from '../components/TextLogo';
 import ColorModeButton from './ColorModeButton';
 import { useAuthorityManager } from '../authority';
 import { Link, useHistory } from 'react-router-dom';
-import { ProjectsRoute, LogoutRoute } from '../routes';
+import { ProjectsRoute, ProfileRoute } from '../routes';
 import { AiOutlineFundProjectionScreen } from 'react-icons/ai';
-import { FaBars, FaSignOutAlt } from 'react-icons/fa';
+import { FaBars, FaUserAlt } from 'react-icons/fa';
 import ColorModeSwitcher from './ColorModeSwitcher';
 
 const AuthorizedNavbarItems = () => {
@@ -27,8 +27,8 @@ const AuthorizedNavbarItems = () => {
             <MenuItem onClick={() => history.push(ProjectsRoute)}>
               <Link to={ProjectsRoute}>Projects</Link>
             </MenuItem>
-            <MenuItem onClick={() => history.push(LogoutRoute)}>
-              <Link to={ProjectsRoute}>Logout</Link>
+            <MenuItem onClick={() => history.push(ProfileRoute)}>
+              <Link to={ProfileRoute}>Profile</Link>
             </MenuItem>
             <MenuItem>
               <ColorModeSwitcher />
@@ -48,9 +48,9 @@ const AuthorizedNavbarItems = () => {
             Projects <Icon mb="0.2em" as={AiOutlineFundProjectionScreen} />
           </Text>
         </Link>
-        <Link to={LogoutRoute}>
+        <Link to={ProfileRoute}>
           <Text color="brand.500" fontWeight="700">
-            Sign out <Icon mb="0.2em" as={FaSignOutAlt} />
+            Profile <Icon mb="0.2em" as={FaUserAlt} />
           </Text>
         </Link>
       </Flex>

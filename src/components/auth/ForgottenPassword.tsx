@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Box, Container, Grid, Heading, Icon } from '@chakra-ui/react';
+import { Box, Container, Grid, Icon } from '@chakra-ui/react';
 import Text from '../Text';
 import EmailInput from '../EmailInput';
 import { FormikButton as Button } from '../Button';
@@ -11,6 +11,7 @@ import { defaultCallbacks } from '../../services/authorityService';
 import { useHistory } from 'react-router-dom';
 import Form from '../Form';
 import { FormikHelpers } from 'formik';
+import H1 from '../H1';
 
 type Values = {
   email: string;
@@ -43,9 +44,9 @@ const ForgottenPassword: React.FC<Props> = ({ goto }: Props) => {
   return (
     <Container>
       <Box mb="2em">
-        <Heading as="h1" mb="0.5em">
+        <H1>
           Forgotten password
-        </Heading>
+        </H1>
         <Text>Enter your email to send reset action to.</Text>
       </Box>
 

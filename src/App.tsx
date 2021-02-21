@@ -5,12 +5,13 @@ import Home from './pages/Home';
 import { AuthorityProvider, useAuthority } from './authority';
 import { authApiConfig, graphqlConfig } from './configs';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { HomeRoute, LogoutRoute, ProjectsRoute } from './routes';
+import { HomeRoute, LogoutRoute, ProjectsRoute, ProfileRoute } from './routes';
 import Projects from './pages/Projects';
 import { ApolloProvider } from '@apollo/client';
 import useApollo from './apollo/useApollo';
 import Overlay from './components/Overlay';
 import Logout from './pages/Logout';
+import Profile from './pages/Profile';
 
 export const App: React.FC = () => {
   const manager = useAuthority(authApiConfig);
@@ -31,6 +32,9 @@ export const App: React.FC = () => {
                 </Route>
                 <Route path={LogoutRoute} exact>
                   <Logout />
+                </Route>
+                <Route path={ProfileRoute} exact>
+                  <Profile />
                 </Route>
               </Overlay>
             </Switch>

@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -85,7 +84,7 @@ export type MeType = {
   email: Scalars['String'];
   id: Scalars['Int'];
   subjectId: Scalars['String'];
-  username: Scalars['String'];
+  username?: Maybe<Scalars['String']>;
 };
 
 export type ExchangeRatesType = {
@@ -112,7 +111,7 @@ export type ProjectDetailType = {
   currencyType: CurrencyType;
   description?: Maybe<Scalars['String']>;
   expenseTypes: Array<ExpenseTypeType>;
-  id: Scalars['Int'];
+  id: Scalars['ID'];
   name: Scalars['String'];
   permissions: Array<ProjectPermissionType>;
   /** Current user's permission for project. */
@@ -423,6 +422,11 @@ export type ExpenseTypeFieldsFragment = (
   & Pick<ExpenseTypeType, 'description' | 'id' | 'name'>
 );
 
+export type MeFieldsFragment = (
+  { __typename?: 'MeType' }
+  & Pick<MeType, 'email' | 'id' | 'subjectId' | 'username'>
+);
+
 export type ProjectDetailFieldsFragment = (
   { __typename?: 'ProjectDetailType' }
   & Pick<ProjectDetailType, 'id' | 'currencyType' | 'description' | 'name' | 'userPermission'>
@@ -505,6 +509,17 @@ export type ExchangeRatesQuery = (
   ) }
 );
 
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me: (
+    { __typename?: 'MeType' }
+    & MeFieldsFragment
+  ) }
+);
+
 export type ProjectQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -545,6 +560,14 @@ export const ExchangeRatesFieldsFragmentDoc = gql`
   }
 }
     ${ExchangeRateFieldsFragmentDoc}`;
+export const MeFieldsFragmentDoc = gql`
+    fragment meFields on MeType {
+  email
+  id
+  subjectId
+  username
+}
+    `;
 export const ExpenseTypeFieldsFragmentDoc = gql`
     fragment expenseTypeFields on ExpenseTypeType {
   description
@@ -722,6 +745,38 @@ export function useExchangeRatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type ExchangeRatesQueryHookResult = ReturnType<typeof useExchangeRatesQuery>;
 export type ExchangeRatesLazyQueryHookResult = ReturnType<typeof useExchangeRatesLazyQuery>;
 export type ExchangeRatesQueryResult = Apollo.QueryResult<ExchangeRatesQuery, ExchangeRatesQueryVariables>;
+export const MeDocument = gql`
+    query me {
+  me {
+    ...meFields
+  }
+}
+    ${MeFieldsFragmentDoc}`;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+        }
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const ProjectDocument = gql`
     query project($id: ID!) {
   project(id: $id) {

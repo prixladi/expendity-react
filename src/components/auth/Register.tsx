@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Box, Container, Grid, Heading, Icon, Text as ChakraText } from '@chakra-ui/react';
+import { Box, Container, Grid, Icon, Text as ChakraText } from '@chakra-ui/react';
 import Text from '../Text';
 import EmailInput from '../EmailInput';
 import PasswordInput from '../PasswordInput';
@@ -15,6 +15,7 @@ import { registeredNotification } from '../../services/notificationService';
 import Form from '../Form';
 import { useApolloClient } from '@apollo/client';
 import * as yup from 'yup';
+import H1 from '../H1';
 
 type Values = {
   email: string;
@@ -68,9 +69,7 @@ const Register: React.FC<Props> = ({ goto }: Props) => {
   return (
     <Container>
       <Box mb="2em">
-        <Heading as="h1" mb="0.5em">
-          Register
-        </Heading>
+        <H1>Register</H1>
         <Text>Sign up to start using the application.</Text>
       </Box>
 
