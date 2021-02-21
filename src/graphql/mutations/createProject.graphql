@@ -1,0 +1,5 @@
+mutation createProject($project: ProjectInputType!) {
+    createProject(project: $project) {
+        ...projectFields
+    }
+}

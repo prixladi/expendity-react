@@ -1,0 +1,13 @@
+fragment projectDetailFields on ProjectDetailType  {
+  id
+  currencyType
+  description
+  name
+  userPermission
+  expenseTypes {
+    ...expenseTypeFields
+  }
+  permissions {
+    ...projectPermissionTypeFields
+  }
+}

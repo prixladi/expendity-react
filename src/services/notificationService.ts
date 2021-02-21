@@ -32,28 +32,8 @@ const forgottenPasswordSentNotification = (): void => {
   send({ description: 'Forgotten password reset has been sent to your email.', status: 'success' });
 };
 
-const siteCreatedNotification = (): void => {
-  send({ description: 'New site has been successfuly created.', status: 'success' });
-};
-
-const templateCreatedNotification = (): void => {
-  send({ description: 'New template has been successfuly created.', status: 'success' });
-};
-
-const siteUpdatedNotification = (): void => {
-  send({ description: 'Site has been successfuly updated.', status: 'success' });
-};
-
-const siteDeletedNotification = (): void => {
-  send({ description: 'Site has been successfuly deleted.', status: 'success' });
-};
-
-const templateUpdatedNotification = (): void => {
-  send({ description: 'Template has been successfuly updated.', status: 'success' });
-};
-
-const templateRemovedNotification = (): void => {
-  send({ description: 'Template has been successfuly removed.', status: 'success' });
+const projectCreatedNotification = (): void => {
+  send({ description: 'New Project has been successfuly created.', status: 'success' });
 };
 
 const loggedOutNotification = (): void => {
@@ -73,12 +53,7 @@ export {
   apiServerErrorNotification,
   notFoundNotification,
   loggedInNotification,
-  siteCreatedNotification,
-  templateCreatedNotification,
-  siteUpdatedNotification,
-  siteDeletedNotification,
-  templateUpdatedNotification,
-  templateRemovedNotification,
+  projectCreatedNotification,
   loggedOutNotification,
   loginExpiredNotification,
   loginNeededNotification,

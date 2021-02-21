@@ -1,0 +1,315 @@
+type Query {
+  # Exchange rates that could be used for as reference for exchanging between currencies.
+  exchangeRates: ExchangeRatesType!
+  expense(
+    # Id of the Expense
+    id: Int!
+  ): ExpenseType!
+  expenses(filter: ExpenseFilterInputType!): ExpensesType!
+  expenseType(
+    # Id of the Expense Type
+    id: Int!
+  ): ExpenseTypeType!
+  me: MeType!
+  project(
+    # Id of the Project
+    id: Int!
+  ): ProjectDetailType!
+  projectInvite(
+    # Id of the Project Invite
+    id: Int!
+  ): ProjectInviteType!
+  projectInviteByToken(
+    # Invite Token
+    token: String!
+  ): ProjectInvitePreviewType!
+  projectInvites(filter: ProjectInviteFilterInputType!): ProjectInvitesType!
+  projects(filter: ProjectFilterInputType!): ProjectsType!
+  summary(filter: SummaryFilterInputType!): SummaryType!
+}
+
+type MeType {
+  email: String!
+  id: Int!
+  subjectId: String!
+  username: String!
+}
+
+type ExchangeRatesType {
+  baseCurrency: CurrencyType!
+  entries: [ExchangeRateType!]!
+}
+
+enum CurrencyType {
+  EUR
+  USD
+  CZK
+}
+
+type ExchangeRateType {
+  currencyType: CurrencyType!
+  rate: Decimal!
+}
+
+scalar Decimal
+
+type ProjectDetailType {
+  currencyType: CurrencyType!
+  description: String
+  expenseTypes: [ExpenseTypeType!]!
+  id: Int!
+  name: String!
+  permissions: [ProjectPermissionType!]!
+
+  # Current user's permission for project.
+  userPermission: PermissionType!
+}
+
+enum PermissionType {
+  VIEW
+  CONTROL
+  CONFIGURE
+  OWN
+}
+
+type ProjectPermissionType {
+  id: ID
+  type: PermissionType!
+  userEmail: String!
+  userId: Int!
+}
+
+type ExpenseTypeType {
+  description: String
+  id: ID
+  name: String!
+  projectId: Int!
+}
+
+type ProjectsType {
+  count: Long!
+  entries: [ProjectType!]!
+}
+
+scalar Long
+
+type ProjectType {
+  currencyType: CurrencyType!
+  description: String
+  id: ID
+  name: String!
+
+  # Current user's permission for project.
+  userPermission: PermissionType!
+}
+
+input ProjectFilterInputType {
+  skip: Int!
+  count: Int!
+}
+
+type ExpenseType {
+  addedUtc: DateTime!
+  creatorUserEmail: String!
+  creatorUserId: Int!
+  description: String
+  id: ID
+  lastUpdaterUserEmail: String
+  lastUpdaterUserId: Int
+  name: String!
+  projectId: Int!
+  typeId: Int
+  value: Decimal!
+}
+
+# The `DateTime` scalar type represents a date and time. `DateTime` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+scalar DateTime
+
+type ExpensesType {
+  count: Long!
+  entries: [ExpenseType!]!
+}
+
+input ExpenseFilterInputType {
+  skip: Int!
+  count: Int!
+  from: DateTime
+  to: DateTime
+  projectId: Int!
+}
+
+type SummaryType {
+  entries: [SummaryEntryType!]!
+  fullSum: Decimal!
+}
+
+type SummaryEntryType {
+  expenseTypeId: Int
+  sum: Decimal!
+}
+
+input SummaryFilterInputType {
+  from: DateTime
+  to: DateTime
+  projectId: Int!
+}
+
+type ProjectInviteType {
+  id: ID
+  isMultiUse: Boolean!
+  projectId: Int!
+  projectPermissionType: PermissionType!
+  token: String!
+}
+
+type ProjectInvitePreviewType {
+  id: ID
+  projectDescription: String
+  projectId: Int!
+  projectName: String!
+  projectPermissionType: PermissionType!
+}
+
+type ProjectInvitesType {
+  count: Long!
+  entries: [ProjectInviteType!]!
+}
+
+input ProjectInviteFilterInputType {
+  count: Int!
+  skip: Int!
+  projectId: Int!
+}
+
+type Mutation {
+  acceptProjectInvite(
+    # Invite Token
+    token: String!
+  ): ProjectPermissionType!
+  changeProjectCurrency(
+    model: ChangeProjectCurrencyInputType!
+  ): ProjectCurrencyChangedType!
+  createExpense(
+    # New Expense
+    expense: ExpenseInputType!
+  ): ExpenseType!
+  createExpenseType(
+    # New Expense type
+    expenseType: ExpenseTypeInputType!
+  ): ExpenseTypeType!
+  createProject(
+    # New Project
+    project: ProjectInputType!
+  ): ProjectType!
+  createProjectInvite(
+    # New Project Invite
+    projectInvite: ProjectInviteInputType!
+  ): ProjectInviteType!
+  deleteExpense(
+    # Id of the Expense
+    id: Int!
+  ): ExpenseType!
+  deleteExpenseType(
+    # Id of the Expense Type
+    id: Int!
+  ): ExpenseTypeType!
+  deleteProject(
+    # Id of the Project
+    id: Int!
+  ): ProjectType!
+  deleteProjectInvite(
+    # Id of the Project Invite
+    id: Int!
+  ): ProjectInviteType!
+  deleteProjectPermission(
+    # Id of the Project
+    projectId: Int!
+
+    # Id of the User
+    userId: Int!
+  ): ProjectPermissionType!
+  updateExpense(
+    # Id of the Expense
+    id: Int!
+    update: ExpenseUpdateInputType!
+  ): ExpenseType!
+  updateExpenseType(
+    # Id of the Expense Type
+    id: Int!
+    update: ExpenseTypeUpdateInputType!
+  ): ExpenseTypeType!
+  updateProject(
+    # Id of the Project
+    id: Int!
+    update: ProjectUpdateInputType!
+  ): ProjectType!
+  updateProjectPermission(
+    # Id of the Project
+    projectId: Int!
+
+    # Id of the User
+    userId: Int!
+    update: ProjectPermissionUpdateInputType!
+  ): ProjectPermissionType!
+}
+
+type ProjectCurrencyChangedType {
+  expensesChangedCount: Long!
+  newCurrencyType: CurrencyType!
+  oldCurrencyType: CurrencyType!
+}
+
+input ChangeProjectCurrencyInputType {
+  projectId: Int!
+  rate: Decimal!
+  newCurrencyType: CurrencyType!
+}
+
+input ProjectInputType {
+  name: String!
+  description: String
+  currencyType: CurrencyType!
+}
+
+input ProjectUpdateInputType {
+  name: String!
+  description: String
+}
+
+input ExpenseTypeInputType {
+  name: String!
+  description: String
+  projectId: Int!
+}
+
+input ExpenseTypeUpdateInputType {
+  name: String!
+  description: String
+}
+
+input ExpenseInputType {
+  name: String!
+  value: Decimal!
+  description: String
+  addedUtc: DateTime
+  typeId: Int
+  projectId: Int!
+}
+
+input ExpenseUpdateInputType {
+  name: String!
+  value: Decimal!
+  description: String
+  addedUtc: DateTime
+  typeId: Int
+}
+
+input ProjectInviteInputType {
+  isMultiUse: Boolean!
+  projectId: Int!
+  projectPermissionType: PermissionType!
+}
+
+input ProjectPermissionUpdateInputType {
+  type: PermissionType!
+}

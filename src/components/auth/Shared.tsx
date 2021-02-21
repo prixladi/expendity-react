@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Icon, Link, Text } from '@chakra-ui/react';
-import Button from '../Button';
+import { FormikButton as Button } from '../Button';
 import { FaGoogle } from 'react-icons/fa';
 import GoogleLogin, { GoogleLoginResponse } from 'react-google-login';
 import { googleConfig } from '../../configs';
 import { defaultCallbacks, onSignIn } from '../../services/authorityService';
 import { useHistory } from 'react-router-dom';
 import { useAuthorityManager } from '../../authority';
+import { useApolloClient } from '@apollo/client';
 
 type Page = 'Login' | 'Register' | 'ForgottenPassword';
 
@@ -27,6 +28,7 @@ const GoogleButton: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const authManager = useAuthorityManager();
   const history = useHistory();
+  const apollo = useApolloClient();
 
   return (
     <GoogleLogin
@@ -43,7 +45,7 @@ const GoogleButton: React.FC = () => {
       onSuccess={async (response) => {
         const result = await authManager.googleLogin({ idToken: (response as GoogleLoginResponse).tokenId }, defaultCallbacks(history));
         if (result.ok) {
-          await onSignIn(history);
+          await onSignIn(history, apollo);
         } else {
           console.error('Error while logging in.', result);
         }

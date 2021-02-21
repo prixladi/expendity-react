@@ -1,0 +1,6 @@
+fragment projectPermissionTypeFields on ProjectPermissionType  {
+  id
+  type
+  userEmail
+  userId
+}

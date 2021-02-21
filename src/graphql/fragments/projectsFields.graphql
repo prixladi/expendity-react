@@ -1,0 +1,6 @@
+fragment projectsFields on ProjectsType  {
+  count
+  entries {
+      ...projectFields
+  }
+}

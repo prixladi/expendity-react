@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { Box, Container, Grid, Heading, Icon, Text as ChakraText } from '@chakra-ui/react';
+import { Box, Grid, Heading, Icon, Text as ChakraText } from '@chakra-ui/react';
 import Text from '../Text';
 import EmailInput from '../EmailInput';
 import PasswordInput from '../PasswordInput';
-import Button from '../Button';
+import { FormikButton as Button } from '../Button';
 import Form from '../Form';
 import { FaEnvelope } from 'react-icons/fa';
 import { CenterLink, GoogleButton, Page } from './Shared';
@@ -12,6 +12,7 @@ import { useAuthorityManager } from '../../authority';
 import { useHistory } from 'react-router-dom';
 import { defaultCallbacks, onSignIn } from '../../services/authorityService';
 import { StatusCodes } from 'http-status-codes';
+import { useApolloClient } from '@apollo/client';
 
 type Values = {
   email: string;
@@ -32,12 +33,13 @@ const emailErrorMessage = 'Invalid email or password';
 const Login: React.FC<Props> = ({ goto }: Props) => {
   const manager = useAuthorityManager();
   const history = useHistory();
+  const apollo = useApolloClient();
 
   const onSubmit = useCallback(
     async (submittedValues: Values, { setFieldError, setFieldValue }: FormikHelpers<Values>) => {
       const result = await manager.passwordLogin(submittedValues, defaultCallbacks(history));
       if (result.ok) {
-        await onSignIn(history);
+        await onSignIn(history, apollo);
       } else {
         if (result.status === StatusCodes.BAD_REQUEST) {
           setFieldError('email', emailErrorMessage);
@@ -47,11 +49,11 @@ const Login: React.FC<Props> = ({ goto }: Props) => {
         }
       }
     },
-    [manager, history],
+    [manager, history, apollo],
   );
 
   return (
-    <Container>
+    <Box>
       <Box mb="2em">
         <Heading as="h1" mb="0.5em">
           Login
@@ -75,7 +77,7 @@ const Login: React.FC<Props> = ({ goto }: Props) => {
           <CenterLink onClick={() => goto('Register')}>Create new account.</CenterLink>
         </Grid>
       </Form>
-    </Container>
+    </Box>
   );
 };
 

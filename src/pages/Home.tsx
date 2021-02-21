@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
-import { Box, Collapse, Flex, useBreakpointValue } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import { Collapse } from '@chakra-ui/react';
 import Login from '../components/auth/Login';
 import Register from '../components/auth/Register';
 import { Page } from '../components/auth/Shared';
 import ForgottenPassword from '../components/auth/ForgottenPassword';
 import { NarrowContent } from '../components/Content';
-import TextLogo from '../components/TextLogo';
-import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
+import { useHistory } from 'react-router-dom';
+import { useAuthorityManager } from '../authority';
+import { ProjectsRoute } from '../routes';
 
 const Home: React.FC = () => {
+  const history = useHistory();
+  const manager = useAuthorityManager();
+
   const [page, setPage] = useState('Login' as Page);
   const goto = (newPage: Page) => setPage(newPage);
-  const margin = useBreakpointValue(['1rem', '2.5rem', '5rem', '10rem']);
+
+  useEffect(() => {
+    if (manager.isUserLoggedIn()) {
+      history.push(ProjectsRoute);
+    }
+  }, [history, manager]);
+
+  if (manager.isUserLoggedIn()) {
+    return null;
+  }
 
   return (
     <>
-      <Flex ml={margin} mr={margin} mt="0.5em" fontSize="2em" justifyContent="space-between">
-        <TextLogo /> <ColorModeSwitcher />{' '}
-      </Flex>
-
       <NarrowContent>
-        <Box pt={['0.5em', '2em', '3em', '3.5em']}>
           <Collapse animateOpacity in={page === 'Login'}>
             <Login goto={goto} />
           </Collapse>
@@ -30,7 +38,6 @@ const Home: React.FC = () => {
           <Collapse animateOpacity in={page === 'ForgottenPassword'}>
             <ForgottenPassword goto={goto} />
           </Collapse>
-        </Box>
       </NarrowContent>
     </>
   );

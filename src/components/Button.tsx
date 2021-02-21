@@ -9,8 +9,8 @@ type Props = ButtonOptions &
     children: React.ReactNode;
   };
 
-const SubmitButton: React.FC<Props> = ({ children, submit, isLoading, ...rest }: Props) => {
-  const { isSubmitting } = useFormikContext();
+const FormikButton: React.FC<Props> = ({ children, submit, isLoading, ...rest }: Props) => {
+  const context = useFormikContext();
 
   return (
     <Flex justifyContent="center">
@@ -18,7 +18,7 @@ const SubmitButton: React.FC<Props> = ({ children, submit, isLoading, ...rest }:
         minW="8em"
         fontSize="1.3em"
         type={submit ? 'submit' : undefined}
-        isLoading={isLoading || isSubmitting}
+        isLoading={isLoading || context?.isSubmitting}
         colorScheme="brand"
         {...rest}
       >
@@ -28,4 +28,12 @@ const SubmitButton: React.FC<Props> = ({ children, submit, isLoading, ...rest }:
   );
 };
 
-export default SubmitButton;
+const SubmitButton: React.FC<Props> = ({ children, submit, isLoading, ...rest }: Props) => (
+  <Flex justifyContent="center">
+    <Button minW="8em" fontSize="1.3em" type={submit ? 'submit' : undefined} isLoading={isLoading} colorScheme="brand" {...rest}>
+      {children}
+    </Button>
+  </Flex>
+);
+
+export { SubmitButton as Button, FormikButton };

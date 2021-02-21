@@ -6,7 +6,7 @@ const fonts = { mono: "'Menlo', monospace" };
 const breakpoints = createBreakpoints({
   sm: '40em',
   md: '52em',
-  lg: '68em',
+  lg: '70em',
   xl: '80em',
 });
 
@@ -24,6 +24,7 @@ const getBrandColors = () => {
   // 500: '#38A169',
 
   return {
+    100: '#eab676',
     200: '#DD6B20',
     500: '#DD6B20',
   };

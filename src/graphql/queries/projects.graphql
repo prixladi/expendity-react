@@ -1,0 +1,5 @@
+query projects($filter: ProjectFilterInputType!) {
+    projects(filter: $filter) {
+        ...projectsFields
+    }
+}

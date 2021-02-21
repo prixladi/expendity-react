@@ -3,7 +3,7 @@ import { Box, Container, Grid, Heading, Icon, Text as ChakraText } from '@chakra
 import Text from '../Text';
 import EmailInput from '../EmailInput';
 import PasswordInput from '../PasswordInput';
-import Button from '../Button';
+import { FormikButton as Button } from '../Button';
 import { FaUserAlt } from 'react-icons/fa';
 import { CenterLink, GoogleButton, Page } from './Shared';
 import { FormikHelpers } from 'formik';
@@ -13,6 +13,8 @@ import { defaultCallbacks, onSignIn } from '../../services/authorityService';
 import { StatusCodes } from 'http-status-codes';
 import { registeredNotification } from '../../services/notificationService';
 import Form from '../Form';
+import { useApolloClient } from '@apollo/client';
+import * as yup from 'yup';
 
 type Values = {
   email: string;
@@ -24,6 +26,10 @@ const initialValues: Values = {
   password: '',
 };
 
+const schema = yup.object().shape({
+  password: yup.string().min(6, `Password is too short. It must be a least 6 characters long.`),
+});
+
 type Props = {
   goto: (newPage: Page) => void;
 };
@@ -33,6 +39,7 @@ const emailErrorMessage = 'Account with this email already exist';
 const Register: React.FC<Props> = ({ goto }: Props) => {
   const manager = useAuthorityManager();
   const history = useHistory();
+  const apollo = useApolloClient();
 
   const onSubmit = useCallback(
     async (submittedValues: Values, { setFieldError, setFieldValue }: FormikHelpers<Values>) => {
@@ -42,7 +49,7 @@ const Register: React.FC<Props> = ({ goto }: Props) => {
         registeredNotification();
         const loginResult = await manager.passwordLogin(submittedValues, callbacks);
         if (loginResult.ok) {
-          await onSignIn(history);
+          await onSignIn(history, apollo);
         } else {
           console.error(loginResult);
         }
@@ -55,7 +62,7 @@ const Register: React.FC<Props> = ({ goto }: Props) => {
         }
       }
     },
-    [manager, history],
+    [manager, history, apollo],
   );
 
   return (
@@ -67,7 +74,7 @@ const Register: React.FC<Props> = ({ goto }: Props) => {
         <Text>Sign up to start using the application.</Text>
       </Box>
 
-      <Form initialValues={initialValues} onSubmit={onSubmit}>
+      <Form validationSchema={schema} initialValues={initialValues} onSubmit={onSubmit}>
         <Grid gridGap="1em">
           <EmailInput />
           <PasswordInput />

@@ -1,7 +1,8 @@
 import { Callbacks, Manager } from '../authority';
-import { HomeRoute } from '../routes';
+import { HomeRoute, ProjectsRoute } from '../routes';
 import { authServerErrorNotification, loggedInNotification, loggedOutNotification, loginExpiredNotification } from './notificationService';
 import { History } from 'history';
+import { ApolloClient } from '@apollo/client';
 
 
 const defaultCallbacks = (history: History): Callbacks => ({
@@ -15,20 +16,29 @@ const defaultCallbacks = (history: History): Callbacks => ({
   },
 });
 
-const onSignIn = async (history: History): Promise<void> => {
+const onSignIn = async (history: History, apollo: ApolloClient<unknown>): Promise<void> => {
   loggedInNotification();
-  history.push("/");
+
+  await apollo.cache.reset();
+  
+  history.push(ProjectsRoute);
 };
 
-const onLoginExpired = async (manager: Manager, history: History): Promise<void> => {
+const onLoginExpired = async (manager: Manager, history: History, apollo: ApolloClient<unknown>): Promise<void> => {
   loginExpiredNotification();
+
+  await apollo.cache.reset();
   await manager.logout();
+
   history.push(HomeRoute);
 };
 
-const signOut = async (manager: Manager, history: History): Promise<void> => {
-  await manager.logout();
+const signOut = async (manager: Manager, history: History, apollo: ApolloClient<unknown>): Promise<void> => {
   loggedOutNotification();
+
+  await apollo.cache.reset();
+  await manager.logout();
+
   history.push(HomeRoute);
 };
 

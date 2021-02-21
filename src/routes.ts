@@ -1,4 +1,6 @@
 const HomeRoute = '/';
 const ProjectsRoute = '/projects';
+const ProjectRoute = (id: string): string => `/projects/${id}`;
+const LogoutRoute = '/logout';
 
-export { HomeRoute, ProjectsRoute };
+export { HomeRoute, ProjectsRoute, ProjectRoute, LogoutRoute };

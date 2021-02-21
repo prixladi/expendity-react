@@ -1,0 +1,7 @@
+fragment projectFields on ProjectType  {
+  currencyType
+  description
+  id
+  name
+  userPermission
+}
