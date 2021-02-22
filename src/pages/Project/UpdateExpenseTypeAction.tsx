@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectType, useUpdateProjectMutation } from '../../graphql';
+import { ExpenseTypeType, useUpdateExpenseTypeMutation } from '../../graphql';
 import {
   Grid,
   Icon,
@@ -18,11 +18,11 @@ import { FaEdit } from 'react-icons/fa';
 import Form from '../../components/Form';
 import InputBase from '../../components/InputBase';
 import { Button } from '../../components/Button';
-import { AiOutlineFundProjectionScreen } from 'react-icons/ai';
 import * as yup from 'yup';
 import { projectUpdatedNotification } from '../../services/notificationService';
 import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
-import { projectOnUpdateUpdate } from '../../services/mutationService';
+import { expenseTypeOnUpdateUpdate } from '../../services/mutationService';
+import { GiMoneyStack } from 'react-icons/gi';
 
 type Values = {
   name: string;
@@ -30,7 +30,7 @@ type Values = {
 };
 
 type Props = {
-  project: ProjectType;
+  expenseType: ExpenseTypeType;
 };
 
 const schema = yup.object().shape({
@@ -38,13 +38,16 @@ const schema = yup.object().shape({
   description: yup.string().max(200, `Description is too long. It must be a most 200 characters long.`),
 });
 
-const UpdateAction: React.FC<Props> = ({ project }: Props) => {
+const UpdateExpenseTypeAction: React.FC<Props> = ({ expenseType }: Props) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const [updateProject, { error }] = useUpdateProjectMutation({ errorPolicy: 'all' });
+  const [updateExpenseType, { error }] = useUpdateExpenseTypeMutation({ errorPolicy: 'all' });
   const { handleGqlError } = useApolloErrorHandling(error);
 
   const onSubmit = async (values: Values) => {
-    const { data, errors } = await updateProject({ variables: { id: project.id, update: values }, update: projectOnUpdateUpdate });
+    const { data, errors } = await updateExpenseType({
+      variables: { id: expenseType.id, update: values },
+      update: expenseTypeOnUpdateUpdate,
+    });
     handleGqlError(errors);
     if (data) {
       onClose();
@@ -53,8 +56,8 @@ const UpdateAction: React.FC<Props> = ({ project }: Props) => {
   };
 
   const initialValues: Values = {
-    name: project.name,
-    description: project.description,
+    name: expenseType.name,
+    description: expenseType.description,
   };
 
   return (
@@ -65,7 +68,7 @@ const UpdateAction: React.FC<Props> = ({ project }: Props) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader as="h2">Update Project</ModalHeader>
+          <ModalHeader as="h2">Update Expense Type</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Form<Values> validationSchema={schema} initialValues={initialValues} onSubmit={onSubmit}>
@@ -74,7 +77,7 @@ const UpdateAction: React.FC<Props> = ({ project }: Props) => {
                 <InputBase name="description" placeholder="Description" type="text" />
                 <Button submit>
                   Update
-                  <Icon ml="0.2em" as={AiOutlineFundProjectionScreen} />{' '}
+                  <Icon ml="0.2em" as={GiMoneyStack} />
                 </Button>
               </Grid>
             </Form>
@@ -85,4 +88,4 @@ const UpdateAction: React.FC<Props> = ({ project }: Props) => {
   );
 };
 
-export default UpdateAction;
+export default UpdateExpenseTypeAction;

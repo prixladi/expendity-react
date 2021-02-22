@@ -5,11 +5,7 @@ const typePolicies: TypePolicies = {
   Query: {
     fields: {
       projects: {
-        // Don't cache separate results based on
-        // any of this field's arguments.
         keyArgs: false,
-        // Concatenate the incoming list items with
-        // the existing list items.
         merge(existing: ProjectsType | undefined, incoming: ProjectsType): ProjectsType {
           if (!existing) {
             return incoming;
@@ -21,6 +17,13 @@ const typePolicies: TypePolicies = {
             entries: [...existing.entries, ...incoming.entries],
           };
         },
+      },
+    },
+  },
+  ProjectDetailType: {
+    fields: {
+      expenseTypes: {
+        merge: false,
       },
     },
   },

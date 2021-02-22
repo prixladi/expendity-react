@@ -9,7 +9,7 @@ type Props = {
 };
 
 const Actions: React.FC<Props> = ({ project }: Props) => {
-  const display = useBreakpointValue([VStack, Flex, Flex, Flex]);
+  const display = useBreakpointValue([VStack, VStack, Flex, Flex]);
 
   if (project.userPermission !== PermissionType.Own) {
     return <p />;
@@ -17,9 +17,11 @@ const Actions: React.FC<Props> = ({ project }: Props) => {
 
   return (
     <>
-      <Flex gridGap="0.25em" as={display}>
-        <UpdateAction project={project} />
-        <DeleteAction projectId={project.id} />
+      <Flex>
+        <Flex gridGap="0.25em" as={display}>
+          <UpdateAction project={project} />
+          <DeleteAction projectId={project.id} />
+        </Flex>
       </Flex>
     </>
   );

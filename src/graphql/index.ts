@@ -397,7 +397,10 @@ export type ExpenseFieldsFragment = { __typename?: 'ExpenseType' } & Pick<
   | 'value'
 >;
 
-export type ExpenseTypeFieldsFragment = { __typename?: 'ExpenseTypeType' } & Pick<ExpenseTypeType, 'description' | 'id' | 'name'>;
+export type ExpenseTypeFieldsFragment = { __typename?: 'ExpenseTypeType' } & Pick<
+  ExpenseTypeType,
+  'description' | 'id' | 'name' | 'projectId'
+>;
 
 export type ExpensesFieldsFragment = { __typename?: 'ExpensesType' } & Pick<ExpensesType, 'count'> & {
     entries: Array<{ __typename?: 'ExpenseType' } & ExpenseFieldsFragment>;
@@ -433,6 +436,14 @@ export type CreateExpenseMutationVariables = Exact<{
 
 export type CreateExpenseMutation = { __typename?: 'Mutation' } & { createExpense: { __typename?: 'ExpenseType' } & ExpenseFieldsFragment };
 
+export type CreateExpenseTypeMutationVariables = Exact<{
+  expenseType: ExpenseTypeInputType;
+}>;
+
+export type CreateExpenseTypeMutation = { __typename?: 'Mutation' } & {
+  createExpenseType: { __typename?: 'ExpenseTypeType' } & ExpenseTypeFieldsFragment;
+};
+
 export type CreateProjectMutationVariables = Exact<{
   project: ProjectInputType;
 }>;
@@ -465,6 +476,15 @@ export type UpdateExpenseMutationVariables = Exact<{
 }>;
 
 export type UpdateExpenseMutation = { __typename?: 'Mutation' } & { updateExpense: { __typename?: 'ExpenseType' } & ExpenseFieldsFragment };
+
+export type UpdateExpenseTypeMutationVariables = Exact<{
+  id: Scalars['ID'];
+  update: ExpenseTypeUpdateInputType;
+}>;
+
+export type UpdateExpenseTypeMutation = { __typename?: 'Mutation' } & {
+  updateExpenseType: { __typename?: 'ExpenseTypeType' } & ExpenseTypeFieldsFragment;
+};
 
 export type UpdateProjectMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -559,6 +579,7 @@ export const ExpenseTypeFieldsFragmentDoc = gql`
     description
     id
     name
+    projectId
   }
 `;
 export const ProjectPermissionTypeFieldsFragmentDoc = gql`
@@ -637,6 +658,41 @@ export function useCreateExpenseMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateExpenseMutationHookResult = ReturnType<typeof useCreateExpenseMutation>;
 export type CreateExpenseMutationResult = Apollo.MutationResult<CreateExpenseMutation>;
 export type CreateExpenseMutationOptions = Apollo.BaseMutationOptions<CreateExpenseMutation, CreateExpenseMutationVariables>;
+export const CreateExpenseTypeDocument = gql`
+  mutation createExpenseType($expenseType: ExpenseTypeInputType!) {
+    createExpenseType(expenseType: $expenseType) {
+      ...expenseTypeFields
+    }
+  }
+  ${ExpenseTypeFieldsFragmentDoc}
+`;
+export type CreateExpenseTypeMutationFn = Apollo.MutationFunction<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>;
+
+/**
+ * __useCreateExpenseTypeMutation__
+ *
+ * To run a mutation, you first call `useCreateExpenseTypeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateExpenseTypeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createExpenseTypeMutation, { data, loading, error }] = useCreateExpenseTypeMutation({
+ *   variables: {
+ *      expenseType: // value for 'expenseType'
+ *   },
+ * });
+ */
+export function useCreateExpenseTypeMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>,
+) {
+  return Apollo.useMutation<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>(CreateExpenseTypeDocument, baseOptions);
+}
+export type CreateExpenseTypeMutationHookResult = ReturnType<typeof useCreateExpenseTypeMutation>;
+export type CreateExpenseTypeMutationResult = Apollo.MutationResult<CreateExpenseTypeMutation>;
+export type CreateExpenseTypeMutationOptions = Apollo.BaseMutationOptions<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>;
 export const CreateProjectDocument = gql`
   mutation createProject($project: ProjectInputType!) {
     createProject(project: $project) {
@@ -805,6 +861,42 @@ export function useUpdateExpenseMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateExpenseMutationHookResult = ReturnType<typeof useUpdateExpenseMutation>;
 export type UpdateExpenseMutationResult = Apollo.MutationResult<UpdateExpenseMutation>;
 export type UpdateExpenseMutationOptions = Apollo.BaseMutationOptions<UpdateExpenseMutation, UpdateExpenseMutationVariables>;
+export const UpdateExpenseTypeDocument = gql`
+  mutation updateExpenseType($id: ID!, $update: ExpenseTypeUpdateInputType!) {
+    updateExpenseType(id: $id, update: $update) {
+      ...expenseTypeFields
+    }
+  }
+  ${ExpenseTypeFieldsFragmentDoc}
+`;
+export type UpdateExpenseTypeMutationFn = Apollo.MutationFunction<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>;
+
+/**
+ * __useUpdateExpenseTypeMutation__
+ *
+ * To run a mutation, you first call `useUpdateExpenseTypeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateExpenseTypeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateExpenseTypeMutation, { data, loading, error }] = useUpdateExpenseTypeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      update: // value for 'update'
+ *   },
+ * });
+ */
+export function useUpdateExpenseTypeMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>,
+) {
+  return Apollo.useMutation<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>(UpdateExpenseTypeDocument, baseOptions);
+}
+export type UpdateExpenseTypeMutationHookResult = ReturnType<typeof useUpdateExpenseTypeMutation>;
+export type UpdateExpenseTypeMutationResult = Apollo.MutationResult<UpdateExpenseTypeMutation>;
+export type UpdateExpenseTypeMutationOptions = Apollo.BaseMutationOptions<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>;
 export const UpdateProjectDocument = gql`
   mutation updateProject($id: ID!, $update: ProjectUpdateInputType!) {
     updateProject(id: $id, update: $update) {

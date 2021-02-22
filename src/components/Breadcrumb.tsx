@@ -15,7 +15,11 @@ const Bread: React.FC = () => {
       .map((x) => x.replace('/', ''))
       .map((x) => {
         current = `${current}${x}/`;
-        return { path: current, part: x };
+
+        const result = x.replace(/([A-Z])/g, ' $1');
+        const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+
+        return { path: current, part: finalResult };
       });
   }, [loacation]);
 
@@ -23,7 +27,7 @@ const Bread: React.FC = () => {
     <Flex justifyContent="flex-start">
       <Breadcrumb mb="0.5em" separator={<ChevronRightIcon color="brand.500" />} opacity="0.7">
         {data.map((x) => (
-          <BreadcrumbItem>
+          <BreadcrumbItem key={x.path}>
             <BreadcrumbLink color="brand.500" fontSize="1.1em" as={Link} to={x.path}>
               {x.part}
             </BreadcrumbLink>

@@ -33,12 +33,24 @@ const forgottenPasswordSentNotification = (): void => {
   send({ description: 'Forgotten password reset has been sent to your email.', status: 'success' });
 };
 
+const expenseTypeCreatedNotification = (): void => {
+  send({ description: 'New Expense Type has been successfuly created.', status: 'success' });
+};
+
+const expenseTypeUpdatedNotification = (): void => {
+  send({ description: 'Expense Type has been successfuly created.', status: 'success' });
+};
+
+const expenseTypeDeletedNotification = (): void => {
+  send({ description: 'Expense Type has been successfuly deleted.', status: 'success' });
+};
+
 const projectCreatedNotification = (): void => {
   send({ description: 'New Project has been successfuly created.', status: 'success' });
 };
 
 const projectUpdatedNotification = (): void => {
-  send({ description: 'Project has been successfuly updated.' });
+  send({ description: 'Project has been successfuly updated.', status: 'success' });
 };
 
 const projectDeletedNotification = (): void => {
@@ -57,14 +69,12 @@ const loginNeededNotification = (): void => {
   send({ description: 'You need to sign in first.', status: 'info' });
 };
 
+export { authServerErrorNotification, apiServerErrorNotification, notFoundNotification };
+export { projectCreatedNotification, projectUpdatedNotification, projectDeletedNotification };
+export { expenseTypeCreatedNotification, expenseTypeUpdatedNotification, expenseTypeDeletedNotification };
+
 export {
-  authServerErrorNotification,
-  apiServerErrorNotification,
-  notFoundNotification,
   loggedInNotification,
-  projectCreatedNotification,
-  projectUpdatedNotification,
-  projectDeletedNotification,
   loggedOutNotification,
   loginExpiredNotification,
   loginNeededNotification,

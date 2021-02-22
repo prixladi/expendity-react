@@ -4,7 +4,7 @@ import { WideContent } from '../../components/Content';
 import withAuthentication from '../../hoc/withAuthentication';
 import DefaultSkelleton from '../../components/DefaultSkelleton';
 import { PermissionType, useProjectQuery } from '../../graphql';
-import { useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
 import H1 from '../../components/H1';
 import Text from '../../components/Text';
@@ -15,8 +15,9 @@ import { BiStats } from 'react-icons/bi';
 import { TiTicket } from 'react-icons/ti';
 import H2 from '../../components/H2';
 import InternalLink from '../../components/InternalLink';
-import { ProjectsRoute } from '../../routes';
+import { ExpenseTypesRoute, ProjectsRoute } from '../../routes';
 import Breadcrumb from '../../components/Breadcrumb';
+import { greaterOrEqualPermission } from '../../utils';
 
 type RouteMatch = {
   projectId: string;
@@ -24,6 +25,7 @@ type RouteMatch = {
 
 const Project: React.FC = () => {
   const match = useRouteMatch<RouteMatch>();
+  const history = useHistory();
   const { data, error } = useProjectQuery({ variables: { id: match.params.projectId }, errorPolicy: 'all' });
   useApolloErrorHandling(error);
   const columns = useBreakpointValue(['1fr', '1fr 1fr', '1fr 1fr 1fr', '1fr 1fr 1fr 1fr']);
@@ -48,13 +50,13 @@ const Project: React.FC = () => {
           <Button minW="10em">
             Expenses <Icon ml="0.2em" as={GiPayMoney} />
           </Button>
-          <Button minW="10em">
+          <Button onClick={() => history.push(ExpenseTypesRoute(data.project.id))} minW="10em">
             Expense Types <Icon ml="0.2em" as={GiMoneyStack} />
           </Button>
           <Button minW="10em">
             Users <Icon ml="0.2em" as={FaUserAlt} />
           </Button>
-          {data.project.userPermission === PermissionType.Configure || data.project.userPermission === PermissionType.Own ? (
+          {greaterOrEqualPermission(data.project.userPermission, PermissionType.Configure) ? (
             <Button minW="10em">
               Project Invites <Icon ml="0.2em" as={TiTicket} />
             </Button>

@@ -2,4 +2,5 @@ fragment expenseTypeFields on ExpenseTypeType  {
   description
   id
   name
+  projectId
 }

@@ -1,11 +1,14 @@
 import { MutationUpdaterFn } from '@apollo/client';
 import {
+  CreateExpenseTypeMutation,
   CreateProjectMutation,
+  DeleteExpenseTypeMutation,
   DeleteProjectMutation,
   ProjectDocument,
   ProjectQuery,
   ProjectsDocument,
   ProjectsQuery,
+  UpdateExpenseTypeMutation,
   UpdateProjectMutation,
 } from '../graphql';
 
@@ -84,4 +87,65 @@ const projectOnUpdateUpdate: MutationUpdaterFn<UpdateProjectMutation> = (cache, 
   }
 };
 
+const expenseTypeOnCreateUpdate: MutationUpdaterFn<CreateExpenseTypeMutation> = (cache, { data }) => {
+  if (data) {
+    const oldProject = cache.readQuery<ProjectQuery>({
+      query: ProjectDocument,
+      variables: { id: data.createExpenseType.projectId.toString() },
+    });
+    if (oldProject) {
+      const newProject: ProjectQuery = {
+        ...oldProject,
+        project: {
+          ...oldProject.project,
+          expenseTypes: [...oldProject.project.expenseTypes, data.createExpenseType],
+        },
+      };
+
+      cache.writeQuery<ProjectQuery>({ query: ProjectDocument, variables: { id: data.createExpenseType.projectId }, data: newProject });
+    }
+  }
+};
+
+const expenseTypeOnDeleteUpdate: MutationUpdaterFn<DeleteExpenseTypeMutation> = (cache, { data }) => {
+  if (data) {
+    const oldProject = cache.readQuery<ProjectQuery>({
+      query: ProjectDocument,
+      variables: { id: data.deleteExpenseType.projectId.toString() },
+    });
+    if (oldProject) {
+      const newProject: ProjectQuery = {
+        ...oldProject,
+        project: {
+          ...oldProject.project,
+          expenseTypes: oldProject.project.expenseTypes.filter((x) => x.id !== data.deleteExpenseType.id),
+        },
+      };
+
+      cache.writeQuery<ProjectQuery>({ query: ProjectDocument, variables: { id: data.deleteExpenseType.projectId }, data: newProject });
+    }
+  }
+};
+
+const expenseTypeOnUpdateUpdate: MutationUpdaterFn<UpdateExpenseTypeMutation> = (cache, { data }) => {
+  if (data) {
+    const oldProject = cache.readQuery<ProjectQuery>({
+      query: ProjectDocument,
+      variables: { id: data.updateExpenseType.projectId.toString() },
+    });
+    if (oldProject) {
+      const newProject: ProjectQuery = {
+        ...oldProject,
+        project: {
+          ...oldProject.project,
+          expenseTypes: oldProject.project.expenseTypes.map((x) => (x.id === data?.updateExpenseType.id ? data.updateExpenseType : x)),
+        },
+      };
+
+      cache.writeQuery<ProjectQuery>({ query: ProjectDocument, variables: { id: data.updateExpenseType.projectId }, data: newProject });
+    }
+  }
+};
+
 export { projectOnCreateUpdate, projectOnDeleteUpdate, projectOnUpdateUpdate };
+export { expenseTypeOnCreateUpdate, expenseTypeOnDeleteUpdate, expenseTypeOnUpdateUpdate };

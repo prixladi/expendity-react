@@ -1,0 +1,5 @@
+mutation createExpenseType($expenseType: ExpenseTypeInputType!) {
+    createExpenseType(expenseType: $expenseType) {
+        ...expenseTypeFields
+    }
+}

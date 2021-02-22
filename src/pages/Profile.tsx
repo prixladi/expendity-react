@@ -16,7 +16,6 @@ const Profile: React.FC = () => {
   useApolloErrorHandling(error);
   const history = useHistory();
 
-  console.log('aaaa');
   if (!data) {
     return <DefaultSkelleton />;
   }
