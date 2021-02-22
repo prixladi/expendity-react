@@ -4,7 +4,6 @@ import { authServerErrorNotification, loggedInNotification, loggedOutNotificatio
 import { History } from 'history';
 import { ApolloClient } from '@apollo/client';
 
-
 const defaultCallbacks = (history: History): Callbacks => ({
   onError: async (err) => {
     authServerErrorNotification();
@@ -20,7 +19,7 @@ const onSignIn = async (history: History, apollo: ApolloClient<unknown>): Promis
   loggedInNotification();
 
   await apollo.cache.reset();
-  
+
   history.push(ProjectsRoute);
 };
 

@@ -1,0 +1,5 @@
+mutation deleteExpenseType($id: ID!) {
+    deleteExpenseType(id: $id) {
+        ...expenseTypeFields
+    }
+}

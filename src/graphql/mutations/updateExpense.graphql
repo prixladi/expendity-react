@@ -1,0 +1,5 @@
+mutation updateExpense($id: ID!, $update: ExpenseUpdateInputType!) {
+    updateExpense(id: $id, update: $update) {
+        ...expenseFields
+    }
+}

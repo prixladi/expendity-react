@@ -1,0 +1,6 @@
+fragment expensesFields on ExpensesType  {
+  count
+  entries {
+      ...expenseFields
+  }
+}

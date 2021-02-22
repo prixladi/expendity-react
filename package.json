@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.9",
+    "@chakra-ui/icons": "^1.0.5",
     "@chakra-ui/react": "^1.0.0",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",

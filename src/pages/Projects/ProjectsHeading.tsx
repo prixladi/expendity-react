@@ -1,5 +1,5 @@
 import React from 'react';
-import {useDisclosure, Box, Icon } from '@chakra-ui/react';
+import { useDisclosure, Box, Icon } from '@chakra-ui/react';
 import InfoText from '../../components/Text';
 import { Button } from '../../components/Button';
 import NewProjectModal from './NewProjectModal';

@@ -9,8 +9,8 @@ import {
   UpdateProjectMutation,
 } from '../graphql';
 
-const projectOnCreateUpdate: MutationUpdaterFn<CreateProjectMutation> = (cache, result) => {
-  if (result.data) {
+const projectOnCreateUpdate: MutationUpdaterFn<CreateProjectMutation> = (cache, { data }) => {
+  if (data) {
     const oldProjects = cache.readQuery<ProjectsQuery>({ query: ProjectsDocument });
     if (oldProjects) {
       const newProjects: ProjectsQuery = {
@@ -18,7 +18,7 @@ const projectOnCreateUpdate: MutationUpdaterFn<CreateProjectMutation> = (cache, 
         projects: {
           ...oldProjects.projects,
           count: oldProjects.projects.count + 1,
-          entries: [result.data.createProject],
+          entries: [data.createProject],
         },
       };
 
@@ -27,8 +27,8 @@ const projectOnCreateUpdate: MutationUpdaterFn<CreateProjectMutation> = (cache, 
   }
 };
 
-const projectOnDeleteUpdate: MutationUpdaterFn<DeleteProjectMutation> = (cache, result) => {
-  if (result.data) {
+const projectOnDeleteUpdate: MutationUpdaterFn<DeleteProjectMutation> = (cache, { data }) => {
+  if (data) {
     const oldProjects = cache.readQuery<ProjectsQuery>({ query: ProjectsDocument });
     if (oldProjects) {
       const newProjects: ProjectsQuery = {
@@ -36,7 +36,7 @@ const projectOnDeleteUpdate: MutationUpdaterFn<DeleteProjectMutation> = (cache, 
         projects: {
           ...oldProjects.projects,
           count: oldProjects.projects.count - 1,
-          entries: oldProjects.projects.entries.filter((x) => x.id !== result.data?.deleteProject.id),
+          entries: oldProjects.projects.entries.filter((x) => x.id !== data?.deleteProject.id),
         },
       };
 
@@ -46,13 +46,13 @@ const projectOnDeleteUpdate: MutationUpdaterFn<DeleteProjectMutation> = (cache, 
 
     cache.evict({
       fieldName: 'project',
-      args: { id: result.data.deleteProject.id },
+      args: { id: data.deleteProject.id },
     });
   }
 };
 
-const projectOnUpdateUpdate: MutationUpdaterFn<UpdateProjectMutation> = (cache, result) => {
-  if (result.data) {
+const projectOnUpdateUpdate: MutationUpdaterFn<UpdateProjectMutation> = (cache, { data }) => {
+  if (data) {
     const oldProjects = cache.readQuery<ProjectsQuery>({ query: ProjectsDocument });
     if (oldProjects) {
       const newProjects: ProjectsQuery = {
@@ -60,7 +60,7 @@ const projectOnUpdateUpdate: MutationUpdaterFn<UpdateProjectMutation> = (cache, 
         projects: {
           ...oldProjects.projects,
           count: oldProjects.projects.count - 1,
-          entries: oldProjects.projects.entries.map((x) => (x.id === result.data?.updateProject.id ? result.data.updateProject : x)),
+          entries: oldProjects.projects.entries.map((x) => (x.id === data?.updateProject.id ? data.updateProject : x)),
         },
       };
 
@@ -68,18 +68,18 @@ const projectOnUpdateUpdate: MutationUpdaterFn<UpdateProjectMutation> = (cache, 
       cache.writeQuery<ProjectsQuery>({ query: ProjectsDocument, data: newProjects });
     }
 
-    const oldProject = cache.readQuery<ProjectQuery>({ query: ProjectDocument });
+    const oldProject = cache.readQuery<ProjectQuery>({ query: ProjectDocument, variables: { id: data.updateProject.id } });
     if (oldProject) {
       const newProject: ProjectQuery = {
         ...oldProject,
         project: {
           ...oldProject.project,
-          ...result.data.updateProject,
+          ...data.updateProject,
           __typename: oldProject.project.__typename,
         },
       };
-      
-      cache.writeQuery<ProjectQuery>({ query: ProjectDocument, data: newProject });
+
+      cache.writeQuery<ProjectQuery>({ query: ProjectDocument, variables: { id: data.updateProject.id }, data: newProject });
     }
   }
 };

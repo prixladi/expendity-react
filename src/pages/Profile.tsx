@@ -16,15 +16,15 @@ const Profile: React.FC = () => {
   useApolloErrorHandling(error);
   const history = useHistory();
 
-  console.log("aaaa");
+  console.log('aaaa');
   if (!data) {
     return <DefaultSkelleton />;
   }
 
   return (
     <NarrowContent>
-      <H1>Settings</H1>
-      <Text>Updatings user properties is not supported yet.</Text>{' '}
+      <H1>Profile</H1>
+      <Text>Updating user properties is not supported yet.</Text>{' '}
       <pre>
         <code>{JSON.stringify(data.me, null, 2)} </code>
       </pre>

@@ -1,0 +1,13 @@
+fragment expenseFields on ExpenseType  {
+  addedUtc
+  creatorUserEmail
+  creatorUserId
+  description
+  id
+  lastUpdaterUserEmail
+  lastUpdaterUserId
+  name
+  projectId
+  typeId
+  value
+}

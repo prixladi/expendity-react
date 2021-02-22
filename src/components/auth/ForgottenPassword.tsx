@@ -44,9 +44,7 @@ const ForgottenPassword: React.FC<Props> = ({ goto }: Props) => {
   return (
     <Container>
       <Box mb="2em">
-        <H1>
-          Forgotten password
-        </H1>
+        <H1>Forgotten password</H1>
         <Text>Enter your email to send reset action to.</Text>
       </Box>
 

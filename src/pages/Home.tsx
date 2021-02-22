@@ -29,15 +29,15 @@ const Home: React.FC = () => {
   return (
     <>
       <NarrowContent>
-          <Collapse animateOpacity in={page === 'Login'}>
-            <Login goto={goto} />
-          </Collapse>
-          <Collapse animateOpacity in={page === 'Register'}>
-            <Register goto={goto} />
-          </Collapse>
-          <Collapse animateOpacity in={page === 'ForgottenPassword'}>
-            <ForgottenPassword goto={goto} />
-          </Collapse>
+        <Collapse animateOpacity in={page === 'Login'}>
+          <Login goto={goto} />
+        </Collapse>
+        <Collapse animateOpacity in={page === 'Register'}>
+          <Register goto={goto} />
+        </Collapse>
+        <Collapse animateOpacity in={page === 'ForgottenPassword'}>
+          <ForgottenPassword goto={goto} />
+        </Collapse>
       </NarrowContent>
     </>
   );

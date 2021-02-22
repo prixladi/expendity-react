@@ -56,9 +56,7 @@ const Login: React.FC<Props> = ({ goto }: Props) => {
   return (
     <Box>
       <Box mb="2em">
-        <H1>
-          Login
-        </H1>
+        <H1>Login</H1>
         <Text>Sign in to start using the application.</Text>
       </Box>
       <Form initialValues={initialValues} onSubmit={onSubmit}>

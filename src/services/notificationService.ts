@@ -38,8 +38,8 @@ const projectCreatedNotification = (): void => {
 };
 
 const projectUpdatedNotification = (): void => {
-  send({ description: 'Project has been successfuly updated.'});
-}
+  send({ description: 'Project has been successfuly updated.' });
+};
 
 const projectDeletedNotification = (): void => {
   send({ description: 'Project has been successfuly deleted.', status: 'success' });

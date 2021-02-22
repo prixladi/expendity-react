@@ -1,0 +1,5 @@
+query expenses($filter: ExpenseFilterInputType!) {
+    expenses(filter: $filter) {
+        ...expensesFields
+    }
+}
