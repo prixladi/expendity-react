@@ -1,11 +1,15 @@
 import { MutationUpdaterFn } from '@apollo/client';
 import {
   CreateExpenseTypeMutation,
+  CreateProjectInviteMutation,
   CreateProjectMutation,
   DeleteExpenseTypeMutation,
+  DeleteProjectInviteMutation,
   DeleteProjectMutation,
   DeleteProjectPermissionMutation,
   ProjectDocument,
+  ProjectInvitesDocument,
+  ProjectInvitesQuery,
   ProjectQuery,
   ProjectsDocument,
   ProjectsQuery,
@@ -172,6 +176,57 @@ const projectPermissionOnDeleteUpdate: MutationUpdaterFn<DeleteProjectPermission
   }
 };
 
+const projectInviteOnCreateUpdate: MutationUpdaterFn<CreateProjectInviteMutation> = (cache, { data }) => {
+  if (data) {
+    const oldInvites = cache.readQuery<ProjectInvitesQuery>({
+      query: ProjectInvitesDocument,
+      variables: { filter: { projectId: data.createProjectInvite.projectId } },
+    });
+
+    if (oldInvites) {
+      const newProjects: ProjectInvitesQuery = {
+        ...oldInvites,
+        projectInvites: {
+          ...oldInvites.projectInvites,
+          entries: [...oldInvites.projectInvites.entries, data.createProjectInvite],
+        },
+      };
+
+      cache.writeQuery<ProjectInvitesQuery>({
+        query: ProjectInvitesDocument,
+        variables: { filter: { projectId: data.createProjectInvite.projectId } },
+        data: newProjects,
+      });
+    }
+  }
+};
+
+const projectInviteOnDeleteUpdate: MutationUpdaterFn<DeleteProjectInviteMutation> = (cache, { data }) => {
+  if (data) {
+    const oldInvites = cache.readQuery<ProjectInvitesQuery>({
+      query: ProjectInvitesDocument,
+      variables: { filter: { projectId: data.deleteProjectInvite.projectId } },
+    });
+
+    if (oldInvites) {
+      const newProjects: ProjectInvitesQuery = {
+        ...oldInvites,
+        projectInvites: {
+          ...oldInvites.projectInvites,
+          entries: oldInvites.projectInvites.entries.filter((x) => x.id !== data.deleteProjectInvite.id),
+        },
+      };
+
+      cache.writeQuery<ProjectInvitesQuery>({
+        query: ProjectInvitesDocument,
+        variables: { filter: { projectId: data.deleteProjectInvite.projectId } },
+        data: newProjects,
+      });
+    }
+  }
+};
+
 export { projectOnCreateUpdate, projectOnDeleteUpdate, projectOnUpdateUpdate };
 export { expenseTypeOnCreateUpdate, expenseTypeOnDeleteUpdate, expenseTypeOnUpdateUpdate };
 export { projectPermissionOnDeleteUpdate };
+export { projectInviteOnCreateUpdate, projectInviteOnDeleteUpdate };

@@ -1,5 +1,5 @@
 mutation updateProjectPermission($userId: ID!, $projectId: ID!, $update: ProjectPermissionUpdateInputType!) {
     updateProjectPermission(userId: $userId, projectId: $projectId, update: $update) {
-        ...projectPermissionTypeFields
+        ...projectPermissionFields
     }
 }

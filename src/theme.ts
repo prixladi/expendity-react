@@ -25,8 +25,8 @@ const getBrandColors = () => {
 
   return {
     100: '#eab676',
-    200: '#DD6B20',
-    500: '#DD6B20',
+    200: '#E07C24',
+    500: '#E07C24',
   };
 };
 

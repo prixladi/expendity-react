@@ -1,0 +1,5 @@
+mutation createProjectInvite($projectInvite: ProjectInviteInputType!) {
+    createProjectInvite(projectInvite: $projectInvite) {
+        ...projectInviteFields
+    }
+}

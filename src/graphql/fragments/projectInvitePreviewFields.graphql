@@ -1,7 +1,7 @@
 fragment projectInvitePreviewFields on ProjectInvitePreviewType {
   id
-  isMultiUse
+  projectDescription
   projectId
+  projectName
   projectPermissionType
-  token
 }

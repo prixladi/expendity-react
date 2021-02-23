@@ -1,18 +1,18 @@
-import { Grid, Icon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea } from '@chakra-ui/react';
+import { Grid, Icon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/react';
 import React from 'react';
 import { FormikButton as Button } from '../../../components/Button';
 import Form from '../../../components/Form';
-import InputBase from '../../../components/InputBase';
-import { useCreateExpenseTypeMutation } from '../../../graphql';
+import { PermissionType, useCreateProjectInviteMutation } from '../../../graphql';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
-import { expenseTypeOnCreateUpdate } from '../../../services/mutationService';
-import { expenseTypeCreatedNotification } from '../../../services/notificationService';
-import * as yup from 'yup';
-import { GiMoneyStack } from 'react-icons/gi';
+import { projectInviteOnCreateUpdate } from '../../../services/mutationService';
+import { inviteCreatedNotification } from '../../../services/notificationService';
+import PermissionSelect from '../../../components/PermissionSelect';
+import SwitchInput from '../../../components/SwitchInput';
+import { TiTicket } from 'react-icons/ti';
 
 type Values = {
-  name: string;
-  description?: string | null;
+  isMultiUse: boolean;
+  projectPermissionType: PermissionType;
 };
 
 type Props = {
@@ -22,29 +22,24 @@ type Props = {
 };
 
 const initialValues: Values = {
-  name: '',
-  description: '',
+  isMultiUse: false,
+  projectPermissionType: PermissionType.Control,
 };
 
-const schema = yup.object().shape({
-  name: yup.string().max(50, `Name is too long. It must be at most 50 characters long.`),
-  description: yup.string().max(200, `Description is too long. It must be a most 200 characters long.`),
-});
-
-const NewExpenseTypeModal: React.FC<Props> = ({ isOpen, onClose, projectId }: Props) => {
-  const [createExpenseType] = useCreateExpenseTypeMutation({ errorPolicy: 'all' });
+const NewInviteModal: React.FC<Props> = ({ isOpen, onClose, projectId }: Props) => {
+  const [createExpenseType] = useCreateProjectInviteMutation({ errorPolicy: 'all' });
   const { handleGqlError } = useApolloErrorHandling();
 
   const onSubmit = async (values: Values) => {
     const { data, errors } = await createExpenseType({
-      variables: { expenseType: { ...values, projectId } },
-      update: expenseTypeOnCreateUpdate,
+      variables: { projectInvite: { ...values, projectId: projectId } },
+      update: projectInviteOnCreateUpdate,
     });
     handleGqlError(errors);
 
     if (data) {
       onClose();
-      expenseTypeCreatedNotification();
+      inviteCreatedNotification();
     }
   };
 
@@ -52,16 +47,16 @@ const NewExpenseTypeModal: React.FC<Props> = ({ isOpen, onClose, projectId }: Pr
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader as="h2">Create new Expense Type</ModalHeader>
+        <ModalHeader as="h2">Create new Project Invite</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Form<Values> validationSchema={schema} initialValues={initialValues} onSubmit={onSubmit}>
+          <Form<Values> initialValues={initialValues} onSubmit={onSubmit}>
             <Grid gridGap="1em">
-              <InputBase label="Name" name="name" placeholder="Name" type="text" isRequired />
-              <InputBase as={Textarea} label="Description" name="description" placeholder="Description" type="text" />
+              <PermissionSelect name="projectPermissionType" isRequired />
+              <SwitchInput name="isMultiUse" label="Is for multiple uses" />
               <Button submit>
                 Create
-                <Icon ml="0.2em" as={GiMoneyStack} />
+                <Icon ml="0.2em" as={TiTicket} />
               </Button>
             </Grid>
           </Form>
@@ -71,4 +66,4 @@ const NewExpenseTypeModal: React.FC<Props> = ({ isOpen, onClose, projectId }: Pr
   );
 };
 
-export default NewExpenseTypeModal;
+export default NewInviteModal;

@@ -1,0 +1,5 @@
+query projectInviteByToken($token: String!) {
+    projectInviteByToken(token: $token) {
+        ...projectInvitePreviewFields
+    }
+}

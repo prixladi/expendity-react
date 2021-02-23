@@ -1,0 +1,5 @@
+query projectInvites($filter: ProjectInviteFilterInputType!) {
+    projectInvites(filter: $filter) {
+        ...projectInvitesFields
+    }
+}

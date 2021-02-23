@@ -34,46 +34,37 @@ export type Query = {
   summary: SummaryType;
 };
 
-
 export type QueryExpenseArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryExpensesArgs = {
   filter: ExpenseFilterInputType;
 };
 
-
 export type QueryExpenseTypeArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryProjectArgs = {
   id: Scalars['ID'];
 };
 
-
 export type QueryProjectInviteArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryProjectInviteByTokenArgs = {
   token: Scalars['String'];
 };
 
-
 export type QueryProjectInvitesArgs = {
   filter: ProjectInviteFilterInputType;
 };
 
-
 export type QueryProjectsArgs = {
   filter: ProjectFilterInputType;
 };
-
 
 export type QuerySummaryArgs = {
   filter: SummaryFilterInputType;
@@ -96,7 +87,7 @@ export type ExchangeRatesType = {
 export enum CurrencyType {
   Eur = 'EUR',
   Usd = 'USD',
-  Czk = 'CZK'
+  Czk = 'CZK',
 }
 
 export type ExchangeRateType = {
@@ -104,7 +95,6 @@ export type ExchangeRateType = {
   currencyType: CurrencyType;
   rate: Scalars['Decimal'];
 };
-
 
 export type ProjectDetailType = {
   __typename?: 'ProjectDetailType';
@@ -122,7 +112,7 @@ export enum PermissionType {
   View = 'VIEW',
   Control = 'CONTROL',
   Configure = 'CONFIGURE',
-  Own = 'OWN'
+  Own = 'OWN',
 }
 
 export type ProjectPermissionType = {
@@ -147,7 +137,6 @@ export type ProjectsType = {
   count: Scalars['Long'];
   entries: Array<ProjectType>;
 };
-
 
 export type ProjectType = {
   __typename?: 'ProjectType';
@@ -178,7 +167,6 @@ export type ExpenseType = {
   typeId?: Maybe<Scalars['Int']>;
   value: Scalars['Decimal'];
 };
-
 
 export type ExpensesType = {
   __typename?: 'ExpensesType';
@@ -232,13 +220,10 @@ export type ProjectInvitePreviewType = {
 
 export type ProjectInvitesType = {
   __typename?: 'ProjectInvitesType';
-  count: Scalars['Long'];
   entries: Array<ProjectInviteType>;
 };
 
 export type ProjectInviteFilterInputType = {
-  count: Scalars['Int'];
-  skip: Scalars['Int'];
   projectId: Scalars['Int'];
 };
 
@@ -261,80 +246,65 @@ export type Mutation = {
   updateProjectPermission: ProjectPermissionType;
 };
 
-
 export type MutationAcceptProjectInviteArgs = {
   token: Scalars['String'];
 };
-
 
 export type MutationChangeProjectCurrencyArgs = {
   model: ChangeProjectCurrencyInputType;
 };
 
-
 export type MutationCreateExpenseArgs = {
   expense: ExpenseInputType;
 };
-
 
 export type MutationCreateExpenseTypeArgs = {
   expenseType: ExpenseTypeInputType;
 };
 
-
 export type MutationCreateProjectArgs = {
   project: ProjectInputType;
 };
-
 
 export type MutationCreateProjectInviteArgs = {
   projectInvite: ProjectInviteInputType;
 };
 
-
 export type MutationDeleteExpenseArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationDeleteExpenseTypeArgs = {
   id: Scalars['ID'];
 };
 
-
 export type MutationDeleteProjectArgs = {
   id: Scalars['ID'];
 };
 
-
 export type MutationDeleteProjectInviteArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationDeleteProjectPermissionArgs = {
   projectId: Scalars['ID'];
   userId: Scalars['ID'];
 };
 
-
 export type MutationUpdateExpenseArgs = {
   id: Scalars['ID'];
   update: ExpenseUpdateInputType;
 };
-
 
 export type MutationUpdateExpenseTypeArgs = {
   id: Scalars['ID'];
   update: ExpenseTypeUpdateInputType;
 };
 
-
 export type MutationUpdateProjectArgs = {
   id: Scalars['ID'];
   update: ProjectUpdateInputType;
 };
-
 
 export type MutationUpdateProjectPermissionArgs = {
   projectId: Scalars['ID'];
@@ -404,208 +374,169 @@ export type ProjectPermissionUpdateInputType = {
   type: PermissionType;
 };
 
-export type ExchangeRateFieldsFragment = (
-  { __typename?: 'ExchangeRateType' }
-  & Pick<ExchangeRateType, 'currencyType' | 'rate'>
-);
+export type ExchangeRateFieldsFragment = { __typename?: 'ExchangeRateType' } & Pick<ExchangeRateType, 'currencyType' | 'rate'>;
 
-export type ExchangeRatesFieldsFragment = (
-  { __typename?: 'ExchangeRatesType' }
-  & Pick<ExchangeRatesType, 'baseCurrency'>
-  & { entries: Array<(
-    { __typename?: 'ExchangeRateType' }
-    & ExchangeRateFieldsFragment
-  )> }
-);
+export type ExchangeRatesFieldsFragment = { __typename?: 'ExchangeRatesType' } & Pick<ExchangeRatesType, 'baseCurrency'> & {
+    entries: Array<{ __typename?: 'ExchangeRateType' } & ExchangeRateFieldsFragment>;
+  };
 
-export type ExpenseFieldsFragment = (
-  { __typename?: 'ExpenseType' }
-  & Pick<ExpenseType, 'addedUtc' | 'creatorUserEmail' | 'creatorUserId' | 'description' | 'id' | 'lastUpdaterUserEmail' | 'lastUpdaterUserId' | 'name' | 'projectId' | 'typeId' | 'value'>
-);
+export type ExpenseFieldsFragment = { __typename?: 'ExpenseType' } & Pick<
+  ExpenseType,
+  | 'addedUtc'
+  | 'creatorUserEmail'
+  | 'creatorUserId'
+  | 'description'
+  | 'id'
+  | 'lastUpdaterUserEmail'
+  | 'lastUpdaterUserId'
+  | 'name'
+  | 'projectId'
+  | 'typeId'
+  | 'value'
+>;
 
-export type ExpenseTypeFieldsFragment = (
-  { __typename?: 'ExpenseTypeType' }
-  & Pick<ExpenseTypeType, 'description' | 'id' | 'name' | 'projectId'>
-);
+export type ExpenseTypeFieldsFragment = { __typename?: 'ExpenseTypeType' } & Pick<
+  ExpenseTypeType,
+  'description' | 'id' | 'name' | 'projectId'
+>;
 
-export type ExpensesFieldsFragment = (
-  { __typename?: 'ExpensesType' }
-  & Pick<ExpensesType, 'count'>
-  & { entries: Array<(
-    { __typename?: 'ExpenseType' }
-    & ExpenseFieldsFragment
-  )> }
-);
+export type ExpensesFieldsFragment = { __typename?: 'ExpensesType' } & Pick<ExpensesType, 'count'> & {
+    entries: Array<{ __typename?: 'ExpenseType' } & ExpenseFieldsFragment>;
+  };
 
-export type MeFieldsFragment = (
-  { __typename?: 'MeType' }
-  & Pick<MeType, 'email' | 'id' | 'subjectId' | 'username'>
-);
+export type MeFieldsFragment = { __typename?: 'MeType' } & Pick<MeType, 'email' | 'id' | 'subjectId' | 'username'>;
 
-export type ProjectDetailFieldsFragment = (
-  { __typename?: 'ProjectDetailType' }
-  & Pick<ProjectDetailType, 'id' | 'currencyType' | 'description' | 'name' | 'userPermission'>
-  & { expenseTypes: Array<(
-    { __typename?: 'ExpenseTypeType' }
-    & ExpenseTypeFieldsFragment
-  )>, permissions: Array<(
-    { __typename?: 'ProjectPermissionType' }
-    & ProjectPermissionTypeFieldsFragment
-  )> }
-);
+export type ProjectDetailFieldsFragment = { __typename?: 'ProjectDetailType' } & Pick<
+  ProjectDetailType,
+  'id' | 'currencyType' | 'description' | 'name' | 'userPermission'
+> & {
+    expenseTypes: Array<{ __typename?: 'ExpenseTypeType' } & ExpenseTypeFieldsFragment>;
+    permissions: Array<{ __typename?: 'ProjectPermissionType' } & ProjectPermissionFieldsFragment>;
+  };
 
-export type ProjectFieldsFragment = (
-  { __typename?: 'ProjectType' }
-  & Pick<ProjectType, 'currencyType' | 'description' | 'id' | 'name' | 'userPermission'>
-);
+export type ProjectFieldsFragment = { __typename?: 'ProjectType' } & Pick<
+  ProjectType,
+  'currencyType' | 'description' | 'id' | 'name' | 'userPermission'
+>;
 
-export type ProjectPermissionTypeFieldsFragment = (
-  { __typename?: 'ProjectPermissionType' }
-  & Pick<ProjectPermissionType, 'id' | 'type' | 'userEmail' | 'userId' | 'projectId'>
-);
+export type ProjectInviteFieldsFragment = { __typename?: 'ProjectInviteType' } & Pick<
+  ProjectInviteType,
+  'id' | 'isMultiUse' | 'projectId' | 'projectPermissionType' | 'token'
+>;
 
-export type ProjectsFieldsFragment = (
-  { __typename?: 'ProjectsType' }
-  & Pick<ProjectsType, 'count'>
-  & { entries: Array<(
-    { __typename?: 'ProjectType' }
-    & ProjectFieldsFragment
-  )> }
-);
+export type ProjectInvitePreviewFieldsFragment = { __typename?: 'ProjectInvitePreviewType' } & Pick<
+  ProjectInvitePreviewType,
+  'id' | 'projectDescription' | 'projectId' | 'projectName' | 'projectPermissionType'
+>;
+
+export type ProjectInvitesFieldsFragment = { __typename?: 'ProjectInvitesType' } & {
+  entries: Array<{ __typename?: 'ProjectInviteType' } & ProjectInviteFieldsFragment>;
+};
+
+export type ProjectPermissionFieldsFragment = { __typename?: 'ProjectPermissionType' } & Pick<
+  ProjectPermissionType,
+  'id' | 'type' | 'userEmail' | 'userId' | 'projectId'
+>;
+
+export type ProjectsFieldsFragment = { __typename?: 'ProjectsType' } & Pick<ProjectsType, 'count'> & {
+    entries: Array<{ __typename?: 'ProjectType' } & ProjectFieldsFragment>;
+  };
+
+export type AcceptProjectInviteMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+export type AcceptProjectInviteMutation = { __typename?: 'Mutation' } & {
+  acceptProjectInvite: { __typename?: 'ProjectPermissionType' } & ProjectPermissionFieldsFragment;
+};
 
 export type CreateExpenseMutationVariables = Exact<{
   expense: ExpenseInputType;
 }>;
 
-
-export type CreateExpenseMutation = (
-  { __typename?: 'Mutation' }
-  & { createExpense: (
-    { __typename?: 'ExpenseType' }
-    & ExpenseFieldsFragment
-  ) }
-);
+export type CreateExpenseMutation = { __typename?: 'Mutation' } & { createExpense: { __typename?: 'ExpenseType' } & ExpenseFieldsFragment };
 
 export type CreateExpenseTypeMutationVariables = Exact<{
   expenseType: ExpenseTypeInputType;
 }>;
 
-
-export type CreateExpenseTypeMutation = (
-  { __typename?: 'Mutation' }
-  & { createExpenseType: (
-    { __typename?: 'ExpenseTypeType' }
-    & ExpenseTypeFieldsFragment
-  ) }
-);
+export type CreateExpenseTypeMutation = { __typename?: 'Mutation' } & {
+  createExpenseType: { __typename?: 'ExpenseTypeType' } & ExpenseTypeFieldsFragment;
+};
 
 export type CreateProjectMutationVariables = Exact<{
   project: ProjectInputType;
 }>;
 
+export type CreateProjectMutation = { __typename?: 'Mutation' } & { createProject: { __typename?: 'ProjectType' } & ProjectFieldsFragment };
 
-export type CreateProjectMutation = (
-  { __typename?: 'Mutation' }
-  & { createProject: (
-    { __typename?: 'ProjectType' }
-    & ProjectFieldsFragment
-  ) }
-);
+export type CreateProjectInviteMutationVariables = Exact<{
+  projectInvite: ProjectInviteInputType;
+}>;
+
+export type CreateProjectInviteMutation = { __typename?: 'Mutation' } & {
+  createProjectInvite: { __typename?: 'ProjectInviteType' } & ProjectInviteFieldsFragment;
+};
 
 export type DeleteExpenseMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type DeleteExpenseMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteExpense: (
-    { __typename?: 'ExpenseType' }
-    & ExpenseFieldsFragment
-  ) }
-);
+export type DeleteExpenseMutation = { __typename?: 'Mutation' } & { deleteExpense: { __typename?: 'ExpenseType' } & ExpenseFieldsFragment };
 
 export type DeleteExpenseTypeMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type DeleteExpenseTypeMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteExpenseType: (
-    { __typename?: 'ExpenseTypeType' }
-    & ExpenseTypeFieldsFragment
-  ) }
-);
+export type DeleteExpenseTypeMutation = { __typename?: 'Mutation' } & {
+  deleteExpenseType: { __typename?: 'ExpenseTypeType' } & ExpenseTypeFieldsFragment;
+};
 
 export type DeleteProjectMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
+export type DeleteProjectMutation = { __typename?: 'Mutation' } & { deleteProject: { __typename?: 'ProjectType' } & ProjectFieldsFragment };
 
-export type DeleteProjectMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteProject: (
-    { __typename?: 'ProjectType' }
-    & ProjectFieldsFragment
-  ) }
-);
+export type DeleteProjectInviteMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type DeleteProjectInviteMutation = { __typename?: 'Mutation' } & {
+  deleteProjectInvite: { __typename?: 'ProjectInviteType' } & ProjectInviteFieldsFragment;
+};
 
 export type DeleteProjectPermissionMutationVariables = Exact<{
   userId: Scalars['ID'];
   projectId: Scalars['ID'];
 }>;
 
-
-export type DeleteProjectPermissionMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteProjectPermission: (
-    { __typename?: 'ProjectPermissionType' }
-    & ProjectPermissionTypeFieldsFragment
-  ) }
-);
+export type DeleteProjectPermissionMutation = { __typename?: 'Mutation' } & {
+  deleteProjectPermission: { __typename?: 'ProjectPermissionType' } & ProjectPermissionFieldsFragment;
+};
 
 export type UpdateExpenseMutationVariables = Exact<{
   id: Scalars['ID'];
   update: ExpenseUpdateInputType;
 }>;
 
-
-export type UpdateExpenseMutation = (
-  { __typename?: 'Mutation' }
-  & { updateExpense: (
-    { __typename?: 'ExpenseType' }
-    & ExpenseFieldsFragment
-  ) }
-);
+export type UpdateExpenseMutation = { __typename?: 'Mutation' } & { updateExpense: { __typename?: 'ExpenseType' } & ExpenseFieldsFragment };
 
 export type UpdateExpenseTypeMutationVariables = Exact<{
   id: Scalars['ID'];
   update: ExpenseTypeUpdateInputType;
 }>;
 
-
-export type UpdateExpenseTypeMutation = (
-  { __typename?: 'Mutation' }
-  & { updateExpenseType: (
-    { __typename?: 'ExpenseTypeType' }
-    & ExpenseTypeFieldsFragment
-  ) }
-);
+export type UpdateExpenseTypeMutation = { __typename?: 'Mutation' } & {
+  updateExpenseType: { __typename?: 'ExpenseTypeType' } & ExpenseTypeFieldsFragment;
+};
 
 export type UpdateProjectMutationVariables = Exact<{
   id: Scalars['ID'];
   update: ProjectUpdateInputType;
 }>;
 
-
-export type UpdateProjectMutation = (
-  { __typename?: 'Mutation' }
-  & { updateProject: (
-    { __typename?: 'ProjectType' }
-    & ProjectFieldsFragment
-  ) }
-);
+export type UpdateProjectMutation = { __typename?: 'Mutation' } & { updateProject: { __typename?: 'ProjectType' } & ProjectFieldsFragment };
 
 export type UpdateProjectPermissionMutationVariables = Exact<{
   userId: Scalars['ID'];
@@ -613,205 +544,238 @@ export type UpdateProjectPermissionMutationVariables = Exact<{
   update: ProjectPermissionUpdateInputType;
 }>;
 
+export type UpdateProjectPermissionMutation = { __typename?: 'Mutation' } & {
+  updateProjectPermission: { __typename?: 'ProjectPermissionType' } & ProjectPermissionFieldsFragment;
+};
 
-export type UpdateProjectPermissionMutation = (
-  { __typename?: 'Mutation' }
-  & { updateProjectPermission: (
-    { __typename?: 'ProjectPermissionType' }
-    & ProjectPermissionTypeFieldsFragment
-  ) }
-);
+export type ExchangeRatesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ExchangeRatesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ExchangeRatesQuery = { __typename?: 'Query' } & {
+  exchangeRates: { __typename?: 'ExchangeRatesType' } & ExchangeRatesFieldsFragment;
+};
 
+export type ExchangeRatesMeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ExchangeRatesQuery = (
-  { __typename?: 'Query' }
-  & { exchangeRates: (
-    { __typename?: 'ExchangeRatesType' }
-    & ExchangeRatesFieldsFragment
-  ) }
-);
-
-export type ExchangeRatesMeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ExchangeRatesMeQuery = (
-  { __typename?: 'Query' }
-  & { exchangeRates: (
-    { __typename?: 'ExchangeRatesType' }
-    & ExchangeRatesFieldsFragment
-  ), me: (
-    { __typename?: 'MeType' }
-    & MeFieldsFragment
-  ) }
-);
+export type ExchangeRatesMeQuery = { __typename?: 'Query' } & {
+  exchangeRates: { __typename?: 'ExchangeRatesType' } & ExchangeRatesFieldsFragment;
+  me: { __typename?: 'MeType' } & MeFieldsFragment;
+};
 
 export type ExpenseQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type ExpenseQuery = (
-  { __typename?: 'Query' }
-  & { expense: (
-    { __typename?: 'ExpenseType' }
-    & ExpenseFieldsFragment
-  ) }
-);
+export type ExpenseQuery = { __typename?: 'Query' } & { expense: { __typename?: 'ExpenseType' } & ExpenseFieldsFragment };
 
 export type ExpensesQueryVariables = Exact<{
   filter: ExpenseFilterInputType;
 }>;
 
+export type ExpensesQuery = { __typename?: 'Query' } & { expenses: { __typename?: 'ExpensesType' } & ExpensesFieldsFragment };
 
-export type ExpensesQuery = (
-  { __typename?: 'Query' }
-  & { expenses: (
-    { __typename?: 'ExpensesType' }
-    & ExpensesFieldsFragment
-  ) }
-);
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MeQuery = (
-  { __typename?: 'Query' }
-  & { me: (
-    { __typename?: 'MeType' }
-    & MeFieldsFragment
-  ) }
-);
+export type MeQuery = { __typename?: 'Query' } & { me: { __typename?: 'MeType' } & MeFieldsFragment };
 
 export type ProjectQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
+export type ProjectQuery = { __typename?: 'Query' } & { project: { __typename?: 'ProjectDetailType' } & ProjectDetailFieldsFragment };
 
-export type ProjectQuery = (
-  { __typename?: 'Query' }
-  & { project: (
-    { __typename?: 'ProjectDetailType' }
-    & ProjectDetailFieldsFragment
-  ) }
-);
+export type ProjectInviteByTokenQueryVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+export type ProjectInviteByTokenQuery = { __typename?: 'Query' } & {
+  projectInviteByToken: { __typename?: 'ProjectInvitePreviewType' } & ProjectInvitePreviewFieldsFragment;
+};
+
+export type ProjectInvitesQueryVariables = Exact<{
+  filter: ProjectInviteFilterInputType;
+}>;
+
+export type ProjectInvitesQuery = { __typename?: 'Query' } & {
+  projectInvites: { __typename?: 'ProjectInvitesType' } & ProjectInvitesFieldsFragment;
+};
 
 export type ProjectsQueryVariables = Exact<{
   filter: ProjectFilterInputType;
 }>;
 
-
-export type ProjectsQuery = (
-  { __typename?: 'Query' }
-  & { projects: (
-    { __typename?: 'ProjectsType' }
-    & ProjectsFieldsFragment
-  ) }
-);
+export type ProjectsQuery = { __typename?: 'Query' } & { projects: { __typename?: 'ProjectsType' } & ProjectsFieldsFragment };
 
 export const ExchangeRateFieldsFragmentDoc = gql`
-    fragment exchangeRateFields on ExchangeRateType {
-  currencyType
-  rate
-}
-    `;
+  fragment exchangeRateFields on ExchangeRateType {
+    currencyType
+    rate
+  }
+`;
 export const ExchangeRatesFieldsFragmentDoc = gql`
-    fragment exchangeRatesFields on ExchangeRatesType {
-  baseCurrency
-  entries {
-    ...exchangeRateFields
+  fragment exchangeRatesFields on ExchangeRatesType {
+    baseCurrency
+    entries {
+      ...exchangeRateFields
+    }
   }
-}
-    ${ExchangeRateFieldsFragmentDoc}`;
+  ${ExchangeRateFieldsFragmentDoc}
+`;
 export const ExpenseFieldsFragmentDoc = gql`
-    fragment expenseFields on ExpenseType {
-  addedUtc
-  creatorUserEmail
-  creatorUserId
-  description
-  id
-  lastUpdaterUserEmail
-  lastUpdaterUserId
-  name
-  projectId
-  typeId
-  value
-}
-    `;
+  fragment expenseFields on ExpenseType {
+    addedUtc
+    creatorUserEmail
+    creatorUserId
+    description
+    id
+    lastUpdaterUserEmail
+    lastUpdaterUserId
+    name
+    projectId
+    typeId
+    value
+  }
+`;
 export const ExpensesFieldsFragmentDoc = gql`
-    fragment expensesFields on ExpensesType {
-  count
-  entries {
-    ...expenseFields
+  fragment expensesFields on ExpensesType {
+    count
+    entries {
+      ...expenseFields
+    }
   }
-}
-    ${ExpenseFieldsFragmentDoc}`;
+  ${ExpenseFieldsFragmentDoc}
+`;
 export const MeFieldsFragmentDoc = gql`
-    fragment meFields on MeType {
-  email
-  id
-  subjectId
-  username
-}
-    `;
+  fragment meFields on MeType {
+    email
+    id
+    subjectId
+    username
+  }
+`;
 export const ExpenseTypeFieldsFragmentDoc = gql`
-    fragment expenseTypeFields on ExpenseTypeType {
-  description
-  id
-  name
-  projectId
-}
-    `;
-export const ProjectPermissionTypeFieldsFragmentDoc = gql`
-    fragment projectPermissionTypeFields on ProjectPermissionType {
-  id
-  type
-  userEmail
-  userId
-  projectId
-}
-    `;
+  fragment expenseTypeFields on ExpenseTypeType {
+    description
+    id
+    name
+    projectId
+  }
+`;
+export const ProjectPermissionFieldsFragmentDoc = gql`
+  fragment projectPermissionFields on ProjectPermissionType {
+    id
+    type
+    userEmail
+    userId
+    projectId
+  }
+`;
 export const ProjectDetailFieldsFragmentDoc = gql`
-    fragment projectDetailFields on ProjectDetailType {
-  id
-  currencyType
-  description
-  name
-  userPermission
-  expenseTypes {
-    ...expenseTypeFields
+  fragment projectDetailFields on ProjectDetailType {
+    id
+    currencyType
+    description
+    name
+    userPermission
+    expenseTypes {
+      ...expenseTypeFields
+    }
+    permissions {
+      ...projectPermissionFields
+    }
   }
-  permissions {
-    ...projectPermissionTypeFields
+  ${ExpenseTypeFieldsFragmentDoc}
+  ${ProjectPermissionFieldsFragmentDoc}
+`;
+export const ProjectInvitePreviewFieldsFragmentDoc = gql`
+  fragment projectInvitePreviewFields on ProjectInvitePreviewType {
+    id
+    projectDescription
+    projectId
+    projectName
+    projectPermissionType
   }
-}
-    ${ExpenseTypeFieldsFragmentDoc}
-${ProjectPermissionTypeFieldsFragmentDoc}`;
+`;
+export const ProjectInviteFieldsFragmentDoc = gql`
+  fragment projectInviteFields on ProjectInviteType {
+    id
+    isMultiUse
+    projectId
+    projectPermissionType
+    token
+  }
+`;
+export const ProjectInvitesFieldsFragmentDoc = gql`
+  fragment projectInvitesFields on ProjectInvitesType {
+    entries {
+      ...projectInviteFields
+    }
+  }
+  ${ProjectInviteFieldsFragmentDoc}
+`;
 export const ProjectFieldsFragmentDoc = gql`
-    fragment projectFields on ProjectType {
-  currencyType
-  description
-  id
-  name
-  userPermission
-}
-    `;
+  fragment projectFields on ProjectType {
+    currencyType
+    description
+    id
+    name
+    userPermission
+  }
+`;
 export const ProjectsFieldsFragmentDoc = gql`
-    fragment projectsFields on ProjectsType {
-  count
-  entries {
-    ...projectFields
+  fragment projectsFields on ProjectsType {
+    count
+    entries {
+      ...projectFields
+    }
   }
+  ${ProjectFieldsFragmentDoc}
+`;
+export const AcceptProjectInviteDocument = gql`
+  mutation acceptProjectInvite($token: String!) {
+    acceptProjectInvite(token: $token) {
+      ...projectPermissionFields
+    }
+  }
+  ${ProjectPermissionFieldsFragmentDoc}
+`;
+export type AcceptProjectInviteMutationFn = Apollo.MutationFunction<AcceptProjectInviteMutation, AcceptProjectInviteMutationVariables>;
+
+/**
+ * __useAcceptProjectInviteMutation__
+ *
+ * To run a mutation, you first call `useAcceptProjectInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAcceptProjectInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [acceptProjectInviteMutation, { data, loading, error }] = useAcceptProjectInviteMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useAcceptProjectInviteMutation(
+  baseOptions?: Apollo.MutationHookOptions<AcceptProjectInviteMutation, AcceptProjectInviteMutationVariables>,
+) {
+  return Apollo.useMutation<AcceptProjectInviteMutation, AcceptProjectInviteMutationVariables>(AcceptProjectInviteDocument, baseOptions);
 }
-    ${ProjectFieldsFragmentDoc}`;
+export type AcceptProjectInviteMutationHookResult = ReturnType<typeof useAcceptProjectInviteMutation>;
+export type AcceptProjectInviteMutationResult = Apollo.MutationResult<AcceptProjectInviteMutation>;
+export type AcceptProjectInviteMutationOptions = Apollo.BaseMutationOptions<
+  AcceptProjectInviteMutation,
+  AcceptProjectInviteMutationVariables
+>;
 export const CreateExpenseDocument = gql`
-    mutation createExpense($expense: ExpenseInputType!) {
-  createExpense(expense: $expense) {
-    ...expenseFields
+  mutation createExpense($expense: ExpenseInputType!) {
+    createExpense(expense: $expense) {
+      ...expenseFields
+    }
   }
-}
-    ${ExpenseFieldsFragmentDoc}`;
+  ${ExpenseFieldsFragmentDoc}
+`;
 export type CreateExpenseMutationFn = Apollo.MutationFunction<CreateExpenseMutation, CreateExpenseMutationVariables>;
 
 /**
@@ -832,18 +796,19 @@ export type CreateExpenseMutationFn = Apollo.MutationFunction<CreateExpenseMutat
  * });
  */
 export function useCreateExpenseMutation(baseOptions?: Apollo.MutationHookOptions<CreateExpenseMutation, CreateExpenseMutationVariables>) {
-        return Apollo.useMutation<CreateExpenseMutation, CreateExpenseMutationVariables>(CreateExpenseDocument, baseOptions);
-      }
+  return Apollo.useMutation<CreateExpenseMutation, CreateExpenseMutationVariables>(CreateExpenseDocument, baseOptions);
+}
 export type CreateExpenseMutationHookResult = ReturnType<typeof useCreateExpenseMutation>;
 export type CreateExpenseMutationResult = Apollo.MutationResult<CreateExpenseMutation>;
 export type CreateExpenseMutationOptions = Apollo.BaseMutationOptions<CreateExpenseMutation, CreateExpenseMutationVariables>;
 export const CreateExpenseTypeDocument = gql`
-    mutation createExpenseType($expenseType: ExpenseTypeInputType!) {
-  createExpenseType(expenseType: $expenseType) {
-    ...expenseTypeFields
+  mutation createExpenseType($expenseType: ExpenseTypeInputType!) {
+    createExpenseType(expenseType: $expenseType) {
+      ...expenseTypeFields
+    }
   }
-}
-    ${ExpenseTypeFieldsFragmentDoc}`;
+  ${ExpenseTypeFieldsFragmentDoc}
+`;
 export type CreateExpenseTypeMutationFn = Apollo.MutationFunction<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>;
 
 /**
@@ -863,19 +828,22 @@ export type CreateExpenseTypeMutationFn = Apollo.MutationFunction<CreateExpenseT
  *   },
  * });
  */
-export function useCreateExpenseTypeMutation(baseOptions?: Apollo.MutationHookOptions<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>) {
-        return Apollo.useMutation<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>(CreateExpenseTypeDocument, baseOptions);
-      }
+export function useCreateExpenseTypeMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>,
+) {
+  return Apollo.useMutation<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>(CreateExpenseTypeDocument, baseOptions);
+}
 export type CreateExpenseTypeMutationHookResult = ReturnType<typeof useCreateExpenseTypeMutation>;
 export type CreateExpenseTypeMutationResult = Apollo.MutationResult<CreateExpenseTypeMutation>;
 export type CreateExpenseTypeMutationOptions = Apollo.BaseMutationOptions<CreateExpenseTypeMutation, CreateExpenseTypeMutationVariables>;
 export const CreateProjectDocument = gql`
-    mutation createProject($project: ProjectInputType!) {
-  createProject(project: $project) {
-    ...projectFields
+  mutation createProject($project: ProjectInputType!) {
+    createProject(project: $project) {
+      ...projectFields
+    }
   }
-}
-    ${ProjectFieldsFragmentDoc}`;
+  ${ProjectFieldsFragmentDoc}
+`;
 export type CreateProjectMutationFn = Apollo.MutationFunction<CreateProjectMutation, CreateProjectMutationVariables>;
 
 /**
@@ -896,18 +864,57 @@ export type CreateProjectMutationFn = Apollo.MutationFunction<CreateProjectMutat
  * });
  */
 export function useCreateProjectMutation(baseOptions?: Apollo.MutationHookOptions<CreateProjectMutation, CreateProjectMutationVariables>) {
-        return Apollo.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument, baseOptions);
-      }
+  return Apollo.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument, baseOptions);
+}
 export type CreateProjectMutationHookResult = ReturnType<typeof useCreateProjectMutation>;
 export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMutation>;
 export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<CreateProjectMutation, CreateProjectMutationVariables>;
-export const DeleteExpenseDocument = gql`
-    mutation deleteExpense($id: ID!) {
-  deleteExpense(id: $id) {
-    ...expenseFields
+export const CreateProjectInviteDocument = gql`
+  mutation createProjectInvite($projectInvite: ProjectInviteInputType!) {
+    createProjectInvite(projectInvite: $projectInvite) {
+      ...projectInviteFields
+    }
   }
+  ${ProjectInviteFieldsFragmentDoc}
+`;
+export type CreateProjectInviteMutationFn = Apollo.MutationFunction<CreateProjectInviteMutation, CreateProjectInviteMutationVariables>;
+
+/**
+ * __useCreateProjectInviteMutation__
+ *
+ * To run a mutation, you first call `useCreateProjectInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProjectInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProjectInviteMutation, { data, loading, error }] = useCreateProjectInviteMutation({
+ *   variables: {
+ *      projectInvite: // value for 'projectInvite'
+ *   },
+ * });
+ */
+export function useCreateProjectInviteMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateProjectInviteMutation, CreateProjectInviteMutationVariables>,
+) {
+  return Apollo.useMutation<CreateProjectInviteMutation, CreateProjectInviteMutationVariables>(CreateProjectInviteDocument, baseOptions);
 }
-    ${ExpenseFieldsFragmentDoc}`;
+export type CreateProjectInviteMutationHookResult = ReturnType<typeof useCreateProjectInviteMutation>;
+export type CreateProjectInviteMutationResult = Apollo.MutationResult<CreateProjectInviteMutation>;
+export type CreateProjectInviteMutationOptions = Apollo.BaseMutationOptions<
+  CreateProjectInviteMutation,
+  CreateProjectInviteMutationVariables
+>;
+export const DeleteExpenseDocument = gql`
+  mutation deleteExpense($id: ID!) {
+    deleteExpense(id: $id) {
+      ...expenseFields
+    }
+  }
+  ${ExpenseFieldsFragmentDoc}
+`;
 export type DeleteExpenseMutationFn = Apollo.MutationFunction<DeleteExpenseMutation, DeleteExpenseMutationVariables>;
 
 /**
@@ -928,18 +935,19 @@ export type DeleteExpenseMutationFn = Apollo.MutationFunction<DeleteExpenseMutat
  * });
  */
 export function useDeleteExpenseMutation(baseOptions?: Apollo.MutationHookOptions<DeleteExpenseMutation, DeleteExpenseMutationVariables>) {
-        return Apollo.useMutation<DeleteExpenseMutation, DeleteExpenseMutationVariables>(DeleteExpenseDocument, baseOptions);
-      }
+  return Apollo.useMutation<DeleteExpenseMutation, DeleteExpenseMutationVariables>(DeleteExpenseDocument, baseOptions);
+}
 export type DeleteExpenseMutationHookResult = ReturnType<typeof useDeleteExpenseMutation>;
 export type DeleteExpenseMutationResult = Apollo.MutationResult<DeleteExpenseMutation>;
 export type DeleteExpenseMutationOptions = Apollo.BaseMutationOptions<DeleteExpenseMutation, DeleteExpenseMutationVariables>;
 export const DeleteExpenseTypeDocument = gql`
-    mutation deleteExpenseType($id: ID!) {
-  deleteExpenseType(id: $id) {
-    ...expenseTypeFields
+  mutation deleteExpenseType($id: ID!) {
+    deleteExpenseType(id: $id) {
+      ...expenseTypeFields
+    }
   }
-}
-    ${ExpenseTypeFieldsFragmentDoc}`;
+  ${ExpenseTypeFieldsFragmentDoc}
+`;
 export type DeleteExpenseTypeMutationFn = Apollo.MutationFunction<DeleteExpenseTypeMutation, DeleteExpenseTypeMutationVariables>;
 
 /**
@@ -959,19 +967,22 @@ export type DeleteExpenseTypeMutationFn = Apollo.MutationFunction<DeleteExpenseT
  *   },
  * });
  */
-export function useDeleteExpenseTypeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteExpenseTypeMutation, DeleteExpenseTypeMutationVariables>) {
-        return Apollo.useMutation<DeleteExpenseTypeMutation, DeleteExpenseTypeMutationVariables>(DeleteExpenseTypeDocument, baseOptions);
-      }
+export function useDeleteExpenseTypeMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteExpenseTypeMutation, DeleteExpenseTypeMutationVariables>,
+) {
+  return Apollo.useMutation<DeleteExpenseTypeMutation, DeleteExpenseTypeMutationVariables>(DeleteExpenseTypeDocument, baseOptions);
+}
 export type DeleteExpenseTypeMutationHookResult = ReturnType<typeof useDeleteExpenseTypeMutation>;
 export type DeleteExpenseTypeMutationResult = Apollo.MutationResult<DeleteExpenseTypeMutation>;
 export type DeleteExpenseTypeMutationOptions = Apollo.BaseMutationOptions<DeleteExpenseTypeMutation, DeleteExpenseTypeMutationVariables>;
 export const DeleteProjectDocument = gql`
-    mutation deleteProject($id: ID!) {
-  deleteProject(id: $id) {
-    ...projectFields
+  mutation deleteProject($id: ID!) {
+    deleteProject(id: $id) {
+      ...projectFields
+    }
   }
-}
-    ${ProjectFieldsFragmentDoc}`;
+  ${ProjectFieldsFragmentDoc}
+`;
 export type DeleteProjectMutationFn = Apollo.MutationFunction<DeleteProjectMutation, DeleteProjectMutationVariables>;
 
 /**
@@ -992,19 +1003,61 @@ export type DeleteProjectMutationFn = Apollo.MutationFunction<DeleteProjectMutat
  * });
  */
 export function useDeleteProjectMutation(baseOptions?: Apollo.MutationHookOptions<DeleteProjectMutation, DeleteProjectMutationVariables>) {
-        return Apollo.useMutation<DeleteProjectMutation, DeleteProjectMutationVariables>(DeleteProjectDocument, baseOptions);
-      }
+  return Apollo.useMutation<DeleteProjectMutation, DeleteProjectMutationVariables>(DeleteProjectDocument, baseOptions);
+}
 export type DeleteProjectMutationHookResult = ReturnType<typeof useDeleteProjectMutation>;
 export type DeleteProjectMutationResult = Apollo.MutationResult<DeleteProjectMutation>;
 export type DeleteProjectMutationOptions = Apollo.BaseMutationOptions<DeleteProjectMutation, DeleteProjectMutationVariables>;
-export const DeleteProjectPermissionDocument = gql`
-    mutation deleteProjectPermission($userId: ID!, $projectId: ID!) {
-  deleteProjectPermission(userId: $userId, projectId: $projectId) {
-    ...projectPermissionTypeFields
+export const DeleteProjectInviteDocument = gql`
+  mutation deleteProjectInvite($id: ID!) {
+    deleteProjectInvite(id: $id) {
+      ...projectInviteFields
+    }
   }
+  ${ProjectInviteFieldsFragmentDoc}
+`;
+export type DeleteProjectInviteMutationFn = Apollo.MutationFunction<DeleteProjectInviteMutation, DeleteProjectInviteMutationVariables>;
+
+/**
+ * __useDeleteProjectInviteMutation__
+ *
+ * To run a mutation, you first call `useDeleteProjectInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteProjectInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteProjectInviteMutation, { data, loading, error }] = useDeleteProjectInviteMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteProjectInviteMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteProjectInviteMutation, DeleteProjectInviteMutationVariables>,
+) {
+  return Apollo.useMutation<DeleteProjectInviteMutation, DeleteProjectInviteMutationVariables>(DeleteProjectInviteDocument, baseOptions);
 }
-    ${ProjectPermissionTypeFieldsFragmentDoc}`;
-export type DeleteProjectPermissionMutationFn = Apollo.MutationFunction<DeleteProjectPermissionMutation, DeleteProjectPermissionMutationVariables>;
+export type DeleteProjectInviteMutationHookResult = ReturnType<typeof useDeleteProjectInviteMutation>;
+export type DeleteProjectInviteMutationResult = Apollo.MutationResult<DeleteProjectInviteMutation>;
+export type DeleteProjectInviteMutationOptions = Apollo.BaseMutationOptions<
+  DeleteProjectInviteMutation,
+  DeleteProjectInviteMutationVariables
+>;
+export const DeleteProjectPermissionDocument = gql`
+  mutation deleteProjectPermission($userId: ID!, $projectId: ID!) {
+    deleteProjectPermission(userId: $userId, projectId: $projectId) {
+      ...projectPermissionFields
+    }
+  }
+  ${ProjectPermissionFieldsFragmentDoc}
+`;
+export type DeleteProjectPermissionMutationFn = Apollo.MutationFunction<
+  DeleteProjectPermissionMutation,
+  DeleteProjectPermissionMutationVariables
+>;
 
 /**
  * __useDeleteProjectPermissionMutation__
@@ -1024,19 +1077,28 @@ export type DeleteProjectPermissionMutationFn = Apollo.MutationFunction<DeletePr
  *   },
  * });
  */
-export function useDeleteProjectPermissionMutation(baseOptions?: Apollo.MutationHookOptions<DeleteProjectPermissionMutation, DeleteProjectPermissionMutationVariables>) {
-        return Apollo.useMutation<DeleteProjectPermissionMutation, DeleteProjectPermissionMutationVariables>(DeleteProjectPermissionDocument, baseOptions);
-      }
+export function useDeleteProjectPermissionMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteProjectPermissionMutation, DeleteProjectPermissionMutationVariables>,
+) {
+  return Apollo.useMutation<DeleteProjectPermissionMutation, DeleteProjectPermissionMutationVariables>(
+    DeleteProjectPermissionDocument,
+    baseOptions,
+  );
+}
 export type DeleteProjectPermissionMutationHookResult = ReturnType<typeof useDeleteProjectPermissionMutation>;
 export type DeleteProjectPermissionMutationResult = Apollo.MutationResult<DeleteProjectPermissionMutation>;
-export type DeleteProjectPermissionMutationOptions = Apollo.BaseMutationOptions<DeleteProjectPermissionMutation, DeleteProjectPermissionMutationVariables>;
+export type DeleteProjectPermissionMutationOptions = Apollo.BaseMutationOptions<
+  DeleteProjectPermissionMutation,
+  DeleteProjectPermissionMutationVariables
+>;
 export const UpdateExpenseDocument = gql`
-    mutation updateExpense($id: ID!, $update: ExpenseUpdateInputType!) {
-  updateExpense(id: $id, update: $update) {
-    ...expenseFields
+  mutation updateExpense($id: ID!, $update: ExpenseUpdateInputType!) {
+    updateExpense(id: $id, update: $update) {
+      ...expenseFields
+    }
   }
-}
-    ${ExpenseFieldsFragmentDoc}`;
+  ${ExpenseFieldsFragmentDoc}
+`;
 export type UpdateExpenseMutationFn = Apollo.MutationFunction<UpdateExpenseMutation, UpdateExpenseMutationVariables>;
 
 /**
@@ -1058,18 +1120,19 @@ export type UpdateExpenseMutationFn = Apollo.MutationFunction<UpdateExpenseMutat
  * });
  */
 export function useUpdateExpenseMutation(baseOptions?: Apollo.MutationHookOptions<UpdateExpenseMutation, UpdateExpenseMutationVariables>) {
-        return Apollo.useMutation<UpdateExpenseMutation, UpdateExpenseMutationVariables>(UpdateExpenseDocument, baseOptions);
-      }
+  return Apollo.useMutation<UpdateExpenseMutation, UpdateExpenseMutationVariables>(UpdateExpenseDocument, baseOptions);
+}
 export type UpdateExpenseMutationHookResult = ReturnType<typeof useUpdateExpenseMutation>;
 export type UpdateExpenseMutationResult = Apollo.MutationResult<UpdateExpenseMutation>;
 export type UpdateExpenseMutationOptions = Apollo.BaseMutationOptions<UpdateExpenseMutation, UpdateExpenseMutationVariables>;
 export const UpdateExpenseTypeDocument = gql`
-    mutation updateExpenseType($id: ID!, $update: ExpenseTypeUpdateInputType!) {
-  updateExpenseType(id: $id, update: $update) {
-    ...expenseTypeFields
+  mutation updateExpenseType($id: ID!, $update: ExpenseTypeUpdateInputType!) {
+    updateExpenseType(id: $id, update: $update) {
+      ...expenseTypeFields
+    }
   }
-}
-    ${ExpenseTypeFieldsFragmentDoc}`;
+  ${ExpenseTypeFieldsFragmentDoc}
+`;
 export type UpdateExpenseTypeMutationFn = Apollo.MutationFunction<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>;
 
 /**
@@ -1090,19 +1153,22 @@ export type UpdateExpenseTypeMutationFn = Apollo.MutationFunction<UpdateExpenseT
  *   },
  * });
  */
-export function useUpdateExpenseTypeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>) {
-        return Apollo.useMutation<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>(UpdateExpenseTypeDocument, baseOptions);
-      }
+export function useUpdateExpenseTypeMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>,
+) {
+  return Apollo.useMutation<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>(UpdateExpenseTypeDocument, baseOptions);
+}
 export type UpdateExpenseTypeMutationHookResult = ReturnType<typeof useUpdateExpenseTypeMutation>;
 export type UpdateExpenseTypeMutationResult = Apollo.MutationResult<UpdateExpenseTypeMutation>;
 export type UpdateExpenseTypeMutationOptions = Apollo.BaseMutationOptions<UpdateExpenseTypeMutation, UpdateExpenseTypeMutationVariables>;
 export const UpdateProjectDocument = gql`
-    mutation updateProject($id: ID!, $update: ProjectUpdateInputType!) {
-  updateProject(id: $id, update: $update) {
-    ...projectFields
+  mutation updateProject($id: ID!, $update: ProjectUpdateInputType!) {
+    updateProject(id: $id, update: $update) {
+      ...projectFields
+    }
   }
-}
-    ${ProjectFieldsFragmentDoc}`;
+  ${ProjectFieldsFragmentDoc}
+`;
 export type UpdateProjectMutationFn = Apollo.MutationFunction<UpdateProjectMutation, UpdateProjectMutationVariables>;
 
 /**
@@ -1124,19 +1190,23 @@ export type UpdateProjectMutationFn = Apollo.MutationFunction<UpdateProjectMutat
  * });
  */
 export function useUpdateProjectMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProjectMutation, UpdateProjectMutationVariables>) {
-        return Apollo.useMutation<UpdateProjectMutation, UpdateProjectMutationVariables>(UpdateProjectDocument, baseOptions);
-      }
+  return Apollo.useMutation<UpdateProjectMutation, UpdateProjectMutationVariables>(UpdateProjectDocument, baseOptions);
+}
 export type UpdateProjectMutationHookResult = ReturnType<typeof useUpdateProjectMutation>;
 export type UpdateProjectMutationResult = Apollo.MutationResult<UpdateProjectMutation>;
 export type UpdateProjectMutationOptions = Apollo.BaseMutationOptions<UpdateProjectMutation, UpdateProjectMutationVariables>;
 export const UpdateProjectPermissionDocument = gql`
-    mutation updateProjectPermission($userId: ID!, $projectId: ID!, $update: ProjectPermissionUpdateInputType!) {
-  updateProjectPermission(userId: $userId, projectId: $projectId, update: $update) {
-    ...projectPermissionTypeFields
+  mutation updateProjectPermission($userId: ID!, $projectId: ID!, $update: ProjectPermissionUpdateInputType!) {
+    updateProjectPermission(userId: $userId, projectId: $projectId, update: $update) {
+      ...projectPermissionFields
+    }
   }
-}
-    ${ProjectPermissionTypeFieldsFragmentDoc}`;
-export type UpdateProjectPermissionMutationFn = Apollo.MutationFunction<UpdateProjectPermissionMutation, UpdateProjectPermissionMutationVariables>;
+  ${ProjectPermissionFieldsFragmentDoc}
+`;
+export type UpdateProjectPermissionMutationFn = Apollo.MutationFunction<
+  UpdateProjectPermissionMutation,
+  UpdateProjectPermissionMutationVariables
+>;
 
 /**
  * __useUpdateProjectPermissionMutation__
@@ -1157,19 +1227,28 @@ export type UpdateProjectPermissionMutationFn = Apollo.MutationFunction<UpdatePr
  *   },
  * });
  */
-export function useUpdateProjectPermissionMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProjectPermissionMutation, UpdateProjectPermissionMutationVariables>) {
-        return Apollo.useMutation<UpdateProjectPermissionMutation, UpdateProjectPermissionMutationVariables>(UpdateProjectPermissionDocument, baseOptions);
-      }
+export function useUpdateProjectPermissionMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateProjectPermissionMutation, UpdateProjectPermissionMutationVariables>,
+) {
+  return Apollo.useMutation<UpdateProjectPermissionMutation, UpdateProjectPermissionMutationVariables>(
+    UpdateProjectPermissionDocument,
+    baseOptions,
+  );
+}
 export type UpdateProjectPermissionMutationHookResult = ReturnType<typeof useUpdateProjectPermissionMutation>;
 export type UpdateProjectPermissionMutationResult = Apollo.MutationResult<UpdateProjectPermissionMutation>;
-export type UpdateProjectPermissionMutationOptions = Apollo.BaseMutationOptions<UpdateProjectPermissionMutation, UpdateProjectPermissionMutationVariables>;
+export type UpdateProjectPermissionMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProjectPermissionMutation,
+  UpdateProjectPermissionMutationVariables
+>;
 export const ExchangeRatesDocument = gql`
-    query exchangeRates {
-  exchangeRates {
-    ...exchangeRatesFields
+  query exchangeRates {
+    exchangeRates {
+      ...exchangeRatesFields
+    }
   }
-}
-    ${ExchangeRatesFieldsFragmentDoc}`;
+  ${ExchangeRatesFieldsFragmentDoc}
+`;
 
 /**
  * __useExchangeRatesQuery__
@@ -1187,25 +1266,26 @@ export const ExchangeRatesDocument = gql`
  * });
  */
 export function useExchangeRatesQuery(baseOptions?: Apollo.QueryHookOptions<ExchangeRatesQuery, ExchangeRatesQueryVariables>) {
-        return Apollo.useQuery<ExchangeRatesQuery, ExchangeRatesQueryVariables>(ExchangeRatesDocument, baseOptions);
-      }
+  return Apollo.useQuery<ExchangeRatesQuery, ExchangeRatesQueryVariables>(ExchangeRatesDocument, baseOptions);
+}
 export function useExchangeRatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExchangeRatesQuery, ExchangeRatesQueryVariables>) {
-          return Apollo.useLazyQuery<ExchangeRatesQuery, ExchangeRatesQueryVariables>(ExchangeRatesDocument, baseOptions);
-        }
+  return Apollo.useLazyQuery<ExchangeRatesQuery, ExchangeRatesQueryVariables>(ExchangeRatesDocument, baseOptions);
+}
 export type ExchangeRatesQueryHookResult = ReturnType<typeof useExchangeRatesQuery>;
 export type ExchangeRatesLazyQueryHookResult = ReturnType<typeof useExchangeRatesLazyQuery>;
 export type ExchangeRatesQueryResult = Apollo.QueryResult<ExchangeRatesQuery, ExchangeRatesQueryVariables>;
 export const ExchangeRatesMeDocument = gql`
-    query exchangeRatesMe {
-  exchangeRates {
-    ...exchangeRatesFields
+  query exchangeRatesMe {
+    exchangeRates {
+      ...exchangeRatesFields
+    }
+    me {
+      ...meFields
+    }
   }
-  me {
-    ...meFields
-  }
-}
-    ${ExchangeRatesFieldsFragmentDoc}
-${MeFieldsFragmentDoc}`;
+  ${ExchangeRatesFieldsFragmentDoc}
+  ${MeFieldsFragmentDoc}
+`;
 
 /**
  * __useExchangeRatesMeQuery__
@@ -1223,21 +1303,24 @@ ${MeFieldsFragmentDoc}`;
  * });
  */
 export function useExchangeRatesMeQuery(baseOptions?: Apollo.QueryHookOptions<ExchangeRatesMeQuery, ExchangeRatesMeQueryVariables>) {
-        return Apollo.useQuery<ExchangeRatesMeQuery, ExchangeRatesMeQueryVariables>(ExchangeRatesMeDocument, baseOptions);
-      }
-export function useExchangeRatesMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExchangeRatesMeQuery, ExchangeRatesMeQueryVariables>) {
-          return Apollo.useLazyQuery<ExchangeRatesMeQuery, ExchangeRatesMeQueryVariables>(ExchangeRatesMeDocument, baseOptions);
-        }
+  return Apollo.useQuery<ExchangeRatesMeQuery, ExchangeRatesMeQueryVariables>(ExchangeRatesMeDocument, baseOptions);
+}
+export function useExchangeRatesMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ExchangeRatesMeQuery, ExchangeRatesMeQueryVariables>,
+) {
+  return Apollo.useLazyQuery<ExchangeRatesMeQuery, ExchangeRatesMeQueryVariables>(ExchangeRatesMeDocument, baseOptions);
+}
 export type ExchangeRatesMeQueryHookResult = ReturnType<typeof useExchangeRatesMeQuery>;
 export type ExchangeRatesMeLazyQueryHookResult = ReturnType<typeof useExchangeRatesMeLazyQuery>;
 export type ExchangeRatesMeQueryResult = Apollo.QueryResult<ExchangeRatesMeQuery, ExchangeRatesMeQueryVariables>;
 export const ExpenseDocument = gql`
-    query expense($id: ID!) {
-  expense(id: $id) {
-    ...expenseFields
+  query expense($id: ID!) {
+    expense(id: $id) {
+      ...expenseFields
+    }
   }
-}
-    ${ExpenseFieldsFragmentDoc}`;
+  ${ExpenseFieldsFragmentDoc}
+`;
 
 /**
  * __useExpenseQuery__
@@ -1256,21 +1339,22 @@ export const ExpenseDocument = gql`
  * });
  */
 export function useExpenseQuery(baseOptions: Apollo.QueryHookOptions<ExpenseQuery, ExpenseQueryVariables>) {
-        return Apollo.useQuery<ExpenseQuery, ExpenseQueryVariables>(ExpenseDocument, baseOptions);
-      }
+  return Apollo.useQuery<ExpenseQuery, ExpenseQueryVariables>(ExpenseDocument, baseOptions);
+}
 export function useExpenseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExpenseQuery, ExpenseQueryVariables>) {
-          return Apollo.useLazyQuery<ExpenseQuery, ExpenseQueryVariables>(ExpenseDocument, baseOptions);
-        }
+  return Apollo.useLazyQuery<ExpenseQuery, ExpenseQueryVariables>(ExpenseDocument, baseOptions);
+}
 export type ExpenseQueryHookResult = ReturnType<typeof useExpenseQuery>;
 export type ExpenseLazyQueryHookResult = ReturnType<typeof useExpenseLazyQuery>;
 export type ExpenseQueryResult = Apollo.QueryResult<ExpenseQuery, ExpenseQueryVariables>;
 export const ExpensesDocument = gql`
-    query expenses($filter: ExpenseFilterInputType!) {
-  expenses(filter: $filter) {
-    ...expensesFields
+  query expenses($filter: ExpenseFilterInputType!) {
+    expenses(filter: $filter) {
+      ...expensesFields
+    }
   }
-}
-    ${ExpensesFieldsFragmentDoc}`;
+  ${ExpensesFieldsFragmentDoc}
+`;
 
 /**
  * __useExpensesQuery__
@@ -1289,21 +1373,22 @@ export const ExpensesDocument = gql`
  * });
  */
 export function useExpensesQuery(baseOptions: Apollo.QueryHookOptions<ExpensesQuery, ExpensesQueryVariables>) {
-        return Apollo.useQuery<ExpensesQuery, ExpensesQueryVariables>(ExpensesDocument, baseOptions);
-      }
+  return Apollo.useQuery<ExpensesQuery, ExpensesQueryVariables>(ExpensesDocument, baseOptions);
+}
 export function useExpensesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExpensesQuery, ExpensesQueryVariables>) {
-          return Apollo.useLazyQuery<ExpensesQuery, ExpensesQueryVariables>(ExpensesDocument, baseOptions);
-        }
+  return Apollo.useLazyQuery<ExpensesQuery, ExpensesQueryVariables>(ExpensesDocument, baseOptions);
+}
 export type ExpensesQueryHookResult = ReturnType<typeof useExpensesQuery>;
 export type ExpensesLazyQueryHookResult = ReturnType<typeof useExpensesLazyQuery>;
 export type ExpensesQueryResult = Apollo.QueryResult<ExpensesQuery, ExpensesQueryVariables>;
 export const MeDocument = gql`
-    query me {
-  me {
-    ...meFields
+  query me {
+    me {
+      ...meFields
+    }
   }
-}
-    ${MeFieldsFragmentDoc}`;
+  ${MeFieldsFragmentDoc}
+`;
 
 /**
  * __useMeQuery__
@@ -1321,21 +1406,22 @@ export const MeDocument = gql`
  * });
  */
 export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
-      }
+  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+}
 export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
-        }
+  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+}
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const ProjectDocument = gql`
-    query project($id: ID!) {
-  project(id: $id) {
-    ...projectDetailFields
+  query project($id: ID!) {
+    project(id: $id) {
+      ...projectDetailFields
+    }
   }
-}
-    ${ProjectDetailFieldsFragmentDoc}`;
+  ${ProjectDetailFieldsFragmentDoc}
+`;
 
 /**
  * __useProjectQuery__
@@ -1354,21 +1440,94 @@ export const ProjectDocument = gql`
  * });
  */
 export function useProjectQuery(baseOptions: Apollo.QueryHookOptions<ProjectQuery, ProjectQueryVariables>) {
-        return Apollo.useQuery<ProjectQuery, ProjectQueryVariables>(ProjectDocument, baseOptions);
-      }
+  return Apollo.useQuery<ProjectQuery, ProjectQueryVariables>(ProjectDocument, baseOptions);
+}
 export function useProjectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProjectQuery, ProjectQueryVariables>) {
-          return Apollo.useLazyQuery<ProjectQuery, ProjectQueryVariables>(ProjectDocument, baseOptions);
-        }
+  return Apollo.useLazyQuery<ProjectQuery, ProjectQueryVariables>(ProjectDocument, baseOptions);
+}
 export type ProjectQueryHookResult = ReturnType<typeof useProjectQuery>;
 export type ProjectLazyQueryHookResult = ReturnType<typeof useProjectLazyQuery>;
 export type ProjectQueryResult = Apollo.QueryResult<ProjectQuery, ProjectQueryVariables>;
-export const ProjectsDocument = gql`
-    query projects($filter: ProjectFilterInputType!) {
-  projects(filter: $filter) {
-    ...projectsFields
+export const ProjectInviteByTokenDocument = gql`
+  query projectInviteByToken($token: String!) {
+    projectInviteByToken(token: $token) {
+      ...projectInvitePreviewFields
+    }
   }
+  ${ProjectInvitePreviewFieldsFragmentDoc}
+`;
+
+/**
+ * __useProjectInviteByTokenQuery__
+ *
+ * To run a query within a React component, call `useProjectInviteByTokenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProjectInviteByTokenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProjectInviteByTokenQuery({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useProjectInviteByTokenQuery(
+  baseOptions: Apollo.QueryHookOptions<ProjectInviteByTokenQuery, ProjectInviteByTokenQueryVariables>,
+) {
+  return Apollo.useQuery<ProjectInviteByTokenQuery, ProjectInviteByTokenQueryVariables>(ProjectInviteByTokenDocument, baseOptions);
 }
-    ${ProjectsFieldsFragmentDoc}`;
+export function useProjectInviteByTokenLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ProjectInviteByTokenQuery, ProjectInviteByTokenQueryVariables>,
+) {
+  return Apollo.useLazyQuery<ProjectInviteByTokenQuery, ProjectInviteByTokenQueryVariables>(ProjectInviteByTokenDocument, baseOptions);
+}
+export type ProjectInviteByTokenQueryHookResult = ReturnType<typeof useProjectInviteByTokenQuery>;
+export type ProjectInviteByTokenLazyQueryHookResult = ReturnType<typeof useProjectInviteByTokenLazyQuery>;
+export type ProjectInviteByTokenQueryResult = Apollo.QueryResult<ProjectInviteByTokenQuery, ProjectInviteByTokenQueryVariables>;
+export const ProjectInvitesDocument = gql`
+  query projectInvites($filter: ProjectInviteFilterInputType!) {
+    projectInvites(filter: $filter) {
+      ...projectInvitesFields
+    }
+  }
+  ${ProjectInvitesFieldsFragmentDoc}
+`;
+
+/**
+ * __useProjectInvitesQuery__
+ *
+ * To run a query within a React component, call `useProjectInvitesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProjectInvitesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProjectInvitesQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useProjectInvitesQuery(baseOptions: Apollo.QueryHookOptions<ProjectInvitesQuery, ProjectInvitesQueryVariables>) {
+  return Apollo.useQuery<ProjectInvitesQuery, ProjectInvitesQueryVariables>(ProjectInvitesDocument, baseOptions);
+}
+export function useProjectInvitesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProjectInvitesQuery, ProjectInvitesQueryVariables>) {
+  return Apollo.useLazyQuery<ProjectInvitesQuery, ProjectInvitesQueryVariables>(ProjectInvitesDocument, baseOptions);
+}
+export type ProjectInvitesQueryHookResult = ReturnType<typeof useProjectInvitesQuery>;
+export type ProjectInvitesLazyQueryHookResult = ReturnType<typeof useProjectInvitesLazyQuery>;
+export type ProjectInvitesQueryResult = Apollo.QueryResult<ProjectInvitesQuery, ProjectInvitesQueryVariables>;
+export const ProjectsDocument = gql`
+  query projects($filter: ProjectFilterInputType!) {
+    projects(filter: $filter) {
+      ...projectsFields
+    }
+  }
+  ${ProjectsFieldsFragmentDoc}
+`;
 
 /**
  * __useProjectsQuery__
@@ -1387,11 +1546,11 @@ export const ProjectsDocument = gql`
  * });
  */
 export function useProjectsQuery(baseOptions: Apollo.QueryHookOptions<ProjectsQuery, ProjectsQueryVariables>) {
-        return Apollo.useQuery<ProjectsQuery, ProjectsQueryVariables>(ProjectsDocument, baseOptions);
-      }
+  return Apollo.useQuery<ProjectsQuery, ProjectsQueryVariables>(ProjectsDocument, baseOptions);
+}
 export function useProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProjectsQuery, ProjectsQueryVariables>) {
-          return Apollo.useLazyQuery<ProjectsQuery, ProjectsQueryVariables>(ProjectsDocument, baseOptions);
-        }
+  return Apollo.useLazyQuery<ProjectsQuery, ProjectsQueryVariables>(ProjectsDocument, baseOptions);
+}
 export type ProjectsQueryHookResult = ReturnType<typeof useProjectsQuery>;
 export type ProjectsLazyQueryHookResult = ReturnType<typeof useProjectsLazyQuery>;
 export type ProjectsQueryResult = Apollo.QueryResult<ProjectsQuery, ProjectsQueryVariables>;

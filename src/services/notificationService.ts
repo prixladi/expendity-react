@@ -33,6 +33,10 @@ const loggedInNotification = (): void => {
   send({ description: 'Successfuly signed in.', status: 'success' });
 };
 
+const passwordResetNotification = (): void => {
+  send({ description: 'Password successfuly reset. Log in with new password.', status: 'success' });
+};
+
 const forgottenPasswordSentNotification = (): void => {
   send({ description: 'Forgotten password reset has been sent to your email.', status: 'success' });
 };
@@ -65,6 +69,18 @@ const permissionUpdatedNotification = (): void => {
   send({ description: 'Permission has been succesfuly updated.', status: 'success' });
 };
 
+const inviteCreatedNotification = (): void => {
+  send({ description: 'New Project Invite has been successfuly created.', status: 'success' });
+};
+
+const inviteDeletedNotification = (): void => {
+  send({ description: 'Project Invite has been successfuly deleted.', status: 'success' });
+};
+
+const urlSuccessfulyCoppiedNotification = (): void => {
+  send({ description: 'Url has been coppied.', status: 'info' });
+};
+
 const loggedOutNotification = (): void => {
   send({ description: 'Successfuly signed out.', status: 'info' });
 };
@@ -81,6 +97,7 @@ export { authServerErrorNotification, apiServerErrorNotification, notFoundNotifi
 export { projectCreatedNotification, projectUpdatedNotification, projectDeletedNotification };
 export { expenseTypeCreatedNotification, expenseTypeUpdatedNotification, expenseTypeDeletedNotification };
 export { permissionUpdatedNotification };
+export { inviteCreatedNotification, inviteDeletedNotification };
 
 export {
   loggedInNotification,
@@ -89,4 +106,6 @@ export {
   loginNeededNotification,
   registeredNotification,
   forgottenPasswordSentNotification,
+  urlSuccessfulyCoppiedNotification,
+  passwordResetNotification
 };

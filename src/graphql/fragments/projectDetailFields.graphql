@@ -8,6 +8,6 @@ fragment projectDetailFields on ProjectDetailType  {
     ...expenseTypeFields
   }
   permissions {
-    ...projectPermissionTypeFields
+    ...projectPermissionFields
   }
 }

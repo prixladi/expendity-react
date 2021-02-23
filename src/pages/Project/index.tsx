@@ -15,7 +15,7 @@ import { BiStats } from 'react-icons/bi';
 import { TiTicket } from 'react-icons/ti';
 import H2 from '../../components/H2';
 import InternalLink from '../../components/InternalLink';
-import { ExpenseTypesRoute, ProjectsRoute, UserPermissionsRoute } from '../../routes';
+import { ExpenseTypesRoute, InvitesRoute, ProjectsRoute, UserPermissionsRoute } from '../../routes';
 import Breadcrumb from '../../components/Breadcrumb';
 import { greaterOrEqualPermission } from '../../utils';
 
@@ -57,7 +57,7 @@ const Project: React.FC = () => {
             User Permissions <Icon ml="0.2em" as={FaUserAlt} />
           </Button>
           {greaterOrEqualPermission(data.project.userPermission, PermissionType.Configure) ? (
-            <Button minW="10em">
+            <Button onClick={() => history.push(InvitesRoute(data.project.id))} minW="10em">
               Project Invites <Icon ml="0.2em" as={TiTicket} />
             </Button>
           ) : null}

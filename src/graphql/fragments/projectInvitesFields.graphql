@@ -1,0 +1,5 @@
+fragment projectInvitesFields on ProjectInvitesType {
+  entries {
+    ...projectInviteFields
+  }
+}

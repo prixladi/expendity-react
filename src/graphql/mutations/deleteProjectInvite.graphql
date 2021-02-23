@@ -1,0 +1,5 @@
+mutation deleteProjectInvite($id: ID!) {
+    deleteProjectInvite(id: $id) {
+        ...projectInviteFields
+    }
+}

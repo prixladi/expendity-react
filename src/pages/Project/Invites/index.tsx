@@ -1,40 +1,62 @@
-import React from 'react';
-import { useProjectQuery } from '../../../graphql';
+import React, { useEffect } from 'react';
+import { PermissionType, useProjectInvitesQuery, useProjectQuery } from '../../../graphql';
 import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
 import { WideContent } from '../../../components/Content';
 import withAuthentication from '../../../hoc/withAuthentication';
 import DefaultSkelleton from '../../../components/DefaultSkelleton';
-import { useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import useTableSize from '../../../hooks/useTableSize';
-import ExpeseTypesHeading from './ExpeseTypesHeading';
 import Breadcrumb from '../../../components/Breadcrumb';
-import ExpenseTypeActions from './ExpenseTypeActions';
-import ExpenseTypeDetailModal from './ExpenseTypeDetailModal';
+import InvitesHeading from './InvitesHeading';
+import { AcceptInviteRoute, ProjectRoute } from '../../../routes';
+import InviteDetailModal from './InviteDetailModal';
+import InviteActions from './InviteActions';
 
 type RouteMatch = {
   projectId: string;
 };
 
+const createUrl = (defaultUrl: string, token: string): string => {
+  return new URL(AcceptInviteRoute(token), defaultUrl).href;
+};
+
 const Projects: React.FC = () => {
   const match = useRouteMatch<RouteMatch>();
   const tableSize = useTableSize();
-  const { data, error } = useProjectQuery({ variables: { id: match.params.projectId }, errorPolicy: 'all' });
-  useApolloErrorHandling(error);
+  const { data: projectData, error: projectError } = useProjectQuery({ variables: { id: match.params.projectId }, errorPolicy: 'all' });
+  const { data, error } = useProjectInvitesQuery({
+    variables: { filter: { projectId: Number(match.params.projectId) } },
+    errorPolicy: 'all',
+  });
+  const history = useHistory();
 
-  if (!data) {
+  useApolloErrorHandling(error);
+  useApolloErrorHandling(projectError);
+
+  useEffect(() => {
+    if (
+      projectData &&
+      projectData.project.userPermission !== PermissionType.Configure &&
+      projectData.project.userPermission !== PermissionType.Own
+    ) {
+      history.push(ProjectRoute(projectData.project.id));
+    }
+  }, [projectData, history]);
+
+  if (!data || !projectData) {
     return null;
   }
 
   return (
     <WideContent>
-      <Breadcrumb translations={{ [data.project.id]: data.project.name }} />
-      <ExpeseTypesHeading projectId={Number(data.project.id)} userPermission={data.project.userPermission} />
+      <Breadcrumb translations={{ [match.params.projectId]: projectData.project.name }} />
+      <InvitesHeading projectId={Number(projectData.project.id)} userPermission={projectData.project.userPermission} />
       <Table textOverflow="ellipsis" size={tableSize} variant="striped">
         <Thead>
           <Tr>
             <Th>
-              <Text>Name</Text>
+              <Text>Url</Text>
             </Th>
             <Th>
               <Text>Actions</Text>
@@ -42,16 +64,20 @@ const Projects: React.FC = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {data.project.expenseTypes.map((e) => (
-            <Tr w="100%" key={e.id}>
-              <Td overflow="hidden" color="brand.500" whiteSpace="nowrap" textOverflow="ellipsis" maxW={['7em', '15em', '30em', '40em']}>
-                <ExpenseTypeDetailModal expenseType={e} />
-              </Td>
-              <Td maxW="7em">
-                <ExpenseTypeActions expenseType={e} userPermission={data.project.userPermission} />
-              </Td>
-            </Tr>
-          ))}
+          {data.projectInvites.entries.map((i) => {
+            const url = createUrl(window.location.href, i.token);
+
+            return (
+              <Tr w="100%" key={i.id}>
+                <Td overflow="hidden" color="brand.500" whiteSpace="nowrap" textOverflow="ellipsis" maxW={['7em', '10em', '14em', '40em']}>
+                  <InviteDetailModal inviteUrl={url} projectInvite={i} />
+                </Td>
+                <Td maxW="7em">
+                  <InviteActions inviteId={i.id} inviteUrl={url} />
+                </Td>
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </WideContent>

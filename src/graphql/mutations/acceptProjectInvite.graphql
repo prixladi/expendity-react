@@ -1,0 +1,5 @@
+mutation acceptProjectInvite($token: String!) {
+    acceptProjectInvite(token: $token) {
+        ...projectPermissionFields
+    }
+}

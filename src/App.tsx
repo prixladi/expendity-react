@@ -5,7 +5,17 @@ import Home from './pages/Home';
 import { AuthorityProvider, useAuthority } from './authority';
 import { authApiConfig, graphqlConfig } from './configs';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { HomeRoute, LogoutRoute, ProjectsRoute, ProfileRoute, ProjectRoute, ExpenseTypesRoute, UserPermissionsRoute } from './routes';
+import {
+  HomeRoute,
+  LogoutRoute,
+  ProjectsRoute,
+  ProfileRoute,
+  ProjectRoute,
+  ExpenseTypesRoute,
+  UserPermissionsRoute,
+  InvitesRoute,
+  PasswordResetRoute,
+} from './routes';
 import Projects from './pages/Projects';
 import { ApolloProvider } from '@apollo/client';
 import useApollo from './apollo/useApollo';
@@ -15,6 +25,8 @@ import Profile from './pages/Profile';
 import Project from './pages/Project';
 import ExpenseTypes from './pages/Project/ExpenseTypes';
 import UserPermissions from './pages/Project/UserPermissions';
+import Invites from './pages/Project/Invites';
+import PasswordReset from './pages/PasswordReset';
 
 export const App: React.FC = () => {
   const manager = useAuthority(authApiConfig);
@@ -30,23 +42,37 @@ export const App: React.FC = () => {
                 <Route path={HomeRoute} exact>
                   <Home />
                 </Route>
+
                 <Route path={LogoutRoute} exact>
                   <Logout />
                 </Route>
+
                 <Route path={ProfileRoute} exact>
                   <Profile />
                 </Route>
+
                 <Route path={ProjectsRoute} exact>
                   <Projects />
                 </Route>
+
                 <Route path={ProjectRoute(':projectId')} exact>
                   <Project />
                 </Route>
+
                 <Route path={ExpenseTypesRoute(':projectId')} exact>
                   <ExpenseTypes />
                 </Route>
+
                 <Route path={UserPermissionsRoute(':projectId')} exact>
                   <UserPermissions />
+                </Route>
+
+                <Route path={InvitesRoute(':projectId')} exact>
+                  <Invites />
+                </Route>
+
+                <Route path={PasswordResetRoute} exact>
+                  <PasswordReset />
                 </Route>
               </Overlay>
             </Switch>
