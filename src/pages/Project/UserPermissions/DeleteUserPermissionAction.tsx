@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDeleteProjectMutation } from '../../graphql';
+import { ProjectPermissionType, useDeleteProjectPermissionMutation } from '../../../graphql';
 import {
   Tag,
   TagLabel,
@@ -14,23 +14,28 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { FaTrashAlt } from 'react-icons/fa';
-import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
-import { projectOnDeleteUpdate } from '../../services/mutationService';
-import { projectDeletedNotification } from '../../services/notificationService';
+import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
+import { projectDeletedNotification } from '../../../services/notificationService';
+import { projectPermissionOnDeleteUpdate } from '../../../services/mutationService';
 
 type Props = {
+  permission: ProjectPermissionType;
   projectId: string;
 };
 
-const DeleteAction: React.FC<Props> = ({ projectId }: Props) => {
-  const [deleteProject] = useDeleteProjectMutation({ errorPolicy: 'all' });
+const DeleteUserPermissionAction: React.FC<Props> = ({ permission, projectId }: Props) => {
+  const [deleteExpenseType] = useDeleteProjectPermissionMutation({ errorPolicy: 'all' });
   const { handleGqlError } = useApolloErrorHandling();
   const { isOpen, onClose, onOpen } = useDisclosure();
   // eslint-disable-next-line
   const cancelRef = React.useRef(null as any | null);
 
   const onDelete = async () => {
-    const { data, errors } = await deleteProject({ variables: { id: projectId }, update: projectOnDeleteUpdate });
+    const { data, errors } = await deleteExpenseType({
+      variables: { userId: permission.userId.toString(), projectId },
+      update: projectPermissionOnDeleteUpdate,
+    });
+    
     handleGqlError(errors);
     if (data) {
       projectDeletedNotification();
@@ -47,7 +52,7 @@ const DeleteAction: React.FC<Props> = ({ projectId }: Props) => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Project
+              Delete User '{permission.userEmail}' from project
             </AlertDialogHeader>
 
             <AlertDialogBody>Are you sure? You can't undo this action afterwards.</AlertDialogBody>
@@ -67,4 +72,4 @@ const DeleteAction: React.FC<Props> = ({ projectId }: Props) => {
   );
 };
 
-export default DeleteAction;
+export default DeleteUserPermissionAction;

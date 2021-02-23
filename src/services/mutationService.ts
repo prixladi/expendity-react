@@ -4,6 +4,7 @@ import {
   CreateProjectMutation,
   DeleteExpenseTypeMutation,
   DeleteProjectMutation,
+  DeleteProjectPermissionMutation,
   ProjectDocument,
   ProjectQuery,
   ProjectsDocument,
@@ -147,5 +148,30 @@ const expenseTypeOnUpdateUpdate: MutationUpdaterFn<UpdateExpenseTypeMutation> = 
   }
 };
 
+const projectPermissionOnDeleteUpdate: MutationUpdaterFn<DeleteProjectPermissionMutation> = (cache, { data }) => {
+  if (data) {
+    const oldProject = cache.readQuery<ProjectQuery>({
+      query: ProjectDocument,
+      variables: { id: data.deleteProjectPermission.projectId.toString() },
+    });
+    if (oldProject) {
+      const newProject: ProjectQuery = {
+        ...oldProject,
+        project: {
+          ...oldProject.project,
+          permissions: oldProject.project.permissions.filter((x) => x.id !== data.deleteProjectPermission.id),
+        },
+      };
+
+      cache.writeQuery<ProjectQuery>({
+        query: ProjectDocument,
+        variables: { id: data.deleteProjectPermission.projectId },
+        data: newProject,
+      });
+    }
+  }
+};
+
 export { projectOnCreateUpdate, projectOnDeleteUpdate, projectOnUpdateUpdate };
 export { expenseTypeOnCreateUpdate, expenseTypeOnDeleteUpdate, expenseTypeOnUpdateUpdate };
+export { projectPermissionOnDeleteUpdate };

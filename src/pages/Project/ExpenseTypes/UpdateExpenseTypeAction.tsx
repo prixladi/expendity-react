@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExpenseTypeType, useUpdateExpenseTypeMutation } from '../../graphql';
+import { ExpenseTypeType, useUpdateExpenseTypeMutation } from '../../../graphql';
 import {
   Grid,
   Icon,
@@ -12,16 +12,17 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
+  Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
 import { FaEdit } from 'react-icons/fa';
-import Form from '../../components/Form';
-import InputBase from '../../components/InputBase';
-import { Button } from '../../components/Button';
+import Form from '../../../components/Form';
+import InputBase from '../../../components/InputBase';
+import { Button } from '../../../components/Button';
 import * as yup from 'yup';
-import { projectUpdatedNotification } from '../../services/notificationService';
-import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
-import { expenseTypeOnUpdateUpdate } from '../../services/mutationService';
+import { projectUpdatedNotification } from '../../../services/notificationService';
+import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
+import { expenseTypeOnUpdateUpdate } from '../../../services/mutationService';
 import { GiMoneyStack } from 'react-icons/gi';
 
 type Values = {
@@ -40,8 +41,8 @@ const schema = yup.object().shape({
 
 const UpdateExpenseTypeAction: React.FC<Props> = ({ expenseType }: Props) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const [updateExpenseType, { error }] = useUpdateExpenseTypeMutation({ errorPolicy: 'all' });
-  const { handleGqlError } = useApolloErrorHandling(error);
+  const [updateExpenseType] = useUpdateExpenseTypeMutation({ errorPolicy: 'all' });
+  const { handleGqlError } = useApolloErrorHandling();
 
   const onSubmit = async (values: Values) => {
     const { data, errors } = await updateExpenseType({
@@ -73,8 +74,8 @@ const UpdateExpenseTypeAction: React.FC<Props> = ({ expenseType }: Props) => {
           <ModalBody>
             <Form<Values> validationSchema={schema} initialValues={initialValues} onSubmit={onSubmit}>
               <Grid gridGap="1em">
-                <InputBase name="name" placeholder="Name" type="text" isRequired />
-                <InputBase name="description" placeholder="Description" type="text" />
+                <InputBase label="Name" name="name" placeholder="Name" type="text" isRequired />
+                <InputBase as={Textarea} label="Description" name="description" placeholder="Description" type="text" />
                 <Button submit>
                   Update
                   <Icon ml="0.2em" as={GiMoneyStack} />

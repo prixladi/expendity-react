@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import { AuthorityProvider, useAuthority } from './authority';
 import { authApiConfig, graphqlConfig } from './configs';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { HomeRoute, LogoutRoute, ProjectsRoute, ProfileRoute, ProjectRoute, ExpenseTypesRoute } from './routes';
+import { HomeRoute, LogoutRoute, ProjectsRoute, ProfileRoute, ProjectRoute, ExpenseTypesRoute, UserPermissionsRoute } from './routes';
 import Projects from './pages/Projects';
 import { ApolloProvider } from '@apollo/client';
 import useApollo from './apollo/useApollo';
@@ -14,6 +14,7 @@ import Logout from './pages/Logout';
 import Profile from './pages/Profile';
 import Project from './pages/Project';
 import ExpenseTypes from './pages/Project/ExpenseTypes';
+import UserPermissions from './pages/Project/UserPermissions';
 
 export const App: React.FC = () => {
   const manager = useAuthority(authApiConfig);
@@ -43,6 +44,9 @@ export const App: React.FC = () => {
                 </Route>
                 <Route path={ExpenseTypesRoute(':projectId')} exact>
                   <ExpenseTypes />
+                </Route>
+                <Route path={UserPermissionsRoute(':projectId')} exact>
+                  <UserPermissions />
                 </Route>
               </Overlay>
             </Switch>

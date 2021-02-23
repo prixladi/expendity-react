@@ -1,0 +1,5 @@
+mutation deleteProjectPermission($userId: ID!, $projectId: ID!) {
+    deleteProjectPermission(userId: $userId, projectId: $projectId) {
+        ...projectPermissionTypeFields
+    }
+}

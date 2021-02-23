@@ -9,7 +9,7 @@ import { CenterLink, GoogleButton, Page } from './Shared';
 import { FormikHelpers } from 'formik';
 import { useAuthorityManager } from '../../authority';
 import { useHistory } from 'react-router-dom';
-import { defaultCallbacks, onSignIn } from '../../services/authorityService';
+import { defaultCallbacks, onSignIn, ReturnPathState } from '../../services/authorityService';
 import { StatusCodes } from 'http-status-codes';
 import { registeredNotification } from '../../services/notificationService';
 import Form from '../Form';
@@ -39,7 +39,7 @@ const emailErrorMessage = 'Account with this email already exist';
 
 const Register: React.FC<Props> = ({ goto }: Props) => {
   const manager = useAuthorityManager();
-  const history = useHistory();
+  const history = useHistory<ReturnPathState>();
   const apollo = useApolloClient();
 
   const onSubmit = useCallback(

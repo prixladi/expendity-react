@@ -2,12 +2,12 @@ import { useApolloClient } from '@apollo/client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuthorityManager } from '../authority';
-import { defaultCallbacks, onLoginExpired } from '../services/authorityService';
+import { defaultCallbacks, onUnauthorized, ReturnPathState } from '../services/authorityService';
 
 const withAuthentication = <TProps extends Record<string, string>>(Component: React.FC<TProps>, Skeleton: React.FC) => {
   return function WithAuthentication(props: TProps): JSX.Element {
     const [skeleton, setSkeleton] = useState(true);
-    const history = useHistory();
+    const history = useHistory<ReturnPathState>();
     const manager = useAuthorityManager();
     const apollo = useApolloClient();
     const isMounted = useRef(false);
@@ -24,7 +24,7 @@ const withAuthentication = <TProps extends Record<string, string>>(Component: Re
           setSkeleton(false);
         }
       } else {
-        onLoginExpired(manager, history, apollo);
+        onUnauthorized(manager, history, apollo);
       }
     }, [history, manager, setSkeleton, apollo]);
 

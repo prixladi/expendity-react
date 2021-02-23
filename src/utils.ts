@@ -34,4 +34,25 @@ const greaterPermission = (p1: PermissionType, p2: PermissionType): boolean => {
   return false;
 };
 
-export { greaterOrEqualPermission, greaterPermission };
+const getLesserOrEqualPermissions = (p: PermissionType): PermissionType[] => {
+  switch (p) {
+    case PermissionType.View:
+      return [PermissionType.View];
+    case PermissionType.Control:
+      return [PermissionType.View, PermissionType.Control];
+    case PermissionType.Configure:
+      return [PermissionType.View, PermissionType.Control, PermissionType.Configure];
+    case PermissionType.Own:
+      return [PermissionType.View, PermissionType.Control, PermissionType.Configure, PermissionType.Own];
+    default:
+      console.error(`Permission '${p}' is not implemented.`);
+  }
+
+  return [];
+};
+
+const toReadableString = (permissionType: PermissionType): string => {
+  return `${permissionType[0]}${permissionType.slice(1).toLowerCase()}`;
+};
+
+export { greaterOrEqualPermission, greaterPermission, getLesserOrEqualPermissions, toReadableString };

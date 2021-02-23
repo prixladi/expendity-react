@@ -1,0 +1,7 @@
+fragment projectInviteFields on ProjectInviteType {
+  id
+  isMultiUse
+  projectId
+  projectPermissionType
+  token
+}

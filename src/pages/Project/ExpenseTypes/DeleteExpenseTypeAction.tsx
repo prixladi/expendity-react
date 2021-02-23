@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDeleteExpenseTypeMutation } from '../../graphql';
+import { useDeleteExpenseTypeMutation } from '../../../graphql';
 import {
   Tag,
   TagLabel,
@@ -14,17 +14,17 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { FaTrashAlt } from 'react-icons/fa';
-import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
-import { expenseTypeOnDeleteUpdate } from '../../services/mutationService';
-import { projectDeletedNotification } from '../../services/notificationService';
+import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
+import { expenseTypeOnDeleteUpdate } from '../../../services/mutationService';
+import { projectDeletedNotification } from '../../../services/notificationService';
 
 type Props = {
   expenseTypeId: string;
 };
 
 const DeleteExpenseTypeAction: React.FC<Props> = ({ expenseTypeId }: Props) => {
-  const [deleteExpenseType, { error }] = useDeleteExpenseTypeMutation({ errorPolicy: 'all' });
-  const { handleGqlError } = useApolloErrorHandling(error);
+  const [deleteExpenseType] = useDeleteExpenseTypeMutation({ errorPolicy: 'all' });
+  const { handleGqlError } = useApolloErrorHandling();
   const { isOpen, onClose, onOpen } = useDisclosure();
   // eslint-disable-next-line
   const cancelRef = React.useRef(null as any | null);

@@ -21,6 +21,10 @@ const notFoundNotification = (): void => {
   send({ description: 'Requested resource was not found.', status: 'error' });
 };
 
+const forbiddenNotification = (): void => {
+  send({ description: "You don't have permissions for this operation. If problem persists try refreshing page.", status: 'warning' });
+};
+
 const registeredNotification = (): void => {
   send({ description: 'Successfuly registered.', status: 'success' });
 };
@@ -57,6 +61,10 @@ const projectDeletedNotification = (): void => {
   send({ description: 'Project has been successfuly deleted.', status: 'success' });
 };
 
+const permissionUpdatedNotification = (): void => {
+  send({ description: 'Permission has been succesfuly updated.', status: 'success' });
+};
+
 const loggedOutNotification = (): void => {
   send({ description: 'Successfuly signed out.', status: 'info' });
 };
@@ -69,9 +77,10 @@ const loginNeededNotification = (): void => {
   send({ description: 'You need to sign in first.', status: 'info' });
 };
 
-export { authServerErrorNotification, apiServerErrorNotification, notFoundNotification };
+export { authServerErrorNotification, apiServerErrorNotification, notFoundNotification, forbiddenNotification };
 export { projectCreatedNotification, projectUpdatedNotification, projectDeletedNotification };
 export { expenseTypeCreatedNotification, expenseTypeUpdatedNotification, expenseTypeDeletedNotification };
+export { permissionUpdatedNotification };
 
 export {
   loggedInNotification,

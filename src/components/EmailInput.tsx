@@ -5,7 +5,7 @@ import InputBase from './InputBase';
 type Props = InputProps & InputHTMLAttributes<HTMLInputElement>;
 
 const EmailInput: React.FC<Props> = (props: Props) => (
-  <InputBase name="email" placeholder="Email" isRequired={true} type="email" {...props} />
+  <InputBase autoComplete="username" label="Email" name="email" placeholder="Email" isRequired={true} type="email" {...props} />
 );
 
 export default EmailInput;

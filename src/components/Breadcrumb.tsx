@@ -4,7 +4,11 @@ import * as React from 'react';
 import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const Bread: React.FC = () => {
+type Props = {
+  translations?: Record<string, string>;
+};
+
+const Bread: React.FC<Props> = ({ translations }: Props) => {
   const loacation = useLocation();
 
   const data = useMemo(() => {
@@ -16,12 +20,18 @@ const Bread: React.FC = () => {
       .map((x) => {
         current = `${current}${x}/`;
 
-        const result = x.replace(/([A-Z])/g, ' $1');
-        const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+        let finalResult: string;
+        
+        if (translations && translations[x]) {
+          finalResult = translations[x];
+        } else {
+          const result = x.replace(/([A-Z])/g, ' $1');
+          finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+        }
 
         return { path: current, part: finalResult };
       });
-  }, [loacation]);
+  }, [loacation, translations]);
 
   return (
     <Flex justifyContent="flex-start">

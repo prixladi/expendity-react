@@ -3,4 +3,5 @@ fragment projectPermissionTypeFields on ProjectPermissionType  {
   type
   userEmail
   userId
+  projectId
 }

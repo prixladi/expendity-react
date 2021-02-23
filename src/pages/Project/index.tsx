@@ -15,7 +15,7 @@ import { BiStats } from 'react-icons/bi';
 import { TiTicket } from 'react-icons/ti';
 import H2 from '../../components/H2';
 import InternalLink from '../../components/InternalLink';
-import { ExpenseTypesRoute, ProjectsRoute } from '../../routes';
+import { ExpenseTypesRoute, ProjectsRoute, UserPermissionsRoute } from '../../routes';
 import Breadcrumb from '../../components/Breadcrumb';
 import { greaterOrEqualPermission } from '../../utils';
 
@@ -37,7 +37,7 @@ const Project: React.FC = () => {
   return (
     <>
       <WideContent>
-        <Breadcrumb />
+        <Breadcrumb translations={{ [data.project.id]: data.project.name }} />
         <H1>{data.project.name}</H1>
         <ChakraText mb="1em" opacity="0.7" fontSize="1.4em">
           {data.project.description}
@@ -53,8 +53,8 @@ const Project: React.FC = () => {
           <Button onClick={() => history.push(ExpenseTypesRoute(data.project.id))} minW="10em">
             Expense Types <Icon ml="0.2em" as={GiMoneyStack} />
           </Button>
-          <Button minW="10em">
-            Users <Icon ml="0.2em" as={FaUserAlt} />
+          <Button onClick={() => history.push(UserPermissionsRoute(data.project.id))} minW="10em">
+            User Permissions <Icon ml="0.2em" as={FaUserAlt} />
           </Button>
           {greaterOrEqualPermission(data.project.userPermission, PermissionType.Configure) ? (
             <Button minW="10em">

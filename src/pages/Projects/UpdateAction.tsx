@@ -12,6 +12,7 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
+  Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
 import { FaEdit } from 'react-icons/fa';
@@ -40,8 +41,8 @@ const schema = yup.object().shape({
 
 const UpdateAction: React.FC<Props> = ({ project }: Props) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const [updateProject, { error }] = useUpdateProjectMutation({ errorPolicy: 'all' });
-  const { handleGqlError } = useApolloErrorHandling(error);
+  const [updateProject] = useUpdateProjectMutation({ errorPolicy: 'all' });
+  const { handleGqlError } = useApolloErrorHandling();
 
   const onSubmit = async (values: Values) => {
     const { data, errors } = await updateProject({ variables: { id: project.id, update: values }, update: projectOnUpdateUpdate });
@@ -70,8 +71,8 @@ const UpdateAction: React.FC<Props> = ({ project }: Props) => {
           <ModalBody>
             <Form<Values> validationSchema={schema} initialValues={initialValues} onSubmit={onSubmit}>
               <Grid gridGap="1em">
-                <InputBase name="name" placeholder="Name" type="text" isRequired />
-                <InputBase name="description" placeholder="Description" type="text" />
+                <InputBase label="Name" name="name" placeholder="Name" type="text" isRequired />
+                <InputBase as={Textarea} label="Description" name="description" placeholder="Description" type="text" />
                 <Button submit>
                   Update
                   <Icon ml="0.2em" as={AiOutlineFundProjectionScreen} />{' '}

@@ -1,0 +1,8 @@
+query exchangeRatesMe {
+    exchangeRates {
+        ...exchangeRatesFields
+    }
+    me {
+        ...meFields
+    }
+}

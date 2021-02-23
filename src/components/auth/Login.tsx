@@ -10,7 +10,7 @@ import { CenterLink, GoogleButton, Page } from './Shared';
 import { FormikHelpers } from 'formik';
 import { useAuthorityManager } from '../../authority';
 import { useHistory } from 'react-router-dom';
-import { defaultCallbacks, onSignIn } from '../../services/authorityService';
+import { defaultCallbacks, onSignIn, ReturnPathState } from '../../services/authorityService';
 import { StatusCodes } from 'http-status-codes';
 import { useApolloClient } from '@apollo/client';
 import H1 from '../H1';
@@ -33,7 +33,7 @@ const emailErrorMessage = 'Invalid email or password';
 
 const Login: React.FC<Props> = ({ goto }: Props) => {
   const manager = useAuthorityManager();
-  const history = useHistory();
+  const history = useHistory<ReturnPathState>();
   const apollo = useApolloClient();
 
   const onSubmit = useCallback(

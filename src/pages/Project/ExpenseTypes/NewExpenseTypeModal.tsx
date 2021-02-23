@@ -1,12 +1,12 @@
-import { Grid, Icon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/react';
+import { Grid, Icon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea } from '@chakra-ui/react';
 import React from 'react';
-import { FormikButton as Button } from '../../components/Button';
-import Form from '../../components/Form';
-import InputBase from '../../components/InputBase';
-import { useCreateExpenseTypeMutation } from '../../graphql';
-import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
-import { expenseTypeOnCreateUpdate } from '../../services/mutationService';
-import { expenseTypeCreatedNotification } from '../../services/notificationService';
+import { FormikButton as Button } from '../../../components/Button';
+import Form from '../../../components/Form';
+import InputBase from '../../../components/InputBase';
+import { useCreateExpenseTypeMutation } from '../../../graphql';
+import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
+import { expenseTypeOnCreateUpdate } from '../../../services/mutationService';
+import { expenseTypeCreatedNotification } from '../../../services/notificationService';
 import * as yup from 'yup';
 import { GiMoneyStack } from 'react-icons/gi';
 
@@ -32,8 +32,8 @@ const schema = yup.object().shape({
 });
 
 const NewExpenseTypeModal: React.FC<Props> = ({ isOpen, onClose, projectId }: Props) => {
-  const [createExpenseType, { error }] = useCreateExpenseTypeMutation({ errorPolicy: 'all' });
-  const { handleGqlError } = useApolloErrorHandling(error);
+  const [createExpenseType] = useCreateExpenseTypeMutation({ errorPolicy: 'all' });
+  const { handleGqlError } = useApolloErrorHandling();
 
   const onSubmit = async (values: Values) => {
     const { data, errors } = await createExpenseType({
@@ -57,8 +57,8 @@ const NewExpenseTypeModal: React.FC<Props> = ({ isOpen, onClose, projectId }: Pr
         <ModalBody>
           <Form<Values> validationSchema={schema} initialValues={initialValues} onSubmit={onSubmit}>
             <Grid gridGap="1em">
-              <InputBase name="name" placeholder="Name" type="text" isRequired />
-              <InputBase name="description" placeholder="Description" type="text" />
+              <InputBase label="Name" name="name" placeholder="Name" type="text" isRequired />
+              <InputBase as={Textarea} label="Description" name="description" placeholder="Description" type="text" />
               <Button submit>
                 Create
                 <Icon ml="0.2em" as={GiMoneyStack} />

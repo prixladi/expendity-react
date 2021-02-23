@@ -1,9 +1,9 @@
-import React from 'react';
-import { ExpenseTypeType, PermissionType } from '../../graphql';
+import React, { useMemo } from 'react';
+import { ExpenseTypeType, PermissionType } from '../../../graphql';
 import { useBreakpointValue, Flex, VStack } from '@chakra-ui/react';
 import DeleteExpenseTypeAction from './DeleteExpenseTypeAction';
 import UpdateExpenseTypeAction from './UpdateExpenseTypeAction';
-import { greaterOrEqualPermission } from '../../utils';
+import { greaterOrEqualPermission } from '../../../utils';
 
 type Props = {
   expenseType: ExpenseTypeType;
@@ -12,8 +12,9 @@ type Props = {
 
 const ExpenseTypeActions: React.FC<Props> = ({ expenseType, userPermission }: Props) => {
   const display = useBreakpointValue([VStack, Flex, Flex, Flex]);
+  const isProjectAdmin = useMemo(() => greaterOrEqualPermission(userPermission, PermissionType.Configure), [userPermission]);
 
-  if (!greaterOrEqualPermission(userPermission, PermissionType.Own)) {
+  if (!isProjectAdmin) {
     return <p />;
   }
 

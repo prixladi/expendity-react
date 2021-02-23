@@ -4,7 +4,7 @@ import { FormikButton as Button } from '../Button';
 import { FaGoogle } from 'react-icons/fa';
 import GoogleLogin, { GoogleLoginResponse } from 'react-google-login';
 import { googleConfig } from '../../configs';
-import { defaultCallbacks, onSignIn } from '../../services/authorityService';
+import { defaultCallbacks, onSignIn, ReturnPathState } from '../../services/authorityService';
 import { useHistory } from 'react-router-dom';
 import { useAuthorityManager } from '../../authority';
 import { useApolloClient } from '@apollo/client';
@@ -27,7 +27,7 @@ const CenterLink: React.FC<CenterLinkProps> = ({ children, onClick }: CenterLink
 const GoogleButton: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const authManager = useAuthorityManager();
-  const history = useHistory();
+  const history = useHistory<ReturnPathState>();
   const apollo = useApolloClient();
 
   return (
