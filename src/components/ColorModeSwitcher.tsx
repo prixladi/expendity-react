@@ -11,12 +11,12 @@ const ColorModeSwitcher: React.FC = () => {
     <>
       <Icon
         mr="0.5em"
-        fontSize={['1.5em', '1.8em', '2em', '2.5em']}
+        fontSize={['1.2em', '1.3em', '1.3em', '2.5em']}
         color="current"
         aria-label={`Switch to ${text} mode`}
         as={SwitchIcon}
       />
-      <Switch isChecked={colorMode === 'dark'} onChange={toggleColorMode} />
+      <Switch size="lg" isChecked={colorMode === 'dark'} onChange={toggleColorMode} />
     </>
   );
 };

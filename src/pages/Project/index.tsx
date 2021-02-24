@@ -15,7 +15,7 @@ import { BiStats } from 'react-icons/bi';
 import { TiTicket } from 'react-icons/ti';
 import H2 from '../../components/H2';
 import InternalLink from '../../components/InternalLink';
-import { ExpenseTypesRoute, InvitesRoute, ProjectsRoute, UserPermissionsRoute } from '../../routes';
+import { ExpensesRoute, ExpenseTypesRoute, InvitesRoute, ProjectsRoute, UserPermissionsRoute } from '../../routes';
 import Breadcrumb from '../../components/Breadcrumb';
 import { greaterOrEqualPermission } from '../../utils';
 
@@ -26,7 +26,7 @@ type RouteMatch = {
 const Project: React.FC = () => {
   const match = useRouteMatch<RouteMatch>();
   const history = useHistory();
-  const { data, error } = useProjectQuery({ variables: { id: match.params.projectId }, errorPolicy: 'all' });
+  const { data, error } = useProjectQuery({ variables: { id: match.params.projectId } });
   useApolloErrorHandling(error);
   const columns = useBreakpointValue(['1fr', '1fr 1fr', '1fr 1fr 1fr', '1fr 1fr 1fr 1fr']);
 
@@ -44,10 +44,10 @@ const Project: React.FC = () => {
         </ChakraText>
         <H2>Control panel</H2>
         <Text>
-          Using controls bellow you can manipulate project. Or go back to <InternalLink href={ProjectsRoute}>project list</InternalLink>.
+          Using controls below you can manipulate project. Or go back to the <InternalLink href={ProjectsRoute}>project list</InternalLink>.
         </Text>
         <Grid mt="3em" gridGap=" 1em" templateColumns={columns}>
-          <Button minW="10em">
+          <Button onClick={() => history.push(ExpensesRoute(data.project.id))} minW="10em">
             Expenses <Icon ml="0.2em" as={GiPayMoney} />
           </Button>
           <Button onClick={() => history.push(ExpenseTypesRoute(data.project.id))} minW="10em">

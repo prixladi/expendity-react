@@ -25,6 +25,14 @@ const forbiddenNotification = (): void => {
   send({ description: "You don't have permissions for this operation. If problem persists try refreshing page.", status: 'warning' });
 };
 
+const invalidInviteNotification = (): void => {
+  send({ description: 'Project invite is invalid. It is probably expired.', status: 'warning' });
+};
+
+const inviteAcceptedNotification = (): void => {
+  send({ description: 'Invite accepted, redirecting to your new project.', status: 'success' });
+};
+
 const registeredNotification = (): void => {
   send({ description: 'Successfuly registered.', status: 'success' });
 };
@@ -39,6 +47,18 @@ const passwordResetNotification = (): void => {
 
 const forgottenPasswordSentNotification = (): void => {
   send({ description: 'Forgotten password reset has been sent to your email.', status: 'success' });
+};
+
+const expenseCreatedNotification = (): void => {
+  send({ description: 'New Expense has been successfuly created.', status: 'success' });
+};
+
+const expenseUpdatedNotification = (): void => {
+  send({ description: 'Expense has been successfuly created.', status: 'success' });
+};
+
+const expenseDeletedNotification = (): void => {
+  send({ description: 'Expense has been successfuly deleted.', status: 'success' });
 };
 
 const expenseTypeCreatedNotification = (): void => {
@@ -86,7 +106,7 @@ const loggedOutNotification = (): void => {
 };
 
 const loginExpiredNotification = (): void => {
-  send({ description: 'You session expired please sign in again.', status: 'info' });
+  send({ description: 'You session has expired please sign in again.', status: 'info' });
 };
 
 const loginNeededNotification = (): void => {
@@ -96,10 +116,12 @@ const loginNeededNotification = (): void => {
 export { authServerErrorNotification, apiServerErrorNotification, notFoundNotification, forbiddenNotification };
 export { projectCreatedNotification, projectUpdatedNotification, projectDeletedNotification };
 export { expenseTypeCreatedNotification, expenseTypeUpdatedNotification, expenseTypeDeletedNotification };
+export { expenseCreatedNotification, expenseUpdatedNotification, expenseDeletedNotification };
 export { permissionUpdatedNotification };
 export { inviteCreatedNotification, inviteDeletedNotification };
 
 export {
+  inviteAcceptedNotification,
   loggedInNotification,
   loggedOutNotification,
   loginExpiredNotification,
@@ -107,5 +129,6 @@ export {
   registeredNotification,
   forgottenPasswordSentNotification,
   urlSuccessfulyCoppiedNotification,
-  passwordResetNotification
+  passwordResetNotification,
+  invalidInviteNotification,
 };

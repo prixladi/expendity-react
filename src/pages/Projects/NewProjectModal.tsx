@@ -34,7 +34,7 @@ const schema = yup.object().shape({
 });
 
 const NewProjectModal: React.FC<Props> = ({ isOpen, onClose }: Props) => {
-  const [createProject] = useCreateProjectMutation({ errorPolicy: 'all' });
+  const [createProject] = useCreateProjectMutation();
   const { handleGqlError } = useApolloErrorHandling();
 
   const onSubmit = async (values: Values) => {

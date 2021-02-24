@@ -1,9 +1,10 @@
 import React, { ButtonHTMLAttributes } from 'react';
-import { Button, ButtonOptions, Flex, LayoutProps } from '@chakra-ui/react';
+import { Button, ButtonOptions, Flex, LayoutProps, SpaceProps } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 
 type Props = ButtonOptions &
   LayoutProps &
+  SpaceProps &
   ButtonHTMLAttributes<unknown> & {
     submit?: boolean;
     children: React.ReactNode;

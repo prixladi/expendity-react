@@ -22,8 +22,8 @@ type RouteMatch = {
 const UserPermissions: React.FC = () => {
   const match = useRouteMatch<RouteMatch>();
   const tableSize = useTableSize();
-  const { data, error } = useProjectQuery({ variables: { id: match.params.projectId }, errorPolicy: 'all' });
-  const { data: meData, error: meError } = useMeQuery({ errorPolicy: 'all' });
+  const { data, error } = useProjectQuery({ variables: { id: match.params.projectId } });
+  const { data: meData, error: meError } = useMeQuery();
 
   useApolloErrorHandling(error);
   useApolloErrorHandling(meError);
@@ -38,7 +38,7 @@ const UserPermissions: React.FC = () => {
       <H1>User Permissions</H1>
 
       <InfoText>
-        Bellow is list of user permissions for current project, permission level determines what actions can user perform. You can change
+        Below is list of user permissions for current project, permission level determines what actions can user perform. You can change
         other user's permission if they have lesser or equal permission to you and you have at least '
         {toReadableString(PermissionType.Configure)}' Permission.
       </InfoText>

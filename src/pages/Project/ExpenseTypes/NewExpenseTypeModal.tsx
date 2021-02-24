@@ -32,7 +32,7 @@ const schema = yup.object().shape({
 });
 
 const NewExpenseTypeModal: React.FC<Props> = ({ isOpen, onClose, projectId }: Props) => {
-  const [createExpenseType] = useCreateExpenseTypeMutation({ errorPolicy: 'all' });
+  const [createExpenseType] = useCreateExpenseTypeMutation();
   const { handleGqlError } = useApolloErrorHandling();
 
   const onSubmit = async (values: Values) => {

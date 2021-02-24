@@ -15,6 +15,8 @@ import {
   UserPermissionsRoute,
   InvitesRoute,
   PasswordResetRoute,
+  AcceptInviteRoute,
+  ExpensesRoute,
 } from './routes';
 import Projects from './pages/Projects';
 import { ApolloProvider } from '@apollo/client';
@@ -27,6 +29,8 @@ import ExpenseTypes from './pages/Project/ExpenseTypes';
 import UserPermissions from './pages/Project/UserPermissions';
 import Invites from './pages/Project/Invites';
 import PasswordReset from './pages/PasswordReset';
+import AcceptInvite from './pages/AcceptInvite';
+import Expenses from './pages/Project/Expenses';
 
 export const App: React.FC = () => {
   const manager = useAuthority(authApiConfig);
@@ -71,8 +75,16 @@ export const App: React.FC = () => {
                   <Invites />
                 </Route>
 
+                <Route path={ExpensesRoute(':projectId')} exact>
+                  <Expenses />
+                </Route>
+
                 <Route path={PasswordResetRoute} exact>
                   <PasswordReset />
+                </Route>
+
+                <Route path={AcceptInviteRoute(':token')} exact>
+                  <AcceptInvite />
                 </Route>
               </Overlay>
             </Switch>

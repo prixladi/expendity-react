@@ -11,13 +11,14 @@ import ProjectsHeading from './ProjectsHeading';
 import Actions from './Actions';
 import { Link as RouterLink } from 'react-router-dom';
 import useTableSize from '../../hooks/useTableSize';
+import Breadcrumb from '../../components/Breadcrumb';
 
 const pageSize = 20;
 
 const Projects: React.FC = () => {
   const tableSize = useTableSize();
 
-  const { data, error, fetchMore } = useProjectsQuery({ variables: { filter: { count: pageSize, skip: 0 } }, errorPolicy: 'all' });
+  const { data, error, fetchMore } = useProjectsQuery({ variables: { filter: { count: pageSize, skip: 0 } } });
   useApolloErrorHandling(error);
 
   if (!data) {
@@ -26,8 +27,8 @@ const Projects: React.FC = () => {
 
   return (
     <WideContent>
+      <Breadcrumb />
       <ProjectsHeading />
-
       <InfiniteScroll
         pageStart={0}
         loadMore={async () => {

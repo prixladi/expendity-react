@@ -23,18 +23,23 @@ type Props = {
 };
 
 const DeleteAction: React.FC<Props> = ({ projectId }: Props) => {
-  const [deleteProject] = useDeleteProjectMutation({ errorPolicy: 'all' });
+  const [deleteProject] = useDeleteProjectMutation();
   const { handleGqlError } = useApolloErrorHandling();
   const { isOpen, onClose, onOpen } = useDisclosure();
   // eslint-disable-next-line
   const cancelRef = React.useRef(null as any | null);
 
   const onDelete = async () => {
-    const { data, errors } = await deleteProject({ variables: { id: projectId }, update: projectOnDeleteUpdate });
-    handleGqlError(errors);
-    if (data) {
-      projectDeletedNotification();
-      onClose();
+    try {
+      const { data, errors } = await deleteProject({ variables: { id: projectId }, update: projectOnDeleteUpdate });
+
+      handleGqlError(errors);
+      if (data) {
+        projectDeletedNotification();
+        onClose();
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 

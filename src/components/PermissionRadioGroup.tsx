@@ -35,7 +35,7 @@ const RadioCard: React.FC<CardProps> = ({ permission, isDisabled, ...props }: Ca
         }}
         _disabled={{
           opacity: '0.5',
-          textDecor: 'line-through'
+          textDecor: 'line-through',
         }}
         px={5}
         py={3}

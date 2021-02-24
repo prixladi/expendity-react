@@ -41,7 +41,7 @@ const schema = yup.object().shape({
 
 const UpdateExpenseTypeAction: React.FC<Props> = ({ expenseType }: Props) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const [updateExpenseType] = useUpdateExpenseTypeMutation({ errorPolicy: 'all' });
+  const [updateExpenseType] = useUpdateExpenseTypeMutation();
   const { handleGqlError } = useApolloErrorHandling();
 
   const onSubmit = async (values: Values) => {

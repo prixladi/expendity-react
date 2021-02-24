@@ -16,7 +16,7 @@ const ProjectsHeading: React.FC = () => {
       <H1>Your projects</H1>
 
       <InfoText>
-        Bellow is table of projects you have permissions to access. Here you can create new project or edit existing. By clicking on name of
+        Below is table of projects you have permissions to access. Here you can create new project or edit existing. By clicking on name of
         the project you will go to detail.
       </InfoText>
 

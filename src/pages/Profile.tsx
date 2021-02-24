@@ -12,7 +12,7 @@ import { Icon } from '@chakra-ui/react';
 import { FaSignOutAlt } from 'react-icons/fa';
 
 const Profile: React.FC = () => {
-  const { data, error } = useMeQuery({ errorPolicy: 'all' });
+  const { data, error } = useMeQuery();
   useApolloErrorHandling(error);
   const history = useHistory();
 

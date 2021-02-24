@@ -41,7 +41,7 @@ const schema = yup.object().shape({
 
 const UpdateAction: React.FC<Props> = ({ project }: Props) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const [updateProject] = useUpdateProjectMutation({ errorPolicy: 'all' });
+  const [updateProject] = useUpdateProjectMutation();
   const { handleGqlError } = useApolloErrorHandling();
 
   const onSubmit = async (values: Values) => {

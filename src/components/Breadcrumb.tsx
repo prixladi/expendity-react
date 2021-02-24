@@ -21,7 +21,7 @@ const Bread: React.FC<Props> = ({ translations }: Props) => {
         current = `${current}${x}/`;
 
         let finalResult: string;
-        
+
         if (translations && translations[x]) {
           finalResult = translations[x];
         } else {

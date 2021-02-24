@@ -21,7 +21,7 @@ const ExpeseTypesHeading: React.FC<Props> = ({ userPermission, projectId }: Prop
     <>
       <H1>Expense types</H1>
 
-      <InfoText>Bellow is table of expense types for current project. Expense types are used for categorization of expenses.</InfoText>
+      <InfoText>Below is table of expense types for current project. Expense types are used for categorization of expenses.</InfoText>
 
       <Box mt="1em" mb="0.7em">
         {isProjectAdmin ? (

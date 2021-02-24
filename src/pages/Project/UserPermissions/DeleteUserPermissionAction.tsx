@@ -24,22 +24,26 @@ type Props = {
 };
 
 const DeleteUserPermissionAction: React.FC<Props> = ({ permission, projectId }: Props) => {
-  const [deleteExpenseType] = useDeleteProjectPermissionMutation({ errorPolicy: 'all' });
+  const [deleteExpenseType] = useDeleteProjectPermissionMutation();
   const { handleGqlError } = useApolloErrorHandling();
   const { isOpen, onClose, onOpen } = useDisclosure();
   // eslint-disable-next-line
   const cancelRef = React.useRef(null as any | null);
 
   const onDelete = async () => {
-    const { data, errors } = await deleteExpenseType({
-      variables: { userId: permission.userId.toString(), projectId },
-      update: projectPermissionOnDeleteUpdate,
-    });
-    
-    handleGqlError(errors);
-    if (data) {
-      projectDeletedNotification();
-      onClose();
+    try {
+      const { data, errors } = await deleteExpenseType({
+        variables: { userId: permission.userId.toString(), projectId },
+        update: projectPermissionOnDeleteUpdate,
+      });
+
+      handleGqlError(errors);
+      if (data) {
+        projectDeletedNotification();
+        onClose();
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 

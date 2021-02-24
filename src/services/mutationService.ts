@@ -1,5 +1,6 @@
 import { MutationUpdaterFn } from '@apollo/client';
 import {
+  CreateExpenseMutation,
   CreateExpenseTypeMutation,
   CreateProjectInviteMutation,
   CreateProjectMutation,
@@ -49,6 +50,7 @@ const projectOnDeleteUpdate: MutationUpdaterFn<DeleteProjectMutation> = (cache, 
       };
 
       cache.evict({ fieldName: 'projects' });
+      cache.gc();
       cache.writeQuery<ProjectsQuery>({ query: ProjectsDocument, data: newProjects });
     }
 
@@ -56,6 +58,7 @@ const projectOnDeleteUpdate: MutationUpdaterFn<DeleteProjectMutation> = (cache, 
       fieldName: 'project',
       args: { id: data.deleteProject.id },
     });
+    cache.gc();
   }
 };
 
@@ -73,6 +76,7 @@ const projectOnUpdateUpdate: MutationUpdaterFn<UpdateProjectMutation> = (cache, 
       };
 
       cache.evict({ fieldName: 'projects' });
+      cache.gc();
       cache.writeQuery<ProjectsQuery>({ query: ProjectsDocument, data: newProjects });
     }
 
@@ -226,7 +230,29 @@ const projectInviteOnDeleteUpdate: MutationUpdaterFn<DeleteProjectInviteMutation
   }
 };
 
+const expenseOnCreateUpdate: MutationUpdaterFn<CreateExpenseMutation> = (cache, { data }) => {
+  if (data) {
+    cache.evict({ fieldName: 'expenses' });
+  }
+  /*if (data) {
+    const oldExpenses = cache.readQuery<ExpensesQuery>({ query: ExpensesDocument });
+    if (oldExpenses) {
+      const newExpenses: ExpensesQuery = {
+        ...oldExpenses,
+        expenses: {
+          ...oldExpenses.expenses,
+          count: oldExpenses.expenses.count + 1,
+          entries: [data.createExpense],
+        },
+      };
+
+      cache.writeQuery<ExpensesQuery>({ query: ExpensesDocument, data: newExpenses });
+    }
+  }*/
+};
+
 export { projectOnCreateUpdate, projectOnDeleteUpdate, projectOnUpdateUpdate };
 export { expenseTypeOnCreateUpdate, expenseTypeOnDeleteUpdate, expenseTypeOnUpdateUpdate };
 export { projectPermissionOnDeleteUpdate };
 export { projectInviteOnCreateUpdate, projectInviteOnDeleteUpdate };
+export { expenseOnCreateUpdate };

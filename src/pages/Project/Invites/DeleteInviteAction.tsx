@@ -16,25 +16,29 @@ import {
 import { FaTrashAlt } from 'react-icons/fa';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
 import { projectInviteOnDeleteUpdate } from '../../../services/mutationService';
-import { projectDeletedNotification } from '../../../services/notificationService';
+import { inviteDeletedNotification } from '../../../services/notificationService';
 
 type Props = {
   inviteId: string;
 };
 
 const DeleteInviteAction: React.FC<Props> = ({ inviteId }: Props) => {
-  const [deleteInvite] = useDeleteProjectInviteMutation({ errorPolicy: 'all' });
+  const [deleteInvite] = useDeleteProjectInviteMutation();
   const { handleGqlError } = useApolloErrorHandling();
   const { isOpen, onClose, onOpen } = useDisclosure();
   // eslint-disable-next-line
   const cancelRef = React.useRef(null as any | null);
 
   const onDelete = async () => {
-    const { data, errors } = await deleteInvite({ variables: { id: inviteId }, update: projectInviteOnDeleteUpdate });
-    handleGqlError(errors);
-    if (data) {
-      projectDeletedNotification();
-      onClose();
+    try {
+      const { data, errors } = await deleteInvite({ variables: { id: inviteId }, update: projectInviteOnDeleteUpdate });
+      handleGqlError(errors);
+      if (data) {
+        inviteDeletedNotification();
+        onClose();
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 

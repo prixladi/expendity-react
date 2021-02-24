@@ -23,7 +23,7 @@ const AuthorizedNavbarItems = () => {
               <Icon as={FaBars} />
             </Flex>
           </MenuButton>
-          <MenuList>
+          <MenuList fontSize="0.8em">
             <MenuItem onClick={() => history.push(ProjectsRoute)}>
               <Link to={ProjectsRoute}>Projects</Link>
             </MenuItem>

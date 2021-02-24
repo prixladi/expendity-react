@@ -19,12 +19,16 @@ const withAuthentication = <TProps extends Record<string, string>>(Component: Re
         return;
       }
 
+      if (!manager.getTokens().refreshToken) {
+        return onUnauthorized(manager, history, apollo, false);
+      }
+
       if (await manager.refreshToken(defaultCallbacks(history))) {
         if (isMounted.current) {
           setSkeleton(false);
         }
       } else {
-        onUnauthorized(manager, history, apollo);
+        onUnauthorized(manager, history, apollo, true);
       }
     }, [history, manager, setSkeleton, apollo]);
 

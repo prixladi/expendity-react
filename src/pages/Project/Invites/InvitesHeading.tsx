@@ -22,7 +22,7 @@ const InvitesHeading: React.FC<Props> = ({ userPermission, projectId }: Props) =
       <H1>Project Invites</H1>
 
       <InfoText>
-        Bellow is table of invites for current project. User joining project will get permission associated with with invite.
+        Below is table of invites for current project. User joining project will get permission associated with with invite.
       </InfoText>
 
       <Box mt="1em" mb="0.7em">

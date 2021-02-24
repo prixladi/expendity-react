@@ -24,10 +24,9 @@ const createUrl = (defaultUrl: string, token: string): string => {
 const Projects: React.FC = () => {
   const match = useRouteMatch<RouteMatch>();
   const tableSize = useTableSize();
-  const { data: projectData, error: projectError } = useProjectQuery({ variables: { id: match.params.projectId }, errorPolicy: 'all' });
+  const { data: projectData, error: projectError } = useProjectQuery({ variables: { id: match.params.projectId } });
   const { data, error } = useProjectInvitesQuery({
     variables: { filter: { projectId: Number(match.params.projectId) } },
-    errorPolicy: 'all',
   });
   const history = useHistory();
 

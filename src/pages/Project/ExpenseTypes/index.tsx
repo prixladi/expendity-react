@@ -7,7 +7,7 @@ import withAuthentication from '../../../hoc/withAuthentication';
 import DefaultSkelleton from '../../../components/DefaultSkelleton';
 import { useRouteMatch } from 'react-router-dom';
 import useTableSize from '../../../hooks/useTableSize';
-import ExpeseTypesHeading from './ExpeseTypesHeading';
+import ExpeseTypesHeading from './ExpenseTypesHeading';
 import Breadcrumb from '../../../components/Breadcrumb';
 import ExpenseTypeActions from './ExpenseTypeActions';
 import ExpenseTypeDetailModal from './ExpenseTypeDetailModal';
@@ -16,14 +16,14 @@ type RouteMatch = {
   projectId: string;
 };
 
-const Projects: React.FC = () => {
+const ExpenseTypes: React.FC = () => {
   const match = useRouteMatch<RouteMatch>();
   const tableSize = useTableSize();
-  const { data, error } = useProjectQuery({ variables: { id: match.params.projectId }, errorPolicy: 'all' });
+  const { data, error } = useProjectQuery({ variables: { id: match.params.projectId } });
   useApolloErrorHandling(error);
 
   if (!data) {
-    return null;
+    return <DefaultSkelleton />;
   }
 
   return (
@@ -58,4 +58,4 @@ const Projects: React.FC = () => {
   );
 };
 
-export default withAuthentication(Projects, DefaultSkelleton);
+export default withAuthentication(ExpenseTypes, DefaultSkelleton);

@@ -27,7 +27,7 @@ const initialValues: Values = {
 };
 
 const NewInviteModal: React.FC<Props> = ({ isOpen, onClose, projectId }: Props) => {
-  const [createExpenseType] = useCreateProjectInviteMutation({ errorPolicy: 'all' });
+  const [createExpenseType] = useCreateProjectInviteMutation();
   const { handleGqlError } = useApolloErrorHandling();
 
   const onSubmit = async (values: Values) => {

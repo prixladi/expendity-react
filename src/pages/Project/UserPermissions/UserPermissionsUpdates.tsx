@@ -26,7 +26,7 @@ const getAllowePermissions = (
 };
 
 const UserPermissionsUpdates: React.FC<Props> = ({ permission, currentUserPermission, projectId, isCurrentUser }: Props) => {
-  const [updatePermission] = useUpdateProjectPermissionMutation({ errorPolicy: 'all' });
+  const [updatePermission] = useUpdateProjectPermissionMutation();
   const { handleGqlError } = useApolloErrorHandling();
 
   const Container = useBreakpointValue([VStack, VStack, HStack, HStack]);

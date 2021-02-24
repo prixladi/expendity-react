@@ -6,6 +6,7 @@ import {
   loggedInNotification,
   loggedOutNotification,
   loginExpiredNotification,
+  loginNeededNotification,
 } from './notificationService';
 import { History } from 'history';
 import { ApolloClient } from '@apollo/client';
@@ -37,8 +38,17 @@ const onSignIn = async (history: History<ReturnPathState>, apollo: ApolloClient<
   history.push(ProjectsRoute);
 };
 
-const onUnauthorized = async (manager: Manager, history: History<ReturnPathState>, apollo: ApolloClient<unknown>): Promise<void> => {
-  loginExpiredNotification();
+const onUnauthorized = async (
+  manager: Manager,
+  history: History<ReturnPathState>,
+  apollo: ApolloClient<unknown>,
+  expired: boolean,
+): Promise<void> => {
+  if (expired) {
+    loginExpiredNotification();
+  } else {
+    loginNeededNotification();
+  }
 
   await apollo.cache.reset();
   await manager.logout();

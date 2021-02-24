@@ -30,12 +30,14 @@ const ForgottenPassword: React.FC<Props> = ({ goto }: Props) => {
   const history = useHistory();
 
   const onSubmit = useCallback(
-    async (submittedValues: Values, { setFieldValue }: FormikHelpers<Values>) => {
+    async (submittedValues: Values, { setFieldValue, setFieldError }: FormikHelpers<Values>) => {
       const result = await manager.sendForgottenPassword(submittedValues.email, defaultCallbacks(history));
       if (result.ok) {
         forgottenPasswordSentNotification();
         setFieldValue('email', '');
         goto('Login');
+      } else {
+        setFieldError('email', 'Something went wrong on server side.');
       }
     },
     [manager, history, goto],

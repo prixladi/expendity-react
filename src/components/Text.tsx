@@ -1,9 +1,10 @@
 import React from 'react';
 import * as CSS from 'csstype';
-import { LayoutProps, ResponsiveValue, SpaceProps, Text as ChakraText } from '@chakra-ui/react';
+import { ColorProps, LayoutProps, ResponsiveValue, SpaceProps, Text as ChakraText } from '@chakra-ui/react';
 
 type Props = SpaceProps &
-  LayoutProps & {
+  LayoutProps &
+  ColorProps & {
     children: React.ReactNode;
     fontSize?: ResponsiveValue<CSS.Property.FontSize<string>>;
     textAlign?: ResponsiveValue<CSS.Property.TextAlign>;
