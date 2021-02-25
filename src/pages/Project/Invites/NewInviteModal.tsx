@@ -4,7 +4,7 @@ import { FormikButton as Button } from '../../../components/Button';
 import Form from '../../../components/Form';
 import { PermissionType, useCreateProjectInviteMutation } from '../../../graphql';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
-import { projectInviteOnCreateUpdate } from '../../../services/mutationService';
+import { projectInviteOnCreateUpdate } from '../../../apollo/cacheOperations';
 import { inviteCreatedNotification } from '../../../services/notificationService';
 import PermissionSelect from '../../../components/PermissionSelect';
 import SwitchInput from '../../../components/SwitchInput';

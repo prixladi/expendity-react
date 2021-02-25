@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { FaTrashAlt } from 'react-icons/fa';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
-import { projectInviteOnDeleteUpdate } from '../../../services/mutationService';
+import { projectInviteOnDeleteUpdate } from '../../../apollo/cacheOperations';
 import { inviteDeletedNotification } from '../../../services/notificationService';
 
 type Props = {

@@ -13,7 +13,7 @@ import { defaultCallbacks } from '../services/authorityService';
 import { passwordResetNotification } from '../services/notificationService';
 import { HomeRoute } from '../routes';
 import PasswordInput from '../components/PasswordInput';
-import { Button } from '../components/Button';
+import { FormikButton as Button } from '../components/Button';
 
 type Values = {
   password: string;

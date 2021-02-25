@@ -4,17 +4,20 @@ import {
   CreateExpenseTypeMutation,
   CreateProjectInviteMutation,
   CreateProjectMutation,
+  DeleteExpenseMutation,
   DeleteExpenseTypeMutation,
   DeleteProjectInviteMutation,
   DeleteProjectMutation,
   DeleteProjectPermissionMutation,
+  ExpensesDocument,
+  ExpensesQuery,
+  ExpenseType,
   ProjectDocument,
   ProjectInvitesDocument,
   ProjectInvitesQuery,
   ProjectQuery,
   ProjectsDocument,
   ProjectsQuery,
-  UpdateExpenseTypeMutation,
   UpdateProjectMutation,
 } from '../graphql';
 
@@ -122,6 +125,7 @@ const expenseTypeOnDeleteUpdate: MutationUpdaterFn<DeleteExpenseTypeMutation> = 
       query: ProjectDocument,
       variables: { id: data.deleteExpenseType.projectId.toString() },
     });
+
     if (oldProject) {
       const newProject: ProjectQuery = {
         ...oldProject,
@@ -133,25 +137,39 @@ const expenseTypeOnDeleteUpdate: MutationUpdaterFn<DeleteExpenseTypeMutation> = 
 
       cache.writeQuery<ProjectQuery>({ query: ProjectDocument, variables: { id: data.deleteExpenseType.projectId }, data: newProject });
     }
-  }
-};
 
-const expenseTypeOnUpdateUpdate: MutationUpdaterFn<UpdateExpenseTypeMutation> = (cache, { data }) => {
-  if (data) {
-    const oldProject = cache.readQuery<ProjectQuery>({
-      query: ProjectDocument,
-      variables: { id: data.updateExpenseType.projectId.toString() },
+    const oldExpenses = cache.readQuery<ExpensesQuery>({
+      query: ExpensesDocument,
+      variables: { filter: { projectId: data.deleteExpenseType.projectId } },
     });
-    if (oldProject) {
-      const newProject: ProjectQuery = {
-        ...oldProject,
-        project: {
-          ...oldProject.project,
-          expenseTypes: oldProject.project.expenseTypes.map((x) => (x.id === data?.updateExpenseType.id ? data.updateExpenseType : x)),
+
+    if (oldExpenses) {
+      const newExpenses: ExpensesQuery = {
+        ...oldExpenses,
+        expenses: {
+          ...oldExpenses.expenses,
+          entries: oldExpenses.expenses.entries.map(
+            (e): ExpenseType => {
+              if (e.typeId !== Number(data.deleteExpenseType.id)) {
+                return e;
+              }
+
+              return {
+                ...e,
+                typeId: null,
+              };
+            },
+          ),
         },
       };
 
-      cache.writeQuery<ProjectQuery>({ query: ProjectDocument, variables: { id: data.updateExpenseType.projectId }, data: newProject });
+      cache.evict({ fieldName: 'expenses', args: { filter: { projectId: data.deleteExpenseType.projectId } } });
+      cache.gc();
+      cache.writeQuery<ExpensesQuery>({
+        query: ExpensesDocument,
+        variables: { filter: { projectId: data.deleteExpenseType.projectId } },
+        data: newExpenses,
+      });
     }
   }
 };
@@ -232,10 +250,11 @@ const projectInviteOnDeleteUpdate: MutationUpdaterFn<DeleteProjectInviteMutation
 
 const expenseOnCreateUpdate: MutationUpdaterFn<CreateExpenseMutation> = (cache, { data }) => {
   if (data) {
-    cache.evict({ fieldName: 'expenses' });
-  }
-  /*if (data) {
-    const oldExpenses = cache.readQuery<ExpensesQuery>({ query: ExpensesDocument });
+    const oldExpenses = cache.readQuery<ExpensesQuery>({
+      query: ExpensesDocument,
+      variables: { filter: { projectId: data.createExpense.projectId } },
+    });
+
     if (oldExpenses) {
       const newExpenses: ExpensesQuery = {
         ...oldExpenses,
@@ -246,13 +265,45 @@ const expenseOnCreateUpdate: MutationUpdaterFn<CreateExpenseMutation> = (cache, 
         },
       };
 
-      cache.writeQuery<ExpensesQuery>({ query: ExpensesDocument, data: newExpenses });
+      cache.writeQuery<ExpensesQuery>({
+        query: ExpensesDocument,
+        variables: { filter: { projectId: data.createExpense.projectId } },
+        data: newExpenses,
+      });
     }
-  }*/
+  }
+};
+
+const expenseOnDeleteUpdate: MutationUpdaterFn<DeleteExpenseMutation> = (cache, { data }) => {
+  if (data) {
+    const oldExpenses = cache.readQuery<ExpensesQuery>({
+      query: ExpensesDocument,
+      variables: { filter: { projectId: data.deleteExpense.projectId } },
+    });
+
+    if (oldExpenses) {
+      const newExpenses: ExpensesQuery = {
+        ...oldExpenses,
+        expenses: {
+          ...oldExpenses.expenses,
+          count: oldExpenses.expenses.count - 1,
+          entries: oldExpenses.expenses.entries.filter((x) => x.id !== data?.deleteExpense.id),
+        },
+      };
+
+      cache.evict({ fieldName: 'expenses', args: { filter: { projectId: data.deleteExpense.projectId } } });
+      cache.gc();
+      cache.writeQuery<ExpensesQuery>({
+        query: ExpensesDocument,
+        variables: { filter: { projectId: data.deleteExpense.projectId } },
+        data: newExpenses,
+      });
+    }
+  }
 };
 
 export { projectOnCreateUpdate, projectOnDeleteUpdate, projectOnUpdateUpdate };
-export { expenseTypeOnCreateUpdate, expenseTypeOnDeleteUpdate, expenseTypeOnUpdateUpdate };
+export { expenseTypeOnCreateUpdate, expenseTypeOnDeleteUpdate };
 export { projectPermissionOnDeleteUpdate };
 export { projectInviteOnCreateUpdate, projectInviteOnDeleteUpdate };
-export { expenseOnCreateUpdate };
+export { expenseOnCreateUpdate, expenseOnDeleteUpdate };

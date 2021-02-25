@@ -16,7 +16,7 @@ import {
 import { FaTrashAlt } from 'react-icons/fa';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
 import { projectDeletedNotification } from '../../../services/notificationService';
-import { projectPermissionOnDeleteUpdate } from '../../../services/mutationService';
+import { projectPermissionOnDeleteUpdate } from '../../../apollo/cacheOperations';
 
 type Props = {
   permission: ProjectPermissionType;

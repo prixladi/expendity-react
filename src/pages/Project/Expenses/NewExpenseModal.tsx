@@ -9,13 +9,15 @@ import { expenseCreatedNotification } from '../../../services/notificationServic
 import * as yup from 'yup';
 import { GiPayMoney } from 'react-icons/gi';
 import ExpenseTypeSelect from '../../../components/ExpenseTypeSelect';
-import { expenseOnCreateUpdate } from '../../../services/mutationService';
+import { expenseOnCreateUpdate } from '../../../apollo/cacheOperations';
+import DatePickerInput from '../../../components/DatePickerInput';
 
 type Values = {
   name: string;
   description?: string | null;
   value: number;
   typeId?: number | null;
+  dateAdded: string;
 };
 
 type Props = {
@@ -30,6 +32,7 @@ const initialValues: Values = {
   name: '',
   description: '',
   value: 0,
+  dateAdded: new Date().toLocaleDateString(),
 };
 
 const schema = yup.object().shape({
@@ -44,7 +47,7 @@ const NewExpenseModal: React.FC<Props> = ({ isOpen, onClose, projectId, expenseT
 
   const onSubmit = async (values: Values) => {
     const { data, errors } = await createExpense({
-      variables: { expense: { ...values, projectId } },
+      variables: { expense: { ...values, typeId: values.typeId ? values.typeId : null, projectId } },
       update: expenseOnCreateUpdate,
     });
     handleGqlError(errors);
@@ -74,7 +77,8 @@ const NewExpenseModal: React.FC<Props> = ({ isOpen, onClose, projectId, expenseT
                 isRequired
                 rightElement={<Text pr="0.3em">{currencyType}</Text>}
               />
-              <ExpenseTypeSelect name="typeId" expenseTypes={expenseTypes} isRequired />
+              <ExpenseTypeSelect name="typeId" expenseTypes={expenseTypes} />
+              <DatePickerInput label="Date" name="dateAdded" isRequired />
               <Button submit>
                 Create
                 <Icon ml="0.2em" as={GiPayMoney} />

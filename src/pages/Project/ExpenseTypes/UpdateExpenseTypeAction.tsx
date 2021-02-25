@@ -18,11 +18,10 @@ import {
 import { FaEdit } from 'react-icons/fa';
 import Form from '../../../components/Form';
 import InputBase from '../../../components/InputBase';
-import { Button } from '../../../components/Button';
+import { FormikButton as Button } from '../../../components/Button';
 import * as yup from 'yup';
 import { projectUpdatedNotification } from '../../../services/notificationService';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
-import { expenseTypeOnUpdateUpdate } from '../../../services/mutationService';
 import { GiMoneyStack } from 'react-icons/gi';
 
 type Values = {
@@ -46,8 +45,7 @@ const UpdateExpenseTypeAction: React.FC<Props> = ({ expenseType }: Props) => {
 
   const onSubmit = async (values: Values) => {
     const { data, errors } = await updateExpenseType({
-      variables: { id: expenseType.id, update: values },
-      update: expenseTypeOnUpdateUpdate,
+      variables: { id: expenseType.id, update: values }
     });
     handleGqlError(errors);
     if (data) {

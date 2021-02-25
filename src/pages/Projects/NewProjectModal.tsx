@@ -7,7 +7,7 @@ import Form from '../../components/Form';
 import InputBase from '../../components/InputBase';
 import { CurrencyType, useCreateProjectMutation } from '../../graphql';
 import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
-import { projectOnCreateUpdate } from '../../services/mutationService';
+import { projectOnCreateUpdate } from '../../apollo/cacheOperations';
 import { projectCreatedNotification } from '../../services/notificationService';
 import * as yup from 'yup';
 

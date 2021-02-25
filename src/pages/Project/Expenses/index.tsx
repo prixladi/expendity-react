@@ -1,13 +1,16 @@
-import { Flex, Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
-import React from 'react';
+import { Flex, Icon, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import React, { useMemo } from 'react';
+import { FaStar } from 'react-icons/fa';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useRouteMatch } from 'react-router-dom';
 import Breadcrumb from '../../../components/Breadcrumb';
 import { WideContent } from '../../../components/Content';
 import DefaultSkelleton from '../../../components/DefaultSkelleton';
-import { useExpensesQuery, useProjectQuery } from '../../../graphql';
+import TableWrapper from '../../../components/TableWrapper';
+import { useExpensesQuery, useMeQuery, useProjectQuery } from '../../../graphql';
 import withAuthentication from '../../../hoc/withAuthentication';
-import useTableSize from '../../../hooks/useTableSize';
+import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
+import ExpenseActions from './ExpenseActions';
 import ExpensesHeading from './ExpensesHeading';
 
 type RouteMatch = {
@@ -18,15 +21,46 @@ const pageSize = 20;
 
 const Expenses = () => {
   const match = useRouteMatch<RouteMatch>();
-  const tableSize = useTableSize();
-  const { data: projectData } = useProjectQuery({ variables: { id: match.params.projectId } });
-  const { data, fetchMore } = useExpensesQuery({
+  const { data: meData, error: meError } = useMeQuery();
+  const { data: projectData, error: projectError } = useProjectQuery({ variables: { id: match.params.projectId } });
+  const { data, fetchMore, error } = useExpensesQuery({
     variables: { filter: { projectId: Number(match.params.projectId), skip: 0, count: pageSize } },
   });
 
-  if (!projectData || !data) {
+  useApolloErrorHandling(meError);
+  useApolloErrorHandling(projectError);
+  useApolloErrorHandling(error);
+
+  const expenseTypeDict = useMemo(() => {
+    return (
+      projectData?.project.expenseTypes.reduce((dict, e) => {
+        dict[e.id] = e.name;
+        return dict;
+      }, {} as Record<string, string>) ?? {}
+    );
+  }, [projectData]);
+
+  const getExpenseTypeName = (typeId?: number | null) => {
+    if (!typeId) {
+      return '';
+    }
+
+    return expenseTypeDict[typeId];
+  };
+
+  if (!projectData || !data || !meData) {
     return <DefaultSkelleton />;
   }
+
+  const loadMore = async () => {
+    try {
+      await fetchMore({
+        variables: { filter: { count: pageSize, skip: data.expenses.entries.length, projectId: Number(match.params.projectId) } },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <WideContent>
@@ -40,11 +74,7 @@ const Expenses = () => {
 
       <InfiniteScroll
         pageStart={0}
-        loadMore={async () => {
-          await fetchMore({
-            variables: { filter: { count: pageSize, skip: data.expenses.entries.length, projectId: Number(match.params.projectId) } },
-          });
-        }}
+        loadMore={loadMore}
         hasMore={data.expenses.entries.length < data.expenses.count}
         loader={
           <Text color="brand.500" key={0}>
@@ -52,11 +82,14 @@ const Expenses = () => {
           </Text>
         }
       >
-        <Table textOverflow="ellipsis" size={tableSize} variant="striped">
+        <TableWrapper>
           <Thead>
             <Tr>
               <Th>
                 <Text>Name</Text>
+              </Th>
+              <Th>
+                <Text>Date</Text>
               </Th>
               <Th>
                 <Text>Type</Text>
@@ -64,24 +97,37 @@ const Expenses = () => {
               <Th>
                 <Text>Amount</Text>
               </Th>
+              <Th>
+                <Text>Actions</Text>
+              </Th>
             </Tr>
           </Thead>
-          <Tbody>
+          <Tbody overflowX="scroll">
             {data.expenses.entries.map((e) => (
               <Tr w="100%" key={e.id}>
-                <Td overflow="hidden" color="brand.500" whiteSpace="nowrap" textOverflow="ellipsis" maxW={['7em', '10em', '13em', '20em']}>
-                  {e.name}
+                <Td overflow="hidden" color="brand.500" whiteSpace="nowrap" textOverflow="ellipsis" maxW={['10em', '10em', '13em', '20em']}>
+                  {e.creatorUserId === meData.me.id ? <Icon mb="0.3em" as={FaStar} /> : null} {e.name}
                 </Td>
-                <Td>{e.typeId}</Td>
-                <Td>
+                <Td>{new Date(e.dateAdded).toLocaleDateString()}</Td>
+                <Td>{getExpenseTypeName(e.typeId)}</Td>
+                <Td isNumeric>
+                  {e.value} {projectData.project.currencyType}
+                </Td>
+                <Td isNumeric>
                   <Flex as="span" justifyContent="space-between">
-                    {e.value} {projectData.project.currencyType}
+                    <ExpenseActions
+                      expenseTypes={projectData.project.expenseTypes}
+                      currencyType={projectData.project.currencyType}
+                      userPermission={projectData.project.userPermission}
+                      expense={e}
+                      currentUserId={meData.me.id}
+                    />
                   </Flex>
                 </Td>
               </Tr>
             ))}
           </Tbody>
-        </Table>
+        </TableWrapper>
       </InfiniteScroll>
     </WideContent>
   );

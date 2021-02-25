@@ -1,16 +1,16 @@
 import React from 'react';
 import { useProjectQuery } from '../../../graphql';
-import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import { Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
 import { WideContent } from '../../../components/Content';
 import withAuthentication from '../../../hoc/withAuthentication';
 import DefaultSkelleton from '../../../components/DefaultSkelleton';
 import { useRouteMatch } from 'react-router-dom';
-import useTableSize from '../../../hooks/useTableSize';
 import ExpeseTypesHeading from './ExpenseTypesHeading';
 import Breadcrumb from '../../../components/Breadcrumb';
 import ExpenseTypeActions from './ExpenseTypeActions';
 import ExpenseTypeDetailModal from './ExpenseTypeDetailModal';
+import TableWrapper from '../../../components/TableWrapper';
 
 type RouteMatch = {
   projectId: string;
@@ -18,7 +18,6 @@ type RouteMatch = {
 
 const ExpenseTypes: React.FC = () => {
   const match = useRouteMatch<RouteMatch>();
-  const tableSize = useTableSize();
   const { data, error } = useProjectQuery({ variables: { id: match.params.projectId } });
   useApolloErrorHandling(error);
 
@@ -30,7 +29,8 @@ const ExpenseTypes: React.FC = () => {
     <WideContent>
       <Breadcrumb translations={{ [data.project.id]: data.project.name }} />
       <ExpeseTypesHeading projectId={Number(data.project.id)} userPermission={data.project.userPermission} />
-      <Table textOverflow="ellipsis" size={tableSize} variant="striped">
+
+      <TableWrapper>
         <Thead>
           <Tr>
             <Th>
@@ -53,7 +53,7 @@ const ExpenseTypes: React.FC = () => {
             </Tr>
           ))}
         </Tbody>
-      </Table>
+      </TableWrapper>
     </WideContent>
   );
 };

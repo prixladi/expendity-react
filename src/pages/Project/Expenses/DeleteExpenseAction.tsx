@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDeleteProjectMutation } from '../../graphql';
+import { useDeleteExpenseMutation } from '../../../graphql';
 import {
   Tag,
   TagLabel,
@@ -14,16 +14,16 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { FaTrashAlt } from 'react-icons/fa';
-import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
-import { projectOnDeleteUpdate } from '../../apollo/cacheOperations';
-import { projectDeletedNotification } from '../../services/notificationService';
+import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
+import { expenseOnDeleteUpdate } from '../../../apollo/cacheOperations';
+import { expenseDeletedNotification } from '../../../services/notificationService';
 
 type Props = {
-  projectId: string;
+  expenseId: string;
 };
 
-const DeleteAction: React.FC<Props> = ({ projectId }: Props) => {
-  const [deleteProject] = useDeleteProjectMutation();
+const DeleteExpenseAction: React.FC<Props> = ({ expenseId }: Props) => {
+  const [deleteExpense] = useDeleteExpenseMutation();
   const { handleGqlError } = useApolloErrorHandling();
   const { isOpen, onClose, onOpen } = useDisclosure();
   // eslint-disable-next-line
@@ -31,11 +31,10 @@ const DeleteAction: React.FC<Props> = ({ projectId }: Props) => {
 
   const onDelete = async () => {
     try {
-      const { data, errors } = await deleteProject({ variables: { id: projectId }, update: projectOnDeleteUpdate });
-
+      const { data, errors } = await deleteExpense({ variables: { id: expenseId }, update: expenseOnDeleteUpdate });
       handleGqlError(errors);
       if (data) {
-        projectDeletedNotification();
+        expenseDeletedNotification();
         onClose();
       }
     } catch (err) {
@@ -52,7 +51,7 @@ const DeleteAction: React.FC<Props> = ({ projectId }: Props) => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Project
+              Delete Expense
             </AlertDialogHeader>
 
             <AlertDialogBody>Are you sure? You can't undo this action afterwards.</AlertDialogBody>
@@ -72,4 +71,4 @@ const DeleteAction: React.FC<Props> = ({ projectId }: Props) => {
   );
 };
 
-export default DeleteAction;
+export default DeleteExpenseAction;

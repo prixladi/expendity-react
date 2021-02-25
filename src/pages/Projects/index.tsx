@@ -1,6 +1,6 @@
 import React from 'react';
 import { useProjectsQuery } from '../../graphql';
-import { Table, Tbody, Td, Text, Th, Thead, Tr, Link } from '@chakra-ui/react';
+import { Tbody, Td, Text, Th, Thead, Tr, Link } from '@chakra-ui/react';
 import InfiniteScroll from 'react-infinite-scroller';
 import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
 import { WideContent } from '../../components/Content';
@@ -10,14 +10,12 @@ import DefaultSkelleton from '../../components/DefaultSkelleton';
 import ProjectsHeading from './ProjectsHeading';
 import Actions from './Actions';
 import { Link as RouterLink } from 'react-router-dom';
-import useTableSize from '../../hooks/useTableSize';
 import Breadcrumb from '../../components/Breadcrumb';
+import TableWrapper from '../../components/TableWrapper';
 
 const pageSize = 20;
 
 const Projects: React.FC = () => {
-  const tableSize = useTableSize();
-
   const { data, error, fetchMore } = useProjectsQuery({ variables: { filter: { count: pageSize, skip: 0 } } });
   useApolloErrorHandling(error);
 
@@ -41,7 +39,7 @@ const Projects: React.FC = () => {
           </Text>
         }
       >
-        <Table textOverflow="ellipsis" size={tableSize} variant="striped">
+        <TableWrapper>
           <Thead>
             <Tr>
               <Th>
@@ -58,7 +56,7 @@ const Projects: React.FC = () => {
           <Tbody>
             {data.projects.entries.map((p) => (
               <Tr w="100%" key={p.id}>
-                <Td overflow="hidden" color="brand.500" whiteSpace="nowrap" textOverflow="ellipsis" maxW={['7em', '10em', '13em', '20em']}>
+                <Td overflow="hidden" color="brand.500" whiteSpace="nowrap" textOverflow="ellipsis" maxW={['10em', '10em', '13em', '20em']}>
                   <Link as={RouterLink} to={ProjectRoute(p.id)}>
                     {p.name}
                   </Link>
@@ -70,7 +68,7 @@ const Projects: React.FC = () => {
               </Tr>
             ))}
           </Tbody>
-        </Table>
+        </TableWrapper>
       </InfiniteScroll>
     </WideContent>
   );

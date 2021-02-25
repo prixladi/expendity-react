@@ -18,12 +18,12 @@ import {
 import { FaEdit } from 'react-icons/fa';
 import Form from '../../components/Form';
 import InputBase from '../../components/InputBase';
-import { Button } from '../../components/Button';
+import { FormikButton as Button } from '../../components/Button';
 import { AiOutlineFundProjectionScreen } from 'react-icons/ai';
 import * as yup from 'yup';
 import { projectUpdatedNotification } from '../../services/notificationService';
 import useApolloErrorHandling from '../../hooks/useApolloErrorHandling';
-import { projectOnUpdateUpdate } from '../../services/mutationService';
+import { projectOnUpdateUpdate } from '../../apollo/cacheOperations';
 
 type Values = {
   name: string;

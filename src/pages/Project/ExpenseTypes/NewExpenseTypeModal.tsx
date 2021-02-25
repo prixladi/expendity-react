@@ -5,7 +5,7 @@ import Form from '../../../components/Form';
 import InputBase from '../../../components/InputBase';
 import { useCreateExpenseTypeMutation } from '../../../graphql';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
-import { expenseTypeOnCreateUpdate } from '../../../services/mutationService';
+import { expenseTypeOnCreateUpdate } from '../../../apollo/cacheOperations';
 import { expenseTypeCreatedNotification } from '../../../services/notificationService';
 import * as yup from 'yup';
 import { GiMoneyStack } from 'react-icons/gi';

@@ -7,7 +7,7 @@ type Props = InputProps &
   InputHTMLAttributes<HTMLSelectElement> & {
     expenseTypes: ExpenseTypeType[];
     name: string;
-    isRequired: boolean;
+    isRequired?: boolean;
   };
 
 const ExpenseTypeSelect: React.FC<Props> = ({ isRequired, expenseTypes, ...props }: Props) => {
@@ -16,8 +16,8 @@ const ExpenseTypeSelect: React.FC<Props> = ({ isRequired, expenseTypes, ...props
   return (
     <FormControl isInvalid={!!error} isRequired={isRequired}>
       <FormLabel>Expense Type</FormLabel>
-      <Select defaultValue={undefined} {...field} {...props}>
-        <option value={undefined}>Unclassified</option>
+      <Select defaultValue={""} {...field} {...props}>
+        <option value={""}>Unclassified</option>
         {expenseTypes.map((e) => (
           <option key={e.id} value={e.id}>
             {e.name}

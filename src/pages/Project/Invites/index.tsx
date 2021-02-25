@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { PermissionType, useProjectInvitesQuery, useProjectQuery } from '../../../graphql';
-import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import { Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
 import { WideContent } from '../../../components/Content';
 import withAuthentication from '../../../hoc/withAuthentication';
 import DefaultSkelleton from '../../../components/DefaultSkelleton';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import useTableSize from '../../../hooks/useTableSize';
 import Breadcrumb from '../../../components/Breadcrumb';
 import InvitesHeading from './InvitesHeading';
 import { AcceptInviteRoute, ProjectRoute } from '../../../routes';
 import InviteDetailModal from './InviteDetailModal';
 import InviteActions from './InviteActions';
+import TableWrapper from '../../../components/TableWrapper';
 
 type RouteMatch = {
   projectId: string;
@@ -23,7 +23,6 @@ const createUrl = (defaultUrl: string, token: string): string => {
 
 const Projects: React.FC = () => {
   const match = useRouteMatch<RouteMatch>();
-  const tableSize = useTableSize();
   const { data: projectData, error: projectError } = useProjectQuery({ variables: { id: match.params.projectId } });
   const { data, error } = useProjectInvitesQuery({
     variables: { filter: { projectId: Number(match.params.projectId) } },
@@ -51,7 +50,8 @@ const Projects: React.FC = () => {
     <WideContent>
       <Breadcrumb translations={{ [match.params.projectId]: projectData.project.name }} />
       <InvitesHeading projectId={Number(projectData.project.id)} userPermission={projectData.project.userPermission} />
-      <Table textOverflow="ellipsis" size={tableSize} variant="striped">
+
+      <TableWrapper>
         <Thead>
           <Tr>
             <Th>
@@ -78,7 +78,7 @@ const Projects: React.FC = () => {
             );
           })}
         </Tbody>
-      </Table>
+      </TableWrapper>
     </WideContent>
   );
 };

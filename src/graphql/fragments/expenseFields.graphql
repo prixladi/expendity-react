@@ -1,5 +1,5 @@
 fragment expenseFields on ExpenseType  {
-  addedUtc
+  dateAdded
   creatorUserEmail
   creatorUserId
   description

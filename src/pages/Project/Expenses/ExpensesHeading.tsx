@@ -7,6 +7,7 @@ import { CurrencyType, ExpenseTypeType, PermissionType } from '../../../graphql'
 import { greaterOrEqualPermission, toReadableString } from '../../../utils';
 import { GiPayMoney } from 'react-icons/gi';
 import NewExpenseModal from './NewExpenseModal';
+import { FaStar } from 'react-icons/fa';
 
 type Props = {
   userPermission: PermissionType;
@@ -25,7 +26,8 @@ const ExpensesHeading: React.FC<Props> = ({ userPermission, projectId, expenseTy
 
       <InfoText>
         Below is table of expense for current project. You can add new expense if you have at least '
-        {toReadableString(PermissionType.Control)}' permission.
+        {toReadableString(PermissionType.Control)}' permission. Expenses decorated with <Icon mb="0.3em" as={FaStar} /> indicate expenses
+        added by current user.
       </InfoText>
 
       <Box mt="1em" mb="0.7em">

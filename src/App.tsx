@@ -31,6 +31,7 @@ import Invites from './pages/Project/Invites';
 import PasswordReset from './pages/PasswordReset';
 import AcceptInvite from './pages/AcceptInvite';
 import Expenses from './pages/Project/Expenses';
+import Dev from './pages/dev';
 
 export const App: React.FC = () => {
   const manager = useAuthority(authApiConfig);
@@ -43,6 +44,10 @@ export const App: React.FC = () => {
           <BrowserRouter>
             <Switch>
               <Overlay>
+                <Route path="/dev" exact>
+                  <Dev />
+                </Route>
+
                 <Route path={HomeRoute} exact>
                   <Home />
                 </Route>

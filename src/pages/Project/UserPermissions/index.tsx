@@ -1,12 +1,11 @@
 import React from 'react';
 import { PermissionType, useMeQuery, useProjectQuery } from '../../../graphql';
-import { Icon, Table, Tbody, Td, Text, Th, Thead, Tooltip, Tr } from '@chakra-ui/react';
+import { Icon, Tbody, Td, Text, Th, Thead, Tooltip, Tr } from '@chakra-ui/react';
 import useApolloErrorHandling from '../../../hooks/useApolloErrorHandling';
 import { WideContent } from '../../../components/Content';
 import withAuthentication from '../../../hoc/withAuthentication';
 import DefaultSkelleton from '../../../components/DefaultSkelleton';
 import { useRouteMatch } from 'react-router-dom';
-import useTableSize from '../../../hooks/useTableSize';
 import Breadcrumb from '../../../components/Breadcrumb';
 import H1 from '../../../components/H1';
 import InfoText from '../../../components/Text';
@@ -14,6 +13,7 @@ import UserPermissionsUpdates from './UserPermissionsUpdates';
 import { toReadableString } from '../../../utils';
 import { FaStar } from 'react-icons/fa';
 import UserPermissionActions from './UserPermissionActions';
+import TableWrapper from '../../../components/TableWrapper';
 
 type RouteMatch = {
   projectId: string;
@@ -21,7 +21,6 @@ type RouteMatch = {
 
 const UserPermissions: React.FC = () => {
   const match = useRouteMatch<RouteMatch>();
-  const tableSize = useTableSize();
   const { data, error } = useProjectQuery({ variables: { id: match.params.projectId } });
   const { data: meData, error: meError } = useMeQuery();
 
@@ -40,10 +39,10 @@ const UserPermissions: React.FC = () => {
       <InfoText>
         Below is list of user permissions for current project, permission level determines what actions can user perform. You can change
         other user's permission if they have lesser or equal permission to you and you have at least '
-        {toReadableString(PermissionType.Configure)}' Permission.
+        {toReadableString(PermissionType.Configure)}' Permission. <Icon mb="0.3em" as={FaStar} /> indicates current user.
       </InfoText>
 
-      <Table mt="0.5em" textOverflow="ellipsis" size={tableSize} variant="striped">
+      <TableWrapper>
         <Thead>
           <Tr>
             <Th>
@@ -60,14 +59,14 @@ const UserPermissions: React.FC = () => {
         <Tbody>
           {data.project.permissions.map((p) => (
             <Tr w="100%" key={p.id}>
-              <Td overflow="hidden" color="brand.500" whiteSpace="nowrap" textOverflow="ellipsis" maxW={['7em', '12em', '12em', '40em']}>
+              <Td overflow="hidden" color="brand.500" whiteSpace="nowrap" textOverflow="ellipsis" maxW={['10em', '15em', '20em', '40em']}>
                 <Tooltip label={p.userEmail}>
                   <span>
                     {p.userId === meData.me.id ? <Icon mb="0.3em" as={FaStar} /> : null} {p.userEmail}
                   </span>
                 </Tooltip>
               </Td>
-              <Td maxW={['2em', '4em', '20em', '17em']}>
+              <Td maxW={['2em', '4em', '20em', '20em']}>
                 <UserPermissionsUpdates
                   isCurrentUser={p.userId === meData.me.id}
                   permission={p}
@@ -75,7 +74,7 @@ const UserPermissions: React.FC = () => {
                   projectId={data.project.id}
                 />
               </Td>
-              <Td maxW={['1.5em', '1.5em', '2em', '2em']}>
+              <Td maxW={['2em', '2em', '2em', '2em']}>
                 <UserPermissionActions
                   isCurrentUser={p.userId === meData.me.id}
                   permission={p}
@@ -86,7 +85,7 @@ const UserPermissions: React.FC = () => {
             </Tr>
           ))}
         </Tbody>
-      </Table>
+      </TableWrapper>
     </WideContent>
   );
 };

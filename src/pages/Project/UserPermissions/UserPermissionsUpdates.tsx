@@ -13,12 +13,16 @@ type Props = {
   isCurrentUser: boolean;
 };
 
-const getAllowePermissions = (
+const getAllowedPermissions = (
   permission: ProjectPermissionType,
   currentUserPermission: PermissionType,
   isCurrentUser: boolean,
 ): PermissionType[] => {
-  if (isCurrentUser || !greaterOrEqualPermission(currentUserPermission, permission.type)) {
+  if (
+    isCurrentUser ||
+    !greaterOrEqualPermission(currentUserPermission, permission.type) ||
+    !greaterOrEqualPermission(currentUserPermission, PermissionType.Configure)
+  ) {
     return [];
   }
 
@@ -44,7 +48,7 @@ const UserPermissionsUpdates: React.FC<Props> = ({ permission, currentUserPermis
     <Flex>
       <Flex as={Container}>
         <PermissionRadioGroup
-          allowedPermission={getAllowePermissions(permission, currentUserPermission, isCurrentUser)}
+          allowedPermission={getAllowedPermissions(permission, currentUserPermission, isCurrentUser)}
           defaultPermission={permission.type}
           onChange={onChange}
         />

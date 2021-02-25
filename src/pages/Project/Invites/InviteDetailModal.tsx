@@ -10,9 +10,9 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  Text,
 } from '@chakra-ui/react';
 import { toReadableString } from '../../../utils';
+import Text from '../../../components/Text';
 
 type Props = {
   projectInvite: ProjectInviteType;

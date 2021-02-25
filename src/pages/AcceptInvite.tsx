@@ -10,7 +10,7 @@ import { invalidInviteNotification, inviteAcceptedNotification } from '../servic
 import H1 from '../components/H1';
 import Text from '../components/Text';
 import InternalLink from '../components/InternalLink';
-import { Button } from '../components/Button';
+import { FormikButton as Button } from '../components/Button';
 import { AiOutlineFundProjectionScreen } from 'react-icons/ai';
 import H2 from '../components/H2';
 import useApolloErrorHandling from '../hooks/useApolloErrorHandling';
@@ -61,8 +61,8 @@ const AcceptInvite: React.FC = () => {
         {data.projectInviteByToken.projectDescription}
       </ChakraText>
       <Text>
-        If you wish to join this project click button below. Otherwise go back to{' '}
-        <InternalLink href={HomeRoute}>project list</InternalLink>.
+        If you wish to join this project click button below. Otherwise go back to <InternalLink href={HomeRoute}>project list</InternalLink>
+        .
       </Text>
       <Button mt="1em" onClick={onClick}>
         Join Project <Icon ml="0.2em" mt="0.2em" as={AiOutlineFundProjectionScreen} />
