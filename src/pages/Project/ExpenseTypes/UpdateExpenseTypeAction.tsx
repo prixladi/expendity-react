@@ -45,7 +45,7 @@ const UpdateExpenseTypeAction: React.FC<Props> = ({ expenseType }: Props) => {
 
   const onSubmit = async (values: Values) => {
     const { data, errors } = await updateExpenseType({
-      variables: { id: expenseType.id, update: values }
+      variables: { id: expenseType.id, update: values },
     });
     handleGqlError(errors);
     if (data) {

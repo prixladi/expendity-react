@@ -1,0 +1,5 @@
+query summary($filter: SummaryFilterInputType!) {
+    summary(filter: $filter) {
+        ...summaryFields
+    }
+}

@@ -55,7 +55,7 @@ const DeleteExpenseTypeAction: React.FC<Props> = ({ expenseTypeId }: Props) => {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards. All expenses under this type will be unasigned.
+              Are you sure? You can't undo this action afterwards. All expenses under this type will be unassigned.
             </AlertDialogBody>
 
             <AlertDialogFooter>

@@ -9,7 +9,8 @@ const ExpenseTypesRoute = (projectId: string): string => `/projects/${projectId}
 const UserPermissionsRoute = (projectId: string): string => `/projects/${projectId}/userPermissions`;
 const InvitesRoute = (projectId: string): string => `/projects/${projectId}/invites`;
 const ExpensesRoute = (projectId: string): string => `/projects/${projectId}/expenses`;
+const StatisticsRoute = (projectId: string): string => `/projects/${projectId}/statistics`;
 const AcceptInviteRoute = (token: string): string => `/i/${token}`;
 
 export { HomeRoute, ProjectsRoute, ProfileRoute, LogoutRoute, PasswordResetRoute };
-export { ProjectRoute, ExpenseTypesRoute, UserPermissionsRoute, InvitesRoute, ExpensesRoute, AcceptInviteRoute };
+export { ProjectRoute, ExpenseTypesRoute, UserPermissionsRoute, InvitesRoute, ExpensesRoute, AcceptInviteRoute, StatisticsRoute };

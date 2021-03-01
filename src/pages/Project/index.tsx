@@ -15,7 +15,7 @@ import { BiStats } from 'react-icons/bi';
 import { TiTicket } from 'react-icons/ti';
 import H2 from '../../components/H2';
 import InternalLink from '../../components/InternalLink';
-import { ExpensesRoute, ExpenseTypesRoute, InvitesRoute, ProjectsRoute, UserPermissionsRoute } from '../../routes';
+import { ExpensesRoute, ExpenseTypesRoute, InvitesRoute, ProjectsRoute, StatisticsRoute, UserPermissionsRoute } from '../../routes';
 import Breadcrumb from '../../components/Breadcrumb';
 import { greaterOrEqualPermission } from '../../utils';
 
@@ -61,7 +61,7 @@ const Project: React.FC = () => {
               Project Invites <Icon ml="0.2em" as={TiTicket} />
             </Button>
           ) : null}
-          <Button minW="10em">
+          <Button onClick={() => history.push(StatisticsRoute(data.project.id))} minW="10em">
             Statistics
             <Icon ml="0.2em" as={BiStats} />{' '}
           </Button>

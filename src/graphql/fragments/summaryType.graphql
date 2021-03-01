@@ -1,0 +1,6 @@
+fragment summaryFields on SummaryType {
+    fullSum
+    entries {
+        ...summaryEntryFields
+    }
+}

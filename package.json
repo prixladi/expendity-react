@@ -34,12 +34,10 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "recharts": "^2.0.8",
-    "web-vitals": "^0.2.2",
     "yup": "^0.32.9"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.20.1",
-    "@graphql-codegen/introspection": "^1.18.1",
     "@graphql-codegen/typescript": "^1.20.2",
     "@graphql-codegen/typescript-operations": "^1.17.14",
     "@graphql-codegen/typescript-react-apollo": "^2.2.1",

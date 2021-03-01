@@ -16,8 +16,8 @@ const ExpenseTypeSelect: React.FC<Props> = ({ isRequired, expenseTypes, ...props
   return (
     <FormControl isInvalid={!!error} isRequired={isRequired}>
       <FormLabel>Expense Type</FormLabel>
-      <Select defaultValue={""} {...field} {...props}>
-        <option value={""}>Unclassified</option>
+      <Select defaultValue={''} {...field} {...props}>
+        <option value={''}>Unclassified</option>
         {expenseTypes.map((e) => (
           <option key={e.id} value={e.id}>
             {e.name}

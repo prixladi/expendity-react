@@ -1,0 +1,4 @@
+fragment summaryEntryFields on SummaryEntryType {
+    sum
+    expenseTypeId
+}
